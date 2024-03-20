@@ -1,0 +1,94 @@
+/* Style Link Navigation */
+.link {
+    position: relative;
+    z-index: 1000;
+    transition: all 0.4s;
+}
+.link::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #6abe52;
+    height: 4px;
+    width: 0%;
+    transition: all 0.4s;
+}
+.link:hover {
+    color: #6abe52;
+}
+.link:hover::after {
+    width: 100%;
+}
+.link.active {
+    color: #6abe52;
+    background-color: #f1f5f9;
+}
+
+.link.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #6abe52;
+    height: 4px;
+    width: 100%;
+    transition: all 0.4s;
+}
+/* Style Primary Button */
+.btn-primary {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-fill::before {
+    content: "";
+    width: 0%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #fff;
+    transition: all 0.3s cubic-bezier(0.1, 0.3, 0.3, 0.1);
+}
+.btn-fill:hover::before {
+    width: 100%;
+}
+.btn-unfill::before {
+    content: "";
+    width: 0%;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: #6abe52;
+    transition: all 0.3s cubic-bezier(0.1, 0.3, 0.3, 0.1);
+}
+.btn-unfill:hover::before {
+    width: 100%;
+}
+/* ==== Arrow up ==== */
+.arrow_up::before {
+    content: "";
+    position: absolute;
+    left: 10%;
+    top: -8px;
+    height: 0;
+    width: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid white;
+}
+.dropdown {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.5s;
+}
+.show_more:hover + .dropdown , .dropdown:hover {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0px);
+}
