@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FcLink } from "react-icons/fc";
 
-const Logo = ({ width, height, text, color }) => {
+const Logo = ({ width, height, text }) => {
     return (
         <Link to={"/"}>
             <div className="flex items-center w-fit bg-primary py-1 px-1 text-white ">
@@ -16,18 +16,18 @@ const Logo = ({ width, height, text, color }) => {
                 >
                     <g
                         fill="currentColor"
-                        fill-rule="nonzero"
+                        fillRule="nonzero"
                         stroke="none"
-                        stroke-width="1"
-                        stroke-linecap="butt"
-                        stroke-linejoin="miter"
-                        stroke-miterlimit="10"
-                        stroke-dasharray=""
-                        stroke-dashoffset="0"
-                        font-family="none"
-                        font-weight="none"
-                        font-size="none"
-                        text-anchor="none"
+                        strokeWidth={1} 
+                        strokeLinecap="butt" 
+                        strokeLinejoin="miter"
+                        strokeMiterlimit={10} 
+                        strokeDasharray=""
+                        strokeDashoffset={0} 
+                        fontFamily="none" 
+                        fontWeight="none" 
+                        fontSize="none" 
+                        textAnchor="none"
                     >
                         <g transform="scale(5.33333,5.33333)">
                             <rect x="6" y="8" width="34" height="34"></rect>

@@ -45,11 +45,11 @@ const catagories = [
         name: "Sales & Marketing",
     },
     {
-        link: "/cat/sales-and-marketing",
+        link: "/cat/writing",
         name: "Writing",
     },
     {
-        link: "/cat/sales-and-marketing",
+        link: "/cat/audio",
         name: "Audiovesiuelle",
     },
 ];
@@ -116,7 +116,7 @@ export const Navbar = () => {
                                 textColor={"text-primary"}
                                 colorBorder={"primary"}
                                 to={"/register"}
-                                text={"Register"}
+                                text={"Sign up"}
                                 fill={false}
                             />
                         </div>
@@ -139,34 +139,42 @@ export const Navbar = () => {
                         <Button
                             bgColor={"primary"}
                             textColor={"text-white"}
-                            colorBorder={"primary"}
+                            colorBorder={"border-primary"}
                             to={"/login"}
                             text={"Login"}
                             fill={true}
                         />
                         <Button
-                            bgColor={""}
+                            bgColor={"white"}
                             textColor={"text-primary"}
-                            colorBorder={"primary"}
-                            to={"/register"}
-                            text={"Register"}
+                            colorBorder={"border-primary"}
+                            to={"/signup"}
+                            text={"Sign up"}
                             fill={false}
                         />
                     </div>
                 </div>
             </nav>
+            <SubNav />
+        </>
+    );
+};
+
+const SubNav = () => {
+    return (
+        <>
             {/* Sub navigation */}
             <nav className=" py-4 bg-white hidden lg:block">
                 <div className="container mx-auto">
-                    <ul className="mx-5 flex items-center gap-4">
+                    <ul className="mx-5 flex items-center gap-1">
                         {catagories.map((category, index) => {
-                            if (index <= 4) {
+                            if (index < 4) {
                                 return (
                                     <li key={index}>
                                         <NavLink
                                             to={category.link}
                                             className={
-                                                "hover:text-primary transition-all duration-300"
+                                                "hover:text-primary transition-all duration-300 sublink rounded-sm px-3 p-2"
                                             }
                                         >
                                             {category.name}
@@ -182,7 +190,7 @@ export const Navbar = () => {
                             <div className="absolute mt-2 dropdown shadow-[0_0_10px_2px_rgba(0,30,0,0.15)] top-full left-0 w-[250px] bg-white rounded-sm ">
                                 <ul className="py-1  arrow_up ">
                                     {catagories.map((category, index) => {
-                                        if (index > 4) {
+                                        if (index >= 4) {
                                             return (
                                                 <li
                                                     key={index}

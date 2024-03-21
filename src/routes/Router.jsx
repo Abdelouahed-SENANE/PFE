@@ -5,10 +5,13 @@ import About from "../views/pages/About";
 import Layout from "../layouts/Layout";
 import Contact from "../views/pages/Contact";
 import Notfound from "../views/pages/errors/Notfound";
+import Login from "../views/auth/Login";
+import AuthLayout from "../layouts/AuthLayout";
 const Router = createBrowserRouter([
     {
         element: <Layout />,
-        children: [
+        children: 
+        [
             {
                 path: "/",
                 element: <Home />,
@@ -21,12 +24,23 @@ const Router = createBrowserRouter([
                 path: "/contact",
                 element: <Contact />,
             },
+
             {
                 path: "*",
                 element: <Notfound />,
             },
         ],
     },
+    {
+        element : <AuthLayout/>,
+        children : 
+        [
+            {
+                path : '/login',
+                element : <Login/>
+            }
+        ]
+    }
 ]);
 
 export default Router;

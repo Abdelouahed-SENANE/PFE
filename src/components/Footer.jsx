@@ -6,14 +6,14 @@ import { FaGoogle, FaLocationDot, FaMessage, FaTwitter } from "react-icons/fa6";
 const Footer = () => {
     return (
         <>
-            <div className="container mx-auto px-10 text-white">
+            <div className="container mx-auto px-10 text-white ">
                 <div className="grid md:grid-cols-2 lg:grid-cols-4">
                     {/* div 1 */}
                     <div className="w-full ">
                         <Logo width={35} fill={"#fff"} text={"text-3xl"} />
                         <p className="my-5">
                             Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Sapiente provident cumque aliquam.
+                            elit. Sapiente provident cumque aliquam. Senane
                         </p>
                         {/* Social Link */}
                         <ul className="py-4 flex gap-2">
@@ -41,52 +41,70 @@ const Footer = () => {
                     </div>
                     <div className="flex flex-wrap my-5 lg:my-0 col-span-2 lg:mx-8">
                         <div className="text-white flex-1">
-                            <h3 class="uppercase text-2xl">Company</h3>
-                            <a href="#" class="block py-4    hover:underline">
+                            <h3 className="uppercase text-2xl">Company</h3>
+                            <a
+                                href="#"
+                                className="block py-4    hover:underline"
+                            >
                                 Services
                             </a>
-                            <a href="#" class="block py-4   hover:underline">
+                            <a
+                                href="#"
+                                className="block py-4   hover:underline"
+                            >
                                 Team
                             </a>
-                            <a href="#" class="block py-4   hover:underline">
+                            <a
+                                href="#"
+                                className="block py-4   hover:underline"
+                            >
                                 Contact us
                             </a>
-                            <a href="#" class="block py-4   hover:underline">
+                            <a
+                                href="#"
+                                className="block py-4   hover:underline"
+                            >
                                 About
                             </a>
                         </div>
                         <div className="text-white flex-1">
-                            <h3 class="uppercase text-2xl">Service</h3>
-                            <a href="#" class="block py-4  hover:underline">
+                            <h3 className="uppercase text-2xl">Service</h3>
+                            <a href="#" className="block py-4  hover:underline">
                                 Home
                             </a>
-                            <a href="#" class="block py-4    hover:underline">
+                            <a
+                                href="#"
+                                className="block py-4    hover:underline"
+                            >
                                 community
                             </a>
-                            <a href="#" class="block py-4   hover:underline">
+                            <a
+                                href="#"
+                                className="block py-4   hover:underline"
+                            >
                                 Careers
                             </a>
                         </div>
                     </div>
                     <div className="text-white">
-                        <h3 class="uppercase text-2xl">Get Intoch</h3>
+                        <h3 className="uppercase text-2xl">Get Intoch</h3>
                         <a
                             href="#"
-                            class=" py-4 flex gap-2 items-center hover:underline"
+                            className=" py-4 flex gap-2 items-center hover:underline"
                         >
                             <FaPhone className="text-primary text-xl " /> +212
                             77 8899 0098
                         </a>
                         <a
                             href="#"
-                            class=" py-4 flex gap-2 items-center hover:underline"
+                            className=" py-4 flex gap-2 items-center hover:underline"
                         >
                             <FaMessage className="text-primary text-xl " />{" "}
                             linkup@company.com
                         </a>
                         <a
                             href="#"
-                            class=" py-4 flex gap-2 items-center hover:underline"
+                            className=" py-4 flex gap-2 items-center hover:underline"
                         >
                             <FaLocationDot className="text-primary text-xl" />{" "}
                             SAFI, Morocco

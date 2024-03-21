@@ -12,7 +12,7 @@ const Layout = () => {
             <main className="lg:mt-[140px] mt-[55px]">
                 <Outlet />
             </main>
-            <footer className="bg-secondary pt-[100px]">
+            <footer className="bg-secondary pt-[100px] mt-[100px]">
                 <Footer />
             </footer>
         </>
