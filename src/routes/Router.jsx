@@ -7,11 +7,11 @@ import Contact from "../views/pages/Contact";
 import Notfound from "../views/pages/errors/Notfound";
 import Login from "../views/auth/Login";
 import AuthLayout from "../layouts/AuthLayout";
+import Signup from "../views/auth/Signup";
 const Router = createBrowserRouter([
     {
         element: <Layout />,
-        children: 
-        [
+        children: [
             {
                 path: "/",
                 element: <Home />,
@@ -32,15 +32,18 @@ const Router = createBrowserRouter([
         ],
     },
     {
-        element : <AuthLayout/>,
-        children : 
-        [
+        element: <AuthLayout />,
+        children: [
             {
-                path : '/login',
-                element : <Login/>
-            }
-        ]
-    }
+                path: "/login",
+                element: <Login />,
+            },
+            {
+                path: "/signup",
+                element: <Signup />,
+            },
+        ],
+    },
 ]);
 
 export default Router;

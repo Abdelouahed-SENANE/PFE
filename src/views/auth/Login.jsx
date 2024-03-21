@@ -69,14 +69,14 @@ const Login = () => {
     };
     return (
         <>
-            <div className="h-full flex items-center justify-center">
-                <div className="px-10 py-3 border bg-white border-slate-200 rounded-xl overflow-hidden min-w-[450px]">
+            <div className="min-h-[calc(100vh-128px)] flex-1 flex items-center justify-center">
+                <div className="px-5  py-3 border bg-white border-slate-200 rounded-xl overflow-hidden min-w-[400px]">
                     <h1 className="text-4xl font-medium text-center my-6">
                         Login In Linkup
                     </h1>
                     <form
                         id="login"
-                        className="flex flex-col items-start px-4 w-full"
+                        className="flex flex-col items-start px-4 w-full "
                         onSubmit={handleSubmit}
                     >
                         <Input
@@ -132,7 +132,7 @@ const Login = () => {
                             </Link>
                         </div>
                         <p className="h-[1px] w-full bg-gray-300 my-8 relative">
-                            <span className="absolute bg-white left-[50%] top-[50%]  text-gray-400 translate-x-[-50%] translate-y-[-50%] text-sm w-[65%]  flex items-center justify-center">
+                            <span className="absolute bg-white left-[50%] top-[50%] text-center  text-gray-400 translate-x-[-50%] translate-y-[-50%] text-sm w-[65%]  flex items-center justify-center">
                                 Don't have an Upwork account?
                             </span>
                         </p>
