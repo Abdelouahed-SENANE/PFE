@@ -8,6 +8,9 @@ import Notfound from "../views/pages/errors/Notfound";
 import Login from "../views/auth/Login";
 import AuthLayout from "../layouts/AuthLayout";
 import Signup from "../views/auth/Signup";
+import AdminLayout from "../layouts/AdminLayout";
+import Dashboard from "../views/admin/Dashboard";
+import UserManagement from "../views/admin/UserManagement";
 const Router = createBrowserRouter([
     {
         element: <Layout />,
@@ -41,6 +44,19 @@ const Router = createBrowserRouter([
             {
                 path: "/signup",
                 element: <Signup />,
+            },
+        ],
+    },
+    {
+        element: <AdminLayout />,
+        children: [
+            {
+                path: "/admin/dashboard",
+                element: <Dashboard />,
+            },
+            {
+                path: "/admin/users",
+                element: <UserManagement />,
             },
         ],
     },

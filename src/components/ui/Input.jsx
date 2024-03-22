@@ -37,7 +37,7 @@ const Input = ({
                 )}
             </div>
             {error && (
-                <div className="w-full text-left flex items-center px-2 gap-1 text-rose-500  text-sm font-medium py-1 mt-1 bg-rose-50 ">
+                <div className="w-full text-left flex items-center px-2 gap-1 text-rose-500  text-sm font-medium py-1 mt-1">
                     <FaExclamationTriangle />
                     <span className=" ">{error}</span>
                 </div>
