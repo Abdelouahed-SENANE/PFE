@@ -1,11 +1,7 @@
 import React, { useEffect } from "react";
-import spinner from "../../assets/images/Spinner.svg";
+import "../../assets/theme-overrides.css";
 const Spinner = () => {
-    return (
-        <div>
-            <img src={spinner} alt="" className="w-[110px]" />
-        </div>
-    );
+    return <div className="loader"></div>;
 };
 
 export default Spinner;

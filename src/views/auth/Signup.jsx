@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { FaGithub, FaLock, FaUser, FaUserTie } from "react-icons/fa";
+import {
+    FaExclamationTriangle,
+    FaGithub,
+    FaLock,
+    FaUser,
+    FaUserTie,
+} from "react-icons/fa";
 import { BsPersonWorkspace } from "react-icons/bs";
 import Spinner from "../../components/ui/Spinner";
 import Input from "../../components/ui/Input";
@@ -11,6 +17,15 @@ const Signup = () => {
     const [accountType, setAccountType] = useState("");
     const [isLoading, setIsloading] = useState(false);
     const [renderRegister, setRenderRegister] = useState(false);
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const [firstNameErr, setFirstNameErr] = useState("");
+    const [lastNameErr, setLastNameErr] = useState("");
+    const [emailErr, setEmailErr] = useState("");
+    const [passwordErr, setPasswordErr] = useState("");
 
     const handleClient = () => {
         setAccountType("client");
@@ -28,67 +43,59 @@ const Signup = () => {
             setIsloading(false);
         }, 3000);
     };
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [ErrEmail, setEmailErr] = useState("");
-    const [ErrPassword, setPasswordErr] = useState("");
-    const [emailSuccess, setEmailSuccess] = useState(false);
-    const [passSuccess, setPassSuccess] = useState(false);
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-    };
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-    };
-
-    // ========= Validate Email ============
     const emailRegex = () => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);
     };
-    const validateEmail = () => {
-        let result = true;
-        if (email.trim() === "") {
-            setEmailErr("Email is required!");
-            setEmailSuccess(false);
 
+    const handlePassChange = (e) => {
+        setPassword(e.target.value);
+    };
+    // Validation Register =====
+    const validationForm = () => {
+        let result = true;
+        if (firstName === "") {
+            setFirstNameErr("Required!");
+            result = false;
+        } else {
+            setFirstNameErr("");
+        }
+        if (lastName === "") {
+            setLastNameErr("Required!");
+            result = false;
+        } else {
+            setLastNameErr("");
+        }
+        if (email === "") {
+            setEmailErr("Required!");
             result = false;
         } else if (!emailRegex()) {
-            setEmailErr(`${email} is invalid email`);
-            setEmailSuccess(false);
-
+            setEmailErr("Email incorrect");
             result = false;
         } else {
             setEmailErr("");
-            setEmailSuccess(true);
         }
-        return result;
-    };
-    // =========== Validate Password ==========
-    const passRegex = () => {
-        return password.length < 8;
-    };
-    const validatePassword = () => {
-        let result = true;
-        if (password.trim() === "") {
-            setPasswordErr("Password is required!");
-            setPassSuccess(false);
-
+        if (password === "") {
+            setPasswordErr("Required!");
             result = false;
-        } else if (passRegex()) {
-            setPasswordErr(`Password must be at least 8 characters long.`);
-            setPassSuccess(false);
+        } else if (password.length < 8) {
+            setPasswordErr("password must be at least 8 characters long");
             result = false;
         } else {
             setPasswordErr("");
-            setPassSuccess(true);
         }
         return result;
     };
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (validationForm()) {
+            console.log({
+                email , password, firstName , accountType , lastName
+            });
+        }
     };
+
     if (!renderRegister && !isLoading) {
         return (
             <div className="min-h-[calc(100vh-128px)] flex items-center flex-col bg-slate-50">
@@ -149,7 +156,7 @@ const Signup = () => {
     }
 
     return isLoading ? (
-        <div className="min-h-[calc(100vh-128px)] flex items-center justify-center flex-col ">
+        <div className="min-h-[calc(100vh-128px)] flex items-center justify-center flex-col bg-slate-50">
             <Spinner />
         </div>
     ) : (
@@ -162,9 +169,17 @@ const Signup = () => {
             <div className="px-5  py-3 border bg-white border-slate-200 rounded-xl overflow-hidden min-w-[660px]">
                 <form
                     id="Register"
-                    className="flex flex-col items-start px-4 w-full "
+                    noValidate
+                    autoComplete="off"
+                    className="flex flex-col items-start px-4 w-full myForm"
                     onSubmit={handleSubmit}
                 >
+                    <input
+                        type="hidden"
+                        readOnly
+                        value={accountType}
+                        name="role"
+                    />
                     <div className="w-[80%] mx-auto flex items-center gap-4">
                         <Link className="block w-full">
                             <button className="w-full px-1 bg-blue-500 hover:bg-blue-600 border border-blue-500 transition-all duration-300 py-0.5 flex items-center text-white rounded-full">
@@ -193,49 +208,104 @@ const Signup = () => {
                         </span>
                     </p>
                     <div className="flex items-center  gap-2 w-full">
-                        <div className="w-full">
-                            <Input
-                                icon={FaUser}
-                                type={"text"}
-                                value={email}
-                                onKeyUp={validateEmail}
-                                placeholder={"Firstname"}
-                                success={emailSuccess}
-                                onChange={handleEmailChange}
-                            />
+                        <div className="relative  gap-2 w-full text-gray-500 text-sm">
+                            <div className="relative  gap-2 w-full text-gray-500 mt-6 text-sm">
+                                <FaUser className="absolute top-[50%] left-3 translate-y-[-50%]" />
+                                <input
+                                    type={"text"}
+                                    placeholder={"Firstname"}
+                                    value={firstName}
+                                    onChange={(e) =>
+                                        setFirstName(e.target.value)
+                                    }
+                                    className={`text-gray-800 py-2 outline-none border-2 w-full px-8  transition-all duration-300  rounded-md
+                                  ${
+                                      firstNameErr
+                                          ? "border-rose-500 focus:border-rose-500"
+                                          : ""
+                                  }`}
+                                />
+                            </div>
+                            {firstNameErr && (
+                                <div className="w-fit text-left flex items-center px-2 gap-1 text-rose-500 absolute right-0 top-[0px] transition-all duration-300  text-sm font-medium   ">
+                                    <FaExclamationTriangle />
+                                    <span className=" ">{firstNameErr}</span>
+                                </div>
+                            )}
                         </div>
-                        <div className="w-full">
-                            <Input
-                                icon={FaUser}
-                                type={"text"}
-                                value={email}
-                                onKeyUp={validateEmail}
-                                placeholder={"Last name"}
-                                success={emailSuccess}
-                                onChange={handleEmailChange}
-                            />
+                        <div className="relative  gap-2 w-full text-gray-500 text-sm">
+                            <div className="relative  gap-2 w-full text-gray-500 mt-6 text-sm">
+                                <FaUser className="absolute top-[50%] left-3 translate-y-[-50%]" />
+                                <input
+                                    type={"text"}
+                                    placeholder={"Firstname"}
+                                    value={lastName}
+                                    onChange={(e) =>
+                                        setLastName(e.target.value)
+                                    }
+                                    className={`text-gray-800 py-2 outline-none border-2 w-full px-8  transition-all duration-300  rounded-md
+                                  ${
+                                      lastNameErr
+                                          ? "border-rose-500 focus:border-rose-500"
+                                          : ""
+                                  }`}
+                                />
+                            </div>
+                            {lastNameErr && (
+                                <div className="w-fit text-left flex items-center px-2 gap-1 text-rose-500 absolute right-0 top-[0px] transition-all duration-300  text-sm font-medium   ">
+                                    <FaExclamationTriangle />
+                                    <span className=" ">{lastNameErr}</span>
+                                </div>
+                            )}
                         </div>
                     </div>
-                    <Input
-                        icon={MdOutlineAlternateEmail}
-                        type={"email"}
-                        value={password}
-                        onKeyUp={validatePassword}
-                        error={ErrPassword}
-                        success={passSuccess}
-                        placeholder={"Email"}
-                        onChange={handlePasswordChange}
-                    />
-                    <Input
-                        icon={FaLock}
-                        type={"password"}
-                        value={password}
-                        onKeyUp={validatePassword}
-                        error={ErrPassword}
-                        success={passSuccess}
-                        placeholder={"Password (8 or more charachters)"}
-                        onChange={handlePasswordChange}
-                    />
+                    <div className="relative  gap-2 w-full text-gray-500 text-sm">
+                        <div className="relative  gap-2 w-full text-gray-500 mt-8 text-sm">
+                            <MdOutlineAlternateEmail className="absolute top-[50%] left-3 translate-y-[-50%]" />
+                            <input
+                                type={"email"}
+                                onChange={(e) => setEmail(e.target.value)}
+                                value={email}
+                                placeholder={"Email"}
+                                className={`text-gray-800 py-2 outline-none border-2 w-full px-8  transition-all duration-300  rounded-md
+                                  ${
+                                      emailErr
+                                          ? "border-rose-500 focus:border-rose-500"
+                                          : ""
+                                  }`}
+                            />
+                        </div>
+                        {emailErr && (
+                            <div className="w-fit text-left flex items-center px-2 gap-1 text-rose-500 absolute left-0 top-[8px] transition-all duration-300  text-sm font-medium   ">
+                                <FaExclamationTriangle />
+                                <span className=" ">{emailErr}</span>
+                            </div>
+                        )}
+                    </div>
+                    <div className="relative  gap-2 w-full text-gray-500 text-sm">
+                        <div className="relative  gap-2 w-full text-gray-500 mt-8 text-sm">
+                            <FaLock className="absolute top-[50%] left-3 translate-y-[-50%]" />
+                            <input
+                                type={"password"}
+                                onChange={handlePassChange}
+                                value={password}
+                                placeholder={"Password (8 or more charachters)"}
+                                className={`text-gray-800 py-2 outline-none border-2 w-full px-8  transition-all duration-300  rounded-md
+                                  ${
+                                      passwordErr
+                                          ? "border-rose-500 focus:border-rose-500"
+                                          : ""
+                                  }`}
+                            />
+                        </div>
+                        {passwordErr && (
+                            <div className="w-fit text-left flex items-center px-2 gap-1 text-rose-500 absolute left-0 top-[8px] transition-all duration-300  text-sm font-medium   ">
+                                <FaExclamationTriangle />
+                                <span className=" ">{passwordErr}</span>
+                            </div>
+                        )}
+                    </div>
+
                     <div className="w-fit mx-auto">
                         <input
                             type="submit"

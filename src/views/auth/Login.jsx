@@ -30,7 +30,6 @@ const Login = () => {
         if (email.trim() === "") {
             setEmailErr("Email is required!");
             setEmailSuccess(false);
-
             result = false;
         } else if (!emailRegex()) {
             setEmailErr(`${email} is invalid email`);
@@ -66,6 +65,9 @@ const Login = () => {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (validatePassword() || validateEmail()) {
+            
+        }
     };
     return (
         <>
