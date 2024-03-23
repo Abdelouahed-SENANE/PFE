@@ -218,3 +218,90 @@
     opacity: 0;
     visibility: hidden;
 }
+/* ------- Side bar Admin  */
+.link_bar {
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    padding: 12px;
+    gap: 10px;
+    /* justify-content: space-between; */
+}
+.link_bar .icon {
+    height: 25px;
+    min-width: 28px;
+    text-align: center;
+}
+.link_bar.active .icon {
+    color: #6abe52;
+}
+.link_bar.active {
+    border: 1px solid #e5e7eb;
+    background: #f3f4f6;
+}
+.sidebar {
+    position: fixed;
+    height: 100%;
+    background: #fff;
+    width: 280px;
+    border-right: 1px solid #e5e7eb;
+    transition: 0.3s all ease;
+}
+.sidebar.hide_bar {
+    width: 70px;
+}
+
+.sidebar.hide_bar .g_title {
+    visibility: 0;
+    opacity: 0;
+    transition: 0.2s all ease;
+}
+.link_bar.active .title {
+    color: #6abe52;
+}
+.sidebar .title {
+    opacity: 1;
+    visibility: visible;
+    transition: 0.2s all ease;
+}
+.sidebar.hide_bar .title {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.sidebar.hide_bar .link_bar {
+}
+.main {
+    margin-left: 280px;
+    width: 1640px;
+}
+.sidebar.hide_bar + .main {
+    margin-left: 70px;
+    width: 1850px;
+}
+
+/* ====== Wrapper Add Category ====== */
+.add_category {
+    position: fixed;
+    right: -100%;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 200;
+    transition: ease 0.1s all;
+}
+.add_category.active {
+    right: 0;
+}
+.wrapper_form {
+    background: #fff;
+    min-width: 480px;
+    position: fixed;
+    right: -100%;
+    height: 100%;
+}
+
+.add_category.active .wrapper_form{
+    right: 0;
+    transition: ease 0.1s all;
+} 

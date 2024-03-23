@@ -1,11 +1,13 @@
-import React from 'react'
+import React from "react";
+import AdminNavbar from "../../components/admin/AdminNavbar";
 
 const UserManagement = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+    return (
+        <>
+            <AdminNavbar currentPage={"Dashboard"} />
+            <div className="p-5">Users</div>
+        </>
+    );
+};
 
-export default UserManagement
+export default UserManagement;

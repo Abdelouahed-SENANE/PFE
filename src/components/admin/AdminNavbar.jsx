@@ -1,14 +1,14 @@
 import React from "react";
 import { IoSearchOutline, IoSettings } from "react-icons/io5";
-import Notification from "./ui/Notification";
-import vector from "../assets/uploads/vector.png";
-import Setting from "./ui/Setting";
+import Notification from "../ui/Notification";
+import vector from "../../assets/uploads/vector.png";
+import Setting from "../ui/Setting";
 
-const AdminNavbar = ({ currentPage }) => {
+const AdminNavbar = ({}) => {
     return (
         <>
             <nav className="border-b py-4 px-5 bg-white border-slate-200 flex justify-between items-center">
-                <h1 className=" text-xl text-primary">{currentPage}</h1>
+                <h1 className=" text-xl text-primary"></h1>
                 <div className="flex items-center gap-5">
                     <div className="relative ">
                         <IoSearchOutline className="absolute top-[50%] left-2 translate-y-[-50%] text-xl text-gray-400" />
