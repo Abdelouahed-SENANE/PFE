@@ -10,6 +10,8 @@ export default {
             fontFamily: {
                 "Overlock SC": "Overlock SC",
                 "Caveat": "Caveat",
+                "Poppins": "Poppins",
+
             },
         },
     },

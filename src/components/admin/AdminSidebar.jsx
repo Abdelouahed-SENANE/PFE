@@ -76,10 +76,8 @@ const AdminSidebar = () => {
                     </div>
                 </header>
                 <div className="w-full  flex justify-between flex-col h-[calc(100vh-77px)] py-5">
+                    
                     <div>
-                        <h6 className="px-3 g_title uppercase text-gray-500 font-light tracking-[3px]">
-                            Main menu
-                        </h6>
                         <ul className="flex justify-center flex-col p-2">
                             <li className="">
                                 <NavLink
@@ -119,9 +117,7 @@ const AdminSidebar = () => {
                             </li>
                         </ul>
                     </div>
-                    <div className="">
-                        
-                    </div>
+                    <div className=""></div>
                 </div>
                 {/* ==== Toggle btn Sidebar */}
                 <div

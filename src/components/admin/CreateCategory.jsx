@@ -25,7 +25,7 @@ const CreateCategory = () => {
                     </header>
                 </div>
             </div>
-            <div className={`add_category ${isOpen ? "active" : ""}`}>
+            <div className={`add_category ${isOpen ? "active" : "inactive"}`}>
                 <div
                     onClick={() => {
                         setIsOpen(!isOpen);

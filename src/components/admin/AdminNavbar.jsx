@@ -4,7 +4,7 @@ import Notification from "../ui/Notification";
 import vector from "../../assets/uploads/vector.png";
 import Setting from "../ui/Setting";
 
-const AdminNavbar = ({}) => {
+const AdminNavbar = () => {
     return (
         <>
             <nav className="border-b py-4 px-5 bg-white border-slate-200 flex justify-between items-center">

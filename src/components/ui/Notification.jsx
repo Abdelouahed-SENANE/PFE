@@ -1,13 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { IoNotifications } from "react-icons/io5";
+import { outsideClickAlert } from "../../helpers/HandleClickOutside";
 
 const Notification = () => {
+    const notificationRef = useRef(null);
     const [isActive, setIsActive] = useState(false);
 
+    outsideClickAlert(notificationRef, () => setIsActive(false));
     return (
         <>
             <div className="relative">
                 <div
+                    ref={notificationRef}
                     onClick={() => setIsActive(!isActive)}
                     className={`${
                         isActive
@@ -20,6 +24,7 @@ const Notification = () => {
                 </div>
 
                 <div
+                    ref={notificationRef}
                     className={`notification_container ${
                         isActive ? "active" : "inactive"
                     }`}

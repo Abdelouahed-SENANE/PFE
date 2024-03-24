@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { IoSettings } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { outsideClickAlert } from "../../helpers/HandleClickOutside";
 
 const Setting = () => {
     const [isActive, setIsActive] = useState(false);
+    const settingRef = useRef(null);
 
+        outsideClickAlert(settingRef, () => setIsActive(false));
     return (
         <>
             <div className="relative">
@@ -15,6 +18,7 @@ const Setting = () => {
                     <IoSettings className="group-hover:text-white duration-300 transition-all" />
                 </div>
                 <div
+                    ref={settingRef}
                     className={`setting_wrapper ${
                         isActive ? "active" : "inactive"
                     }`}
