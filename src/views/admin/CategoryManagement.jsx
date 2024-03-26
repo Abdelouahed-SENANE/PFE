@@ -8,8 +8,8 @@ import Spinner from "../../components/ui/Spinner";
 const CategoryManagement = () => {
     const [categoriesData, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [currentPage , setCurrentPage] = useState(1);
-    const categoryPerPage = 10
+    const [currentPage, setCurrentPage] = useState(1);
+    const categoryPerPage = 10;
 
     useEffect(() => {
         setIsLoading(true);
@@ -24,23 +24,38 @@ const CategoryManagement = () => {
 
         setTimeout(() => {
             setIsLoading(false);
-        }, 1000);
-    },[]);
-    const indexOfLastCategory = currentPage * categoryPerPage
-    const indexOfFirstCategory = indexOfLastCategory - categoryPerPage
-    const currentCategories = categoriesData.slice(indexOfFirstCategory , indexOfLastCategory)
-    const numberOfPages = Math.ceil(categoriesData.length / categoryPerPage)
+        }, 1500);
+    }, []);
+    const indexOfLastCategory = currentPage * categoryPerPage;
+    const indexOfFirstCategory = indexOfLastCategory - categoryPerPage;
+    const currentCategories = categoriesData.slice(
+        indexOfFirstCategory,
+        indexOfLastCategory
+    );
+    const numberOfPages = Math.ceil(categoriesData.length / categoryPerPage);
 
     const prevPage = (currentPage) => {
         if (currentPage > 1) {
-            setCurrentPage(currentPage - 1 )
+            setCurrentPage(currentPage - 1);
         }
-    }
+    };
     const nextPage = (currentPage) => {
-        if (currentPage < numberOfPages ) {
-            setCurrentPage(currentPage + 1 )
-
+        if (currentPage < numberOfPages) {
+            setCurrentPage(currentPage + 1);
         }
+    };
+    if (isLoading) {
+        return (
+            <>
+                <AdminNavbar />
+                <div className="mx-10 ">
+                    <CreateCategory />
+                    <div className="w-full  h-[600px] flex items-center justify-center">
+                        <Spinner />
+                    </div>
+                </div>
+            </>
+        );
     }
     return (
         <>
@@ -48,17 +63,15 @@ const CategoryManagement = () => {
             <div className="mx-10 ">
                 <CreateCategory />
                 <div className="bg-white border  border-gray-200 rounded-ss-lg rounded-se-lg overflow-hidden min-h-[671px]">
-                    {isLoading ? (
-                        <div className="w-full  h-[600px] flex items-center justify-center">
-                            <Spinner />
-                        </div>
-                    ) : (
-                        <TableCategory
-                            categories={currentCategories}
-                        />
-                    )}
+                    <TableCategory categories={currentCategories} />
                 </div>
-                <Paginate categoryPerPage={categoryPerPage}  currentPage={currentPage} totalCategories={categoriesData.length} prevPage={() => prevPage(currentPage)} nextPage={() => nextPage(currentPage)}/>
+                <Paginate
+                    categoryPerPage={categoryPerPage}
+                    currentPage={currentPage}
+                    totalPage={numberOfPages}
+                    prevPage={() => prevPage(currentPage)}
+                    nextPage={() => nextPage(currentPage)}
+                />
             </div>
         </>
     );

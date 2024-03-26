@@ -17,8 +17,8 @@ const AdminSidebar = () => {
     return (
         <>
             <aside className={`sidebar ${hideBar ? "hide_bar" : ""}`}>
-                <header className="h-[77px] w-full bg-primary flex ">
-                    <div className="flex items-center w-full bg-primary py-1 px-1 text-white ">
+                <header className="h-[77px] w-full flex ">
+                    <div className="flex items-center w-full  py-1 px-1 text-primary border-b border-gray-200 ">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             x="0px"
@@ -69,15 +69,17 @@ const AdminSidebar = () => {
                             </g>
                         </svg>
                         <h2
-                            className={`font-['Overlock SC'] text-3xl font-bold title text-white px-1`}
+                            className={`font-['Overlock SC'] text-3xl font-bold title text-primary px-1`}
                         >
                             Linkup.
                         </h2>
                     </div>
                 </header>
                 <div className="w-full  flex justify-between flex-col h-[calc(100vh-77px)] py-5">
-                    
                     <div>
+                        <h4 className="text-gray-600 tracking-[2px] px-4">
+                            Main
+                        </h4>
                         <ul className="flex justify-center flex-col p-2">
                             <li className="">
                                 <NavLink
