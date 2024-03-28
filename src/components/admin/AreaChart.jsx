@@ -1,32 +1,6 @@
-import React from "react";
-import Line from "./Area";
+import { React, useRef, useEffect } from "react";
+import ApexCharts from "apexcharts";
 
-const data = [
-    {
-        name: "Page A",
-        uv: 4000,
-        pv: 3000,
-        amt: 2400,
-    },
-    {
-        name: "Page B",
-        uv: 0,
-        pv: 0,
-        amt: 2210,
-    },
-    {
-        name: "Page C",
-        uv: 2000,
-        pv: 300,
-        amt: 20,
-    },
-    {
-        name: "Page D",
-        uv: 2780,
-        pv: 3908,
-        amt: 2000,
-    },
-];
 
 const LineChart = () => {
     return (
@@ -35,8 +9,69 @@ const LineChart = () => {
                 <h3>Total Service Sold Per Day</h3>
             </header>
             <div className="">
-                <Line data={data} />
+                <Area />
             </div>
+        </div>
+    );
+};
+
+const Area = () => {
+    const chartRef = useRef(null);
+
+    useEffect(() => {
+        var options = {
+            series: [
+                {
+                    name: "Devloppment & IT",
+                    data: [31, 40, 28, 51, 42, 109, 100],
+                },
+                {
+                    name: "Data Sience",
+                    data: [11, 32, 45, 32, 34, 52, 41],
+                },
+            ],
+            legend: {
+                position: "top",
+                horizontalAlign: "center",
+                fontSize: "16px",
+            },
+            chart: {
+                height: 370,
+                toolbar: false,
+                type: "area",
+            },
+            colors: ["#84cc16", "#06b6d4"],
+            dataLabels: {
+                enabled: false,
+            },
+            stroke: {
+                curve: "smooth",
+            },
+            xaxis: {
+                type: "datetime",
+                categories: [
+                    "2018-09-19T00:00:00.000Z",
+                    "2018-09-19T01:30:00.000Z",
+                    "2018-09-19T02:30:00.000Z",
+                    "2018-09-19T03:30:00.000Z",
+                    "2018-09-19T04:30:00.000Z",
+                    "2018-09-19T05:30:00.000Z",
+                    "2018-09-19T06:30:00.000Z",
+                ],
+            },
+        };
+
+        const chart = new ApexCharts(chartRef.current, options);
+        chart.render();
+
+        return () => {
+            chart.destroy();
+        };
+    }, []);
+
+    return (
+        <div>
+            <div id="chart" ref={chartRef}></div>
         </div>
     );
 };

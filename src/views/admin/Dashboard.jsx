@@ -3,6 +3,7 @@ import AdminNavbar from "../../components/admin/AdminNavbar";
 import DashboardHeader from "../../components/admin/DashboardHeader";
 import Widget from "../../components/admin/Widget";
 import AreaChart from "../../components/admin/AreaChart";
+import DanoutChart from "../../components/admin/DanoutChart";
 
 const Dashboard = () => {
     return (
@@ -23,6 +24,9 @@ const Dashboard = () => {
                         <header className="text-black  text-lg">
                             Top 5 Categories
                         </header>
+                        <div className="h-[350px] ">
+                            <DanoutChart />
+                        </div>
                     </div>
                 </div>
             </div>
