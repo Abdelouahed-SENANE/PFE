@@ -282,23 +282,27 @@
 /* ====== Wrapper Add Category ====== */
 .add_category {
     position: fixed;
-    top: 0;
+    inset: 0;
     width: 100%;
     height: 100vh;
     z-index: 200;
+    transition: ease 0.8s all;
 }
 .add_category.active {
-    right: 0;
+    opacity: 1;
+    visibility: visible;
 }
 .add_category.inactive {
-    right: -100%;
+    opacity: 0;
+    visibility: hidden;
 }
 .wrapper_form {
     background: #fff;
     min-width: 480px;
     position: fixed;
+    top: 0;
     height: 100%;
-    transition: ease 0.2s all;
+    transition: ease 0.5s all;
 }
 
 .add_category.active .wrapper_form {
@@ -306,7 +310,6 @@
 }
 .add_category.inactive .wrapper_form {
     right: -100%;
-    transition: ease 0.2s all;
 }
 
 .actions.active {

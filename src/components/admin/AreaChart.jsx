@@ -1,12 +1,11 @@
 import { React, useRef, useEffect } from "react";
 import ApexCharts from "apexcharts";
 
-
 const LineChart = () => {
     return (
         <div className="mb-5 border p-5 border-gray-200 bg-white rounded-lg">
             <header className="">
-                <h3>Total Service Sold Per Day</h3>
+                <h3>The best recommended service</h3>
             </header>
             <div className="">
                 <Area />
@@ -23,11 +22,11 @@ const Area = () => {
             series: [
                 {
                     name: "Devloppment & IT",
-                    data: [31, 40, 28, 51, 42, 109, 100],
+                    data: [500, 300, 200, 550, 122, 69, 425],
                 },
                 {
                     name: "Data Sience",
-                    data: [11, 32, 45, 32, 34, 52, 41],
+                    data: [200, 310, 260, 10, 182, 119, 535],
                 },
             ],
             legend: {
@@ -36,7 +35,8 @@ const Area = () => {
                 fontSize: "16px",
             },
             chart: {
-                height: 370,
+                height: 350,
+                fontFamily: "Ubuntu, sans-serif",
                 toolbar: false,
                 type: "area",
             },
@@ -47,17 +47,29 @@ const Area = () => {
             stroke: {
                 curve: "smooth",
             },
+            yaxis: {
+                tickAmount: 8,
+                min: 0,
+                max: 1000,
+                labels: {
+                    style: {
+                        fontSize: "14px",
+                    },
+                },
+                title: {
+                    text: "$ (K)",
+                    style: {
+                        fontSize: "14px", // Adjust the font size as required
+                    },
+                },
+            },
             xaxis: {
-                type: "datetime",
-                categories: [
-                    "2018-09-19T00:00:00.000Z",
-                    "2018-09-19T01:30:00.000Z",
-                    "2018-09-19T02:30:00.000Z",
-                    "2018-09-19T03:30:00.000Z",
-                    "2018-09-19T04:30:00.000Z",
-                    "2018-09-19T05:30:00.000Z",
-                    "2018-09-19T06:30:00.000Z",
-                ],
+                labels: {
+                    style: {
+                        fontSize: "14px",
+                    },
+                },
+                categories: ["Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"],
             },
         };
 
