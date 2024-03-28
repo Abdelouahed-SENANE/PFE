@@ -1,0 +1,27 @@
+.image_wrapper:hover .upload {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1000;
+}
+.upload {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: #cbd5e15d;
+    border-radius: 100%;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    z-index: -1999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.2s, visibility 0.4s;
+}
+/* .icon {
+    transition: all 0.4s e;
+} */
+.image_wrapper:hover .icon {
+    color: #475569;
+}

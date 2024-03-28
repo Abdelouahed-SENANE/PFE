@@ -8,7 +8,6 @@ import {
 } from "react-icons/fa";
 import { BsPersonWorkspace } from "react-icons/bs";
 import Spinner from "../../components/ui/Spinner";
-import Input from "../../components/ui/Input";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineAlternateEmail } from "react-icons/md";

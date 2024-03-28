@@ -12,6 +12,8 @@ import AdminLayout from "../layouts/AdminLayout";
 import Dashboard from "../views/admin/Dashboard";
 import UserManagement from "../views/admin/UserManagement";
 import CategoryManagement from "../views/admin/CategoryManagement";
+import Profile from "../views/profile/Profile";
+import ProfileLayout from "../layouts/ProfileLayout";
 const Router = createBrowserRouter([
     {
         element: <Layout />,
@@ -28,7 +30,6 @@ const Router = createBrowserRouter([
                 path: "/contact",
                 element: <Contact />,
             },
-
             {
                 path: "*",
                 element: <Notfound />,
@@ -65,6 +66,15 @@ const Router = createBrowserRouter([
             },
         ],
     },
+    {
+        element : <ProfileLayout/>,
+        children : [
+            {
+                path: "/profile",
+                element: <Profile />,
+            },
+        ]
+    }
 ]);
 
 export default Router;
