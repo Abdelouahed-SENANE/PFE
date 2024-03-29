@@ -29,7 +29,7 @@ const Notification = () => {
                         isActive ? "active" : "inactive"
                     }`}
                 >
-                    <h4 className="border-slate-300 border-b px-2 py-3 text-sm text-gray-600">
+                    <h4 className="border-slate-300 border-b  px-2 py-3 text-sm text-gray-600">
                         Notification (0)
                     </h4>
                     <ul></ul>

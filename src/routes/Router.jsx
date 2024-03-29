@@ -11,6 +11,7 @@ import Signup from "../views/auth/Signup";
 import AdminLayout from "../layouts/AdminLayout";
 import Dashboard from "../views/admin/Dashboard";
 import UserManagement from "../views/admin/UserManagement";
+import ProfileAdmin from "../views/admin/Profile";
 import CategoryManagement from "../views/admin/CategoryManagement";
 import Profile from "../views/profile/Profile";
 import ProfileLayout from "../layouts/ProfileLayout";
@@ -63,6 +64,10 @@ const Router = createBrowserRouter([
             {
                 path: "/admin/categories",
                 element: <CategoryManagement />,
+            },
+            {
+                path: "/admin/profile",
+                element: <ProfileAdmin />,
             },
         ],
     },

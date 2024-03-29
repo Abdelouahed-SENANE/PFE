@@ -29,7 +29,7 @@ const Setting = () => {
                     <ul className="p-2">
                         <li>
                             <Link
-                                to={"/profile"}
+                                to={"/admin/profile"}
                                 className="block px-2 py-2.5 hover:bg-gray-100 duration-500 transition-all"
                             >
                                 Profile
@@ -37,7 +37,7 @@ const Setting = () => {
                         </li>
                         <li>
                             <Link
-                                to={"/profile"}
+                                to={"/logout"}
                                 className="block px-2 py-2.5 hover:bg-gray-100 duration-500 transition-all"
                             >
                                 Logout
