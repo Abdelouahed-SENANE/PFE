@@ -10,9 +10,9 @@ const Profile = () => {
     return (
         <>
             <AdminNavbar />
-            <div className="mx-[100px] py-[50px]">
+            <div className="mx-[100px] overflow-x-hidden py-[50px]">
                 <Sidebar />
-                <div className="ml-[370px]">
+                <div className="lg:ml-[370px] lg:w-[75%] mt-5 lg:mt-0 w-[450px]">
                     <UpdateInformation />
                     <UpdatePassword />
                     <DeleteProfile />

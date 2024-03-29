@@ -6,7 +6,7 @@ import DeleteProfile from "../../components/profile/DeleteProfile";
 
 const Profile = () => {
     return (
-        <main className="ml-[370px] flex-1">
+        <main className="lg:ml-[370px] w-[300px] flex-1">
             <UpdateInformation />
             <UpdatePassword />
             <DeleteProfile />

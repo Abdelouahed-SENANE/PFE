@@ -7,7 +7,7 @@ const ProfileLayout = () => {
         <>
             <Navbar />
             <div className="min-h-screen bg-gray-50">
-                <div className="flex relative gap-5 w-[80%] mx-auto py-10">
+                <div className="flex flex-wrap relative gap-5 w-[80%] mx-auto py-10">
                     <Sidebar />
                     <Outlet />
                 </div>

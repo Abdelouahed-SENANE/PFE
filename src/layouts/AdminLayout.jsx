@@ -5,7 +5,7 @@ const AdminLayout = () => {
     return (
         <>
             <AdminSidebar />
-            <main className="w-[1640px] main bg-slate-50 min-h-screen ">
+            <main className="w-[1640px] overflow-x-hidden main bg-slate-50 min-h-screen ">
                 <Outlet />
             </main>
         </>

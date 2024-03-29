@@ -34,16 +34,14 @@ const UpdatePassword = () => {
             if (confirmPassword !== newPassword) {
                 setErrNewPassword("Passwords do not match");
                 result = false;
-            }else{
+            } else {
                 setErrNewPassword("");
                 result = true;
             }
-
         }
-
     };
     return (
-        <div className="mb-5 border rounded-lg bg-white border-gray-200 p-4 mr-[200px]">
+        <div className="mb-5 border rounded-lg bg-white border-gray-200 p-4 lg:mr-[200px]">
             <header>
                 <h1 className="text-3xl">Update Password</h1>
                 <p className="text-sm text-gray-600">

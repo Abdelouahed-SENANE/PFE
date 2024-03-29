@@ -62,7 +62,7 @@ const UpdateInformation = () => {
         }
     };
     return (
-        <div className="mb-5 border rounded-lg bg-white border-gray-200 p-4 mr-[200px]">
+        <div className="mb-5 border rounded-lg bg-white border-gray-200 p-4 lg:mr-[200px]">
             <header>
                 <h1 className="text-3xl">Profile Information</h1>
                 <p className="text-sm text-gray-600">
@@ -71,8 +71,8 @@ const UpdateInformation = () => {
             </header>
             <div className="my-5">
                 <form action="" onSubmit={handleSubmit} noValidate>
-                    <div className="flex items-center gap-3  my-6 w-full">
-                        <div className="flex-1 relative ">
+                    <div className="flex items-center gap-5 lg:gap-3  flex-wrap  my-6 w-full">
+                        <div className="flex-1 min-w-[200px] relative ">
                             <div className="relative  gap-2 w-full text-gray-500 text-sm">
                                 <FaUser className="absolute top-[50%] left-3 translate-y-[-50%]" />
                                 <input
@@ -98,7 +98,7 @@ const UpdateInformation = () => {
                             )}
                         </div>
                         <div className="flex-1 relative">
-                            <div className="relative  gap-2 w-full text-gray-500 text-sm">
+                            <div className="relative min-w-[200px]  gap-2 w-full text-gray-500 text-sm">
                                 <FaUser className="absolute top-[50%] left-3 translate-y-[-50%]" />
                                 <input
                                     type={"text"}
@@ -120,8 +120,8 @@ const UpdateInformation = () => {
                             )}
                         </div>
                     </div>
-                    <div className="flex items-center gap-3  my-6 w-full">
-                        <div className="flex-1 ">
+                    <div className="flex items-center gap-5 lg:gap-3 flex-wrap  my-6 w-full">
+                        <div className="flex-1 min-w-[200px] ">
                             <div className="relative  gap-2 w-full text-gray-500 text-sm">
                                 <MdOutlineAlternateEmail className="absolute top-[50%] left-3 translate-y-[-50%]" />
                                 <input
@@ -143,7 +143,7 @@ const UpdateInformation = () => {
                                 </span>
                             )}
                         </div>
-                        <div className="flex-1 ">
+                        <div className="flex-1 min-w-[200px]">
                             <div className="relative  gap-2 w-full text-gray-500 text-sm">
                                 <FaAddressCard className="absolute top-[50%] left-3 translate-y-[-50%]" />
                                 <input

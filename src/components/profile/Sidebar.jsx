@@ -5,7 +5,7 @@ import { IoCloudUpload } from "react-icons/io5";
 import { FaCameraRetro } from "react-icons/fa6";
 const Sidebar = () => {
     return (
-        <aside className="w-[350px] fixed  bg-white rounded-lg border border-gray-200 p-3">
+        <aside className=" w-[450px] lg:w-[350px] lg:fixed  bg-white rounded-lg border border-gray-200 p-3">
             <div className="border-b border-gray-200">
                 <form>
                     <div className="flex justify-center cursor-pointer">

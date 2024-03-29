@@ -12,7 +12,7 @@ const DeleteProfile = () => {
         setIsActive(false);
     };
     return (
-        <div className="mb-5 border rounded-lg bg-white border-gray-200 p-4 mr-[200px]">
+        <div className="mb-5 border rounded-lg bg-white border-gray-200 p-4 lg:mr-[200px]">
             <header>
                 <h1 className="text-3xl">Delete Account</h1>
                 <p className="text-sm my-5 text-gray-600 max-w-[80%]">
