@@ -15,6 +15,9 @@ import ProfileAdmin from "../views/admin/Profile";
 import CategoryManagement from "../views/admin/CategoryManagement";
 import Profile from "../views/profile/Profile";
 import ProfileLayout from "../layouts/ProfileLayout";
+import Offers from "../views/offers/Offers";
+import Category from "../views/pages/Category";
+
 const Router = createBrowserRouter([
     {
         element: <Layout />,
@@ -30,6 +33,45 @@ const Router = createBrowserRouter([
             {
                 path: "/contact",
                 element: <Contact />,
+            },
+            {
+                path: "/categories",
+                children: [
+                    {
+                        path: "technology-programming",
+                        element: (
+                            <Category category="Technology & Programming" />
+                        ),
+                    },
+                    {
+                        path: "data",
+                        element: (
+                            <Category category={"Data Science & Analytics"} />
+                        ),
+                    },
+                    {
+                        path: "design-creative",
+                        element: <Category category={"Design & Creative"} />,
+                    },
+                    {
+                        path: "sales-and-marketing",
+                        element: <Category category={"Sales & Marketing"} />,
+                    },
+                    {
+                        path: "writing-translations",
+                        element: (
+                            <Category category={"Writing & Translations"} />
+                        ),
+                    },
+                    {
+                        path: "audio",
+                        element: <Category category={"Audiovesiuelle"} />,
+                    },
+                ],
+            },
+            {
+                path: "/Offers",
+                element: <Offers />,
             },
             {
                 path: "*",
@@ -72,14 +114,14 @@ const Router = createBrowserRouter([
         ],
     },
     {
-        element : <ProfileLayout/>,
-        children : [
+        element: <ProfileLayout />,
+        children: [
             {
                 path: "/profile",
                 element: <Profile />,
             },
-        ]
-    }
+        ],
+    },
 ]);
 
 export default Router;

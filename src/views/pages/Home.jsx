@@ -358,10 +358,7 @@ const Reviews = () => {
                             {reviews.map((review, index) => {
                                 return (
                                     <SwiperSlide key={index}>
-                                        <div
-                                            
-                                            className="py-6 px-3 bg-white shadow-md shadow-slate-100/20 rounded-md"
-                                        >
+                                        <div className="py-6 px-3 bg-white shadow-md shadow-slate-100/20 rounded-md">
                                             <div className="flex items-center text-yellow-400">
                                                 {Array.from(
                                                     {
@@ -446,7 +443,7 @@ const Categories = () => {
                     </div>
                     <div className="mt-10 mb-5 px-16 relative">
                         <div className="grid lg:grid-cols-4 grid-cols-1 md:grid-cols-2 gap-4">
-                            <Link to={"cat/dev"}>
+                            <Link to={"/categories/technology-programming"}>
                                 <div className="text-gray-700 flex items-center justify-center flex-col rounded-md p-5  w-full h-fit bg-white border border-slate-200 hover:border-primary">
                                     <div className="mb-5">
                                         <FaFileCode className="text-5xl text-primary" />
@@ -461,7 +458,7 @@ const Categories = () => {
                                     </div>
                                 </div>
                             </Link>
-                            <Link to={"cat/dev"}>
+                            <Link to={"categories/data"}>
                                 <div className="text-gray-700 flex items-center justify-center flex-col rounded-md p-5  w-full h-fit bg-white border border-slate-200 hover:border-primary">
                                     <div className="mb-5">
                                         <FaDatabase className="text-5xl text-primary" />
@@ -476,7 +473,7 @@ const Categories = () => {
                                     </div>
                                 </div>
                             </Link>
-                            <Link to={"cat/dev"}>
+                            <Link to={"categories/accounting"}>
                                 <div className="text-gray-700 flex items-center justify-center flex-col rounded-md p-5  w-full h-fit bg-white border border-slate-200 hover:border-primary">
                                     <div className="mb-5">
                                         <FaSuitcase className="text-5xl text-primary" />
@@ -491,7 +488,7 @@ const Categories = () => {
                                     </div>
                                 </div>
                             </Link>
-                            <Link to={"cat/dev"}>
+                            <Link to={"categories/sales-marketing"}>
                                 <div className="text-gray-700 flex items-center justify-center flex-col rounded-md p-5  w-full h-fit bg-white border border-slate-200 hover:border-primary">
                                     <div className="mb-5">
                                         <FaChartPie className="text-5xl text-primary" />
@@ -506,7 +503,7 @@ const Categories = () => {
                                     </div>
                                 </div>
                             </Link>
-                            <Link to={"cat/dev"}>
+                            <Link to={"categories/design-graphic"}>
                                 <div className="text-gray-700 flex items-center justify-center flex-col rounded-md p-5  w-full h-fit bg-white border border-slate-200 hover:border-primary">
                                     <div className="mb-5">
                                         <FaImage className="text-5xl text-primary" />
@@ -521,7 +518,7 @@ const Categories = () => {
                                     </div>
                                 </div>
                             </Link>
-                            <Link to={"cat/dev"}>
+                            <Link to={"categories/audio"}>
                                 <div className="text-gray-700 flex items-center justify-center flex-col rounded-md p-5  w-full h-fit bg-white border border-slate-200 hover:border-primary">
                                     <div className="mb-5">
                                         <FaBullhorn className="text-5xl text-primary" />
@@ -536,7 +533,7 @@ const Categories = () => {
                                     </div>
                                 </div>
                             </Link>
-                            <Link to={"cat/dev"}>
+                            <Link to={"categories/education-training"}>
                                 <div className="text-gray-700 flex items-center justify-center flex-col rounded-md p-5  w-full h-fit bg-white border border-slate-200 hover:border-primary">
                                     <div className="mb-5">
                                         <FaGraduationCap className="text-5xl text-primary" />
@@ -551,7 +548,7 @@ const Categories = () => {
                                     </div>
                                 </div>
                             </Link>
-                            <Link to={"cat/dev"}>
+                            <Link to={"categories/writing-translate"}>
                                 <div className="text-gray-700 flex items-center justify-center flex-col rounded-md p-5  w-full h-fit bg-white border border-slate-200 hover:border-primary">
                                     <div className="mb-5">
                                         <FaPen className="text-5xl text-primary" />

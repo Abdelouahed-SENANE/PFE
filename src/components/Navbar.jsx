@@ -29,27 +29,27 @@ const links = [
 ];
 const catagories = [
     {
-        link: "/cat/dev-it",
-        name: "Devloppement & IT",
+        link: "/categories/technology-programming",
+        name: "Technology & Programming",
     },
     {
-        link: "/cat/ai",
-        name: "AI Services",
+        link: "/categories/data",
+        name: "Data Science & Analytics",
     },
     {
-        link: "/cat/design-creative",
+        link: "/categories/design-creative",
         name: "Design & Creative",
     },
     {
-        link: "/cat/sales-and-marketing",
+        link: "/categories/sales-and-marketing",
         name: "Sales & Marketing",
     },
     {
-        link: "/cat/writing",
-        name: "Writing",
+        link: "/categories/writing-translations",
+        name: "Writing & Translations",
     },
     {
-        link: "/cat/audio",
+        link: "/categories/audio",
         name: "Audiovesiuelle",
     },
 ];
