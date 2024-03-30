@@ -9,14 +9,18 @@ import Login from "../views/auth/Login";
 import AuthLayout from "../layouts/AuthLayout";
 import Signup from "../views/auth/Signup";
 import AdminLayout from "../layouts/AdminLayout";
+import FreelancerLayout from "../layouts/FreelancerLayouut";
 import Dashboard from "../views/admin/Dashboard";
 import UserManagement from "../views/admin/UserManagement";
 import ProfileAdmin from "../views/admin/Profile";
 import CategoryManagement from "../views/admin/CategoryManagement";
 import Profile from "../views/profile/Profile";
 import ProfileLayout from "../layouts/ProfileLayout";
-import Offers from "../views/offers/Offers";
 import Category from "../views/pages/Category";
+import Offers from "../views/pages/Offers";
+import Orders from "../views/freelancer/Orders";
+import Gigs from "../views/freelancer/Gigs";
+
 
 const Router = createBrowserRouter([
     {
@@ -73,11 +77,27 @@ const Router = createBrowserRouter([
                 path: "/Offers",
                 element: <Offers />,
             },
-            {
-                path: "*",
-                element: <Notfound />,
-            },
+
         ],
+    },
+    {
+        element: <FreelancerLayout />,
+        children: [
+            {
+                path: '/orders',
+                element : <Orders />
+            },
+            {
+                path: "/gigs",
+                element: <Gigs />,
+            },
+
+        ]
+    },
+
+    {
+        path: "*",
+        element: <Notfound />,
     },
     {
         element: <AuthLayout />,

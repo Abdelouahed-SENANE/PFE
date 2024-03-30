@@ -1,0 +1,39 @@
+.selected {
+    padding: 20px 10px;
+    display: block;
+    position: relative;
+    transition: all 0.5;
+    color: #6b7280;
+    font-weight: 400;
+}
+.selected.active {
+    color: #000;
+}
+.selected::before {
+    content: "";
+    position: absolute;
+    bottom: calc(0% - 7px);
+    right: 40%;
+    transform: translateX(-40%);
+    z-index: 1000;
+    width: 0px;
+    height: 0px;
+    background: #f9fafb;
+    border: 1px solid;
+    border-color: transparent transparent transparent transparent;
+    border-bottom: none;
+    border-right: none;
+    transform: rotate(45deg);
+    transition: all 0.2s;
+}
+.selected.active::before {
+    width: 13px;
+    height: 13px;
+    border-color: #d1d5db transparent transparent #d1d5db;
+}
+.content_tab {
+    display: none;
+}
+.content_tab.active {
+    display: block;
+}
