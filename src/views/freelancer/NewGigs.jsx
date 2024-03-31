@@ -5,9 +5,11 @@ import MultiSelect from "@components/ui/MultiSelect";
 import "react-datetime/css/react-datetime.css";
 import DatePicker from "react-datepicker";
 import "@assets/theme-overrides.css";
+import ImagesUpload from "../../components/ui/ImagesUpload";
 const NewGigs = () => {
     const [title, setTitle] = useState("");
     const [tags, setTags] = useState([]);
+    const [images, setImages] = useState([]);
     const [errTags, setErrTags] = useState("");
     const [selectedDate, setSelectedDate] = useState(null);
     const [errSelectdate, setErrSelectDate] = useState("");
@@ -74,7 +76,8 @@ const NewGigs = () => {
                 excerpt,
                 description,
                 selectedDate,
-                tags
+                tags,
+                images
             });
         }
     };
@@ -82,7 +85,11 @@ const NewGigs = () => {
         <>
             <div className=" min-h-screen  w-full flex items-start justify-center">
                 <div className="bg-white min-w-[600px] p-5 border-gray-200 border rounded-lg">
-                    <form action="" onSubmit={handleSubmit}>
+                    <form
+                        action=""
+                        onSubmit={handleSubmit}
+                        encType="multipart/form-data"
+                    >
                         <div className="flex-1 min-w-[700px] max-w-[700px] relative ">
                             <div className="relative  gap-4 flex items-start w-full text-gray-500 text-sm">
                                 <label
@@ -193,7 +200,6 @@ const NewGigs = () => {
                                 </label>
                                 <div className="custom-datepicker-container w-fit">
                                     <DatePicker
-                                    
                                         minDate={new Date()}
                                         maxDate={
                                             new Date(
@@ -239,6 +245,28 @@ const NewGigs = () => {
                                 {errTags && (
                                     <>
                                         <span className="text-rose-500 block text-sm font-medium flex items-center gap-1">
+                                            <FaExclamationTriangle className="text-red-500  text-lg  " />
+                                            {errTags}
+                                        </span>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                        <div className="relative w-full my-4 gap-4 flex text-gray-500 text-sm">
+                            <label
+                                htmlFor=""
+                                className="w-[120px] text-gray-600 text-base"
+                            >
+                                Gig Gallery
+                            </label>
+                            <div className="flex-1 w-full">
+                                <ImagesUpload
+                                    files={images}
+                                    setFiles={setImages}
+                                />
+                                {errTags && (
+                                    <>
+                                        <span className="text-rose-500  text-sm font-medium flex items-center gap-1">
                                             <FaExclamationTriangle className="text-red-500  text-lg  " />
                                             {errTags}
                                         </span>

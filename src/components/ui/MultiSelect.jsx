@@ -31,7 +31,7 @@ function MultiSelect({ tags = [], setTags, error }) {
                 5 tags maximum. Use letters and numbers only.
             </span>
             <div
-                className={`border-2 rounded-lg flex items-center flex-wrap transition-all duration-300  w-full m-1 ${
+                className={`border-2 rounded-lg flex items-center flex-wrap transition-all duration-300  w-full  ${
                     isFocus ? "border-slate-500" : ""
                 }  `}
             >
@@ -53,7 +53,7 @@ function MultiSelect({ tags = [], setTags, error }) {
                 ))}
                 <input
                     type={"text"}
-                    value={inputValue}               
+                    value={inputValue}
                     onChange={handleChange}
                     onKeyDown={handleKeyDown}
                     onFocus={() => {
