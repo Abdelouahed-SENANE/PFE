@@ -20,6 +20,7 @@ import Category from "../views/pages/Category";
 import Offers from "../views/pages/Offers";
 import Orders from "../views/freelancer/Orders";
 import Gigs from "../views/freelancer/Gigs";
+import NewGigs from "../views/freelancer/NewGigs";
 
 
 const Router = createBrowserRouter([
@@ -90,6 +91,10 @@ const Router = createBrowserRouter([
             {
                 path: "/gigs",
                 element: <Gigs />,
+            },
+            {
+                path: "/gigs/create",
+                element: <NewGigs />,
             },
 
         ]

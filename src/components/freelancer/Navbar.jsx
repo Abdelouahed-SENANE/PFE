@@ -2,8 +2,11 @@ import { Link, NavLink } from "react-router-dom";
 import "../../assets/theme-overrides.css";
 import Logo from "../ui/Logo";
 import { FaAngleDown, FaBars, FaXmark } from "react-icons/fa6";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import Notification from "@components/ui/Notification";
 import test from "@assets/uploads/vector.png";
+import Message from "../ui/Message";
+import { outsideClickAlert } from "../../helpers/HandleClickOutside";
 const links = [
     {
         link: "/orders",
@@ -17,6 +20,10 @@ const links = [
 
 export const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isActive, setIsActive] = useState(false);
+    const settingRef = useRef(null);
+
+    outsideClickAlert(settingRef, () => setIsActive(false));
     return (
         <>
             <nav className=" py-2 relative  bg-white lg:py-0 border border-slate-500/20">
@@ -43,13 +50,46 @@ export const Navbar = () => {
                     </div>
                     {/* ====== Profile ====== */}
                     <div className="flex-1   ">
-                        <div className="flex justify-end">
-                            <div>
+                        <div className="flex justify-end gap-3">
+                            <Notification />
+                            <Message />
+                            <div
+                                className="relative cursor-pointer"
+                                onClick={() => setIsActive(!isActive)}
+                            >
                                 <img
                                     src={test}
                                     alt=""
-                                    className="h-10 w-10 rounded-full"
+                                    className="h-8 w-8 rounded-full"
                                 />
+                                <div
+                                    ref={settingRef}
+                                    className={`setting_wrapper ${
+                                        isActive ? "active" : "inactive"
+                                    }`}
+                                >
+                                    <h4 className="border-slate-300 border-b px-2 py-3 text-sm text-gray-600">
+                                        Settings
+                                    </h4>
+                                    <ul className="p-2">
+                                        <li>
+                                            <Link
+                                                to={"/admin/profile"}
+                                                className="block px-2 py-2.5 hover:bg-gray-100 duration-500 transition-all"
+                                            >
+                                                Profile
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                to={"/logout"}
+                                                className="block px-2 py-2.5 hover:bg-gray-100 duration-500 transition-all"
+                                            >
+                                                Logout
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>

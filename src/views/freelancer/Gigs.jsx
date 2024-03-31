@@ -98,8 +98,8 @@ const Gigs = () => {
                         })}
                     </ul>
                     <div>
-                        <button className="uppercase text-xs bg-primary text-white absolute right-0 top-2 px-3 rounded-sm py-2">
-                            <Link>Create a new gigs</Link>
+                        <button className="uppercase text-xs bg-primary text-white absolute right-0 top-2 px-3 rounded-sm py-2 shadow-gray-400 transition-shadow duration-300 hover:shadow-lg ">
+                            <Link to={"/gigs/create"}>Create a new gigs</Link>
                         </button>
                     </div>
                 </div>

@@ -7,12 +7,11 @@ const Setting = () => {
     const [isActive, setIsActive] = useState(false);
     const settingRef = useRef(null);
 
-        outsideClickAlert(settingRef, () => setIsActive(false));
+    outsideClickAlert(settingRef, () => setIsActive(false));
     return (
         <>
             <div className="relative">
                 <div
-                    onClick={() => setIsActive(!isActive)}
                     className={`w-8 h-8 bg-white  text-gray-600 group relative rounded-full flex items-center justify-center  text-lg cursor-pointer group transition-all hover:bg-primary  duration-500`}
                 >
                     <IoSettings className="group-hover:text-white duration-300 transition-all" />

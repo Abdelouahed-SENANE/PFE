@@ -2,6 +2,7 @@ import React from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 const Navbar = () => {
+
     return (
         <nav className="border-b border-gray-200 py-4">
             <div className="mx-auto w-[90%]">
