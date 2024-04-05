@@ -17,11 +17,10 @@ import CategoryManagement from "../views/admin/CategoryManagement";
 import Profile from "../views/profile/Profile";
 import ProfileLayout from "../layouts/ProfileLayout";
 import Category from "../views/pages/Category";
-import Offers from "../views/pages/Offers";
+import Services from "../views/pages/Services";
 import Orders from "../views/freelancer/Orders";
 import Gigs from "../views/freelancer/Gigs";
 import NewGigs from "../views/freelancer/NewGigs";
-
 
 const Router = createBrowserRouter([
     {
@@ -75,18 +74,17 @@ const Router = createBrowserRouter([
                 ],
             },
             {
-                path: "/Offers",
-                element: <Offers />,
+                path: "/services",
+                element: <Services />,
             },
-
         ],
     },
     {
         element: <FreelancerLayout />,
         children: [
             {
-                path: '/orders',
-                element : <Orders />
+                path: "/orders",
+                element: <Orders />,
             },
             {
                 path: "/gigs",
@@ -96,8 +94,7 @@ const Router = createBrowserRouter([
                 path: "/gigs/create",
                 element: <NewGigs />,
             },
-
-        ]
+        ],
     },
 
     {

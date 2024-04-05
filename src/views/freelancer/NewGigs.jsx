@@ -6,24 +6,75 @@ import "react-datetime/css/react-datetime.css";
 import DatePicker from "react-datepicker";
 import "@assets/theme-overrides.css";
 import ImagesUpload from "../../components/ui/ImagesUpload";
+import Select from "../../components/ui/Select";
+
+// Exemple ==============
+const data = {
+    categories: [
+        {
+            id: 1,
+            name: "Category A",
+        },
+        {
+            id: 2,
+            name: "Category B",
+        },
+    ],
+    subcategories: [
+        {
+            id: 1,
+            name: "Subcategory 1",
+            category_id: 1,
+        },
+        {
+            id: 2,
+            name: "Subcategory 2",
+            category_id: 1,
+        },
+        {
+            id: 3,
+            name: "Subcategory 3",
+            category_id: 1,
+        },
+        {
+            id: 4,
+            name: "Subcategory 4",
+            category_id: 2,
+        },
+        {
+            id: 5,
+            name: "Subcategory 5",
+            category_id: 2,
+        },
+        {
+            id: 6,
+            name: "Subcategory 6",
+            category_id: 2,
+        },
+    ],
+};
+
 const NewGigs = () => {
     const [title, setTitle] = useState("");
     const [tags, setTags] = useState([]);
     const [images, setImages] = useState([]);
+    const [errImages, setErrImages] = useState("");
     const [errTags, setErrTags] = useState("");
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [errSelectdate, setErrSelectDate] = useState("");
+    const [delivery, setDelivery] = useState("");
+    const [errDelivery, setErrDelivery] = useState("");
     const [errTitle, setErrTitle] = useState("");
     const [excerpt, setExcerpt] = useState("");
     const [errExcerpt, setErrExcerpt] = useState("");
     const [description, setDescription] = useState("");
     const [errDesc, setErrDesc] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [errSelectedCategory, setErrSelectedCategory] = useState("");
+    const [selectSubCategory, setSelectedSubCategory] = useState("");
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
+    // ======= categories ====
 
     const validateGig = () => {
+        const deliveryRegex = /^\d+\sdays$/;
         let check = true;
         if (title.trim() === "" || title.length === null) {
             setErrTitle("Required!");
@@ -52,11 +103,13 @@ const NewGigs = () => {
             setErrDesc("");
             check = true;
         }
-        if (!selectedDate) {
-            setErrSelectDate("Required!");
+        if (delivery.trim() === "") {
+            setErrDelivery("Required!");
             check = false;
+        } else if (!deliveryRegex.test(delivery)) {
+            setErrDelivery('Delivery date must be in the format e.g "2 days"');
         } else {
-            setErrSelectDate("");
+            setErrDelivery("");
             check = true;
         }
         if (!tags || tags.length === 0) {
@@ -66,8 +119,45 @@ const NewGigs = () => {
             setErrTags("");
             check = true;
         }
+        if (selectedCategory.trim() === "" || selectedCategory.length === 0) {
+            setErrSelectedCategory("Category is Required!");
+            check = false;
+        } else if (
+            selectSubCategory.trim() === "" ||
+            selectSubCategory.length === 0
+        ) {
+            setErrSelectedCategory("Subcategory is Required!");
+            check = false;
+        } else {
+            setErrSelectedCategory("");
+            check = true;
+        }
+        if (images.length === 0) {
+            setErrImages("Required!");
+        } if (images.length === 0) {
+            setErrImages("Image is required!");
+        } else {
+            const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+            let isValid = true;
+        
+            for (let i = 0; i < images.length; i++) {
+                const imageType = images[i].type.toLowerCase();
+        
+                if (!allowedTypes.includes(imageType)) {
+                    setErrImages("Invalid image type!");
+                    isValid = false;
+                    break; // Exit the loop early since one invalid image type is enough to determine the overall validation result
+                }
+            }
+        
+            if (isValid) {
+                setErrImages(""); // Clear the error message if all image types are valid
+            }
+        }
+
         return check;
     };
+    console.log(images);
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateGig()) {
@@ -75,9 +165,9 @@ const NewGigs = () => {
                 title,
                 excerpt,
                 description,
-                selectedDate,
+                delivery,
                 tags,
-                images
+                images,
             });
         }
     };
@@ -125,6 +215,41 @@ const NewGigs = () => {
                                     )}
                                 </div>
                             </div>
+                            <div className="relative  gap-4 flex items-start mt-4 w-full text-gray-500 text-sm">
+                                <label
+                                    htmlFor=""
+                                    className="w-[150px] text-gray-600 text-base"
+                                >
+                                    Category
+                                </label>
+                                <div className="w-full flex  flex-col ">
+                                    <div className="flex flex-1 gap-5">
+                                        <Select
+                                            handleChangeCategory={(e) =>
+                                                setSelectedCategory(
+                                                    e.target.value
+                                                )
+                                            }
+                                            selectedCategory={selectedCategory}
+                                            handleChangeSubCategory={(e) =>
+                                                setSelectedSubCategory(
+                                                    e.target.value
+                                                )
+                                            }
+                                            data={data}
+                                        />
+                                    </div>
+                                    {errSelectedCategory && (
+                                        <>
+                                            <span className="text-rose-500 text-sm font-medium flex items-center gap-1">
+                                                <FaExclamationTriangle className="text-red-500  text-lg  " />
+                                                {errSelectedCategory}
+                                            </span>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+
                             <div className="relative  my-4 gap-4 flex items-start w-full text-gray-500 text-sm">
                                 <label
                                     htmlFor=""
@@ -191,38 +316,34 @@ const NewGigs = () => {
                                     )}
                                 </div>
                             </div>
-                            <div className="relative  my-4 gap-4 flex items-start w-full text-gray-500 text-sm">
+                            <div className="relative   my-4 gap-4 flex items-start w-full text-gray-500 text-sm">
                                 <label
                                     htmlFor=""
                                     className="w-[120px] text-gray-600 text-base"
                                 >
-                                    Date Delivery
+                                    Delivery Date
                                 </label>
-                                <div className="custom-datepicker-container w-fit">
-                                    <DatePicker
-                                        minDate={new Date()}
-                                        maxDate={
-                                            new Date(
-                                                new Date().getFullYear() + 1,
-                                                11,
-                                                31
-                                            )
+                                <div className="flex-1">
+                                    <input
+                                        type={"text"}
+                                        placeholder={"Excerpt Service"}
+                                        value={delivery}
+                                        onChange={(e) =>
+                                            setDelivery(e.target.value)
                                         }
-                                        className={`customDatePicker ${
-                                            errSelectdate
-                                                ? "border-red-500 focus:border-red-500"
-                                                : "focus:border-slate-500"
-                                        }`}
-                                        selected={selectedDate}
-                                        onChange={handleDateChange}
-                                        dateFormat="yyyy-MM-dd"
+                                        className={`text-gray-800 py-2 outline-none border-2 w-full px-2  transition-all duration-300  rounded-md
+                                    ${
+                                        errDelivery
+                                            ? "border-red-500 focus:border-red-500"
+                                            : "focus:border-slate-500"
+                                    }
+                                    `}
                                     />
-                                    {errSelectdate && (
+                                    {errDelivery && (
                                         <>
-                                            <span className="text-rose-500 block text-sm font-medium flex items-center gap-1">
+                                            <span className="text-rose-500  text-sm font-medium flex items-center gap-1">
                                                 <FaExclamationTriangle className="text-red-500  text-lg  " />
-
-                                                {errSelectdate}
+                                                {errDelivery}
                                             </span>
                                         </>
                                     )}
@@ -244,7 +365,7 @@ const NewGigs = () => {
                                 />
                                 {errTags && (
                                     <>
-                                        <span className="text-rose-500 block text-sm font-medium flex items-center gap-1">
+                                        <span className="text-rose-500  text-sm font-medium flex items-center gap-1">
                                             <FaExclamationTriangle className="text-red-500  text-lg  " />
                                             {errTags}
                                         </span>
@@ -264,11 +385,11 @@ const NewGigs = () => {
                                     files={images}
                                     setFiles={setImages}
                                 />
-                                {errTags && (
+                                {errImages && (
                                     <>
                                         <span className="text-rose-500  text-sm font-medium flex items-center gap-1">
                                             <FaExclamationTriangle className="text-red-500  text-lg  " />
-                                            {errTags}
+                                            {errImages}
                                         </span>
                                     </>
                                 )}

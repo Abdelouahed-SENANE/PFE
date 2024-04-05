@@ -21,6 +21,8 @@
     "apexcharts": "^3.48.0",
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
+    "flowbite": "^2.3.0",
+    "flowbite-react": "^0.8.0",
     "json-server": "^1.0.0-alpha.23",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",

@@ -2,6 +2,7 @@ import React from "react";
 import image from "../../assets/images/test.jpg";
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa6";
+import Carousel from "./carousel/Carousel";
 const Card = () => {
     const cards = [
         {
@@ -66,16 +67,17 @@ const Card = () => {
                         return (
                             <div
                                 key={card.id}
-                                className="border border-slate-200 overflow-hidden  rounded-lg shadow-md shadow-slate-200/20 duration-500 transition-all  hover:border-primary"
+                                className="border  border-slate-200 overflow-hidden  rounded-lg shadow-md shadow-slate-200/20 duration-500 transition-all  hover:border-primary"
                             >
-                                <Link to={"/service/{id}"}>
-                                    <div className="image_wrapper rounded-ss-lg rounded-se-lg overflow-hidden">
+                                <Link to={"#"}>
+                                    <Carousel />
+                                    {/* <div className="image_wrapper rounded-ss-lg rounded-se-lg overflow-hidden">
                                         <img
                                             src={image}
                                             alt=""
                                             className="h-[230px] object-fill"
                                         />
-                                    </div>
+                                    </div> */}
                                 </Link>
                                 <div className="p-6 bg-white">
                                     <h6 className="text-gray-500 text-sm">
