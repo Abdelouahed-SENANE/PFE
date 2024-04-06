@@ -14,3 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+Route::get('/' , function() {
+    return response()->json('Laravel 10.0v');
+});

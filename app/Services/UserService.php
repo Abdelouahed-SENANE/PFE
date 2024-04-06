@@ -3,24 +3,21 @@
 
 namespace App\Services;
 
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\UserRepository;
+use App\Services\Interfaces\UserServiceInterface;
+use Symfony\Component\HttpFoundation\Response;
 
+class UserService implements UserServiceInterface
+{
 
-class UserService {
+   public function __construct(protected UserRepositoryInterface $userRepository)
+   {
+   }
 
-
-    /**
-     * @var $userRepository
-     */
-    protected $userRepository;
-
-    /**
-     * @param UserRepository $userRepository
-     */
-
-     public function __construct(UserRepository $userRepository)
-     {
-        $this->userRepository = $userRepository;
-
-     }
+   public function all()
+   {
+      $users = $this->userRepository->all();
+      return response()->json(['users'=>$users] , Response::HTTP_OK);
+   }
 }

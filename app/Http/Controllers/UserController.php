@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Interfaces\UserServiceInterface;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
-class FreelancerController extends Controller
+class UserController extends Controller
 {
+    public function __construct(protected UserService $userService)
+    {
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //
+        return  $this->userService->all();
     }
 
     /**

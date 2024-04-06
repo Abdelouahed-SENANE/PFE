@@ -3,9 +3,9 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 
-
-class UserRepository {
+class UserRepository implements UserRepositoryInterface {
 
     /**
      * @var User
@@ -13,11 +13,15 @@ class UserRepository {
     protected $user; 
 
     /**
-     * @param User $post
+     * @param User $user
      */
 
      public function __construct(User $user)
      {
         $this->user = $user;
+     }
+
+     public function all() {
+      return $this->user->all();
      }
 }
