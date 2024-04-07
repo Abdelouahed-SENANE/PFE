@@ -29,7 +29,7 @@ class CategorySeeder extends Seeder
 
         foreach ($categories as $payload) {
             
-            $category = Category::create(['name' => $payload['name']]);
+            Category::create(['name' => $payload['name']]);
         }
     }
 }

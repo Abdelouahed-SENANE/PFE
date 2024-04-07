@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\GigController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -41,6 +42,12 @@ Route::controller(CategoryController::class)->group(function() {
 });
 Route::controller(SubcategoryController::class)->group(function() {
     Route::get('subcategories' , 'index');
-    Route::post('/{category}/subcategory' , 'store');
+    Route::post('categories/{category}/subcategory' , 'store');
     Route::delete('/subcategories/{subcategory}' , 'destroy');
 });
+
+//  Test Route Gig
+Route::post('/gigs/create' , [GigController::class , 'store']);
+Route::put('/gigs/update/{gig}' , [GigController::class , 'update']);
+Route::delete('/gigs/delete/{gig}' , [GigController::class , 'destroy']);
+Route::get('/gigs' , [GigController::class , 'index']);

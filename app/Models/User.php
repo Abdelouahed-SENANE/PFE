@@ -47,7 +47,18 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    /**
+
+
+    public function freelancer() {
+        return $this->hasOne(Freelancer::class , 'user_id');
+    }
+    public function client() {
+        return $this->hasOne(Client::class , 'user_id');
+    }
+    public function admin() {
+        return $this->hasOne(Admin::class , 'user_id');
+    }
+        /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed
@@ -65,15 +76,5 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
-    }
-
-    public function freelancer() {
-        return $this->hasOne(Freelancer::class , 'user_id');
-    }
-    public function client() {
-        return $this->hasOne(Client::class , 'user_id');
-    }
-    public function admin() {
-        return $this->hasOne(Admin::class , 'user_id');
     }
 }

@@ -24,4 +24,8 @@ class Freelancer extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
+
+    public function gigs() {
+        return $this->hasMany(Gig::class , 'freelancer_id');
+    }
 }
