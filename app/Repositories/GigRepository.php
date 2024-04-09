@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Dto\GigDto;
 use App\Models\Freelancer;
 use App\Models\Gig;
 use App\Repositories\Interfaces\GigRepositoryInterface;
@@ -32,13 +33,15 @@ class GigRepository implements GigRepositoryInterface
       return response()->json([$gigs]);
    }
 
-   public function createGig(array $attributes, Freelancer $freelancer)
+   public function createGig(GigDto $gigDto, Freelancer $freelancer)
    {
+      $attributes = $gigDto->toArray();
       return $freelancer->gigs()->create($attributes);
    }
 
-   public function updateGig(Gig $gig, array $attributes) : Gig
+   public function updateGig(Gig $gig, GigDto $gigDto) : Gig
    {
+      $attributes = $gigDto->toArray();
       $gig->update($attributes);
       return $gig;
    }
@@ -47,6 +50,13 @@ class GigRepository implements GigRepositoryInterface
    {
       
       return $gig->delete($gig);
+   }
+   public function updateStatus($gigId, $status)
+   {
+      $gig = $this->gig::findOrFail($gigId);
+      $gig->status = $status;
+      $gig->save();
+      return $gig;
    }
 }
 

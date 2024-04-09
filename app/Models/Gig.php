@@ -23,6 +23,9 @@ class Gig extends Model
         'search_tags' => 'json'
     ];
     public function freelancer() {
-        $this->belongsTo(Freelancer::class);
+        return $this->belongsTo(Freelancer::class);
+    }
+    public function orders() {
+        return $this->hasMany(Order::class , 'gig_id');
     }
 }

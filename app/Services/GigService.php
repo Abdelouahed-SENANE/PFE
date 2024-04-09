@@ -6,7 +6,7 @@ use App\DTO\GigDto;
 use App\Models\Freelancer;
 use App\Models\Subcategory;
 use App\Models\Gig;
-use App\Repositories\GigRepository;
+use App\Repositories\Interfaces\GigRepositoryInterface;
 use App\Services\Interfaces\GigServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 class GigService implements GigServiceInterface
 {
 
-    public function __construct(protected GigRepository $gigRepository)
+    public function __construct(protected GigRepositoryInterface $gigRepository)
     {
     }
 
@@ -30,17 +30,7 @@ class GigService implements GigServiceInterface
         $user = JWTAuth::user();
         $freelancer = $user->freelancer()->first();
 
-        $attributes = [
-            'title' => $gigDto->title,
-            'description' => $gigDto->description,
-            'excerpt' => $gigDto->excerpt,
-            'images' => $gigDto->images,
-            'price' => $gigDto->price,
-            'search_tags' => $gigDto->search_tags,
-            'delivery' => $gigDto->delivery,
-            'subcategory_id' => $gigDto->subcategory->id
-        ];
-        return $this->gigRepository->createGig($attributes, $freelancer);
+        return $this->gigRepository->createGig($gigDto, $freelancer);
     }
     public function updateGig(GigDto $gigDto, Gig $gig): Gig
     {
@@ -48,17 +38,7 @@ class GigService implements GigServiceInterface
         $freelancer = $user->freelancer()->first();
 
         if ($freelancer->id === $gig->freelancer_id) {
-            $attributes = [
-                'title' => $gigDto->title,
-                'description' => $gigDto->description,
-                'excerpt' => $gigDto->excerpt,
-                'images' => $gigDto->images,
-                'price' => $gigDto->price,
-                'search_tags' => $gigDto->search_tags,
-                'delivery' => $gigDto->delivery,
-                'subcategory_id' => $gigDto->subcategory->id
-            ];
-            return $this->gigRepository->updateGig($gig, $attributes);
+            return $this->gigRepository->updateGig($gig, $gigDto);
         } else {
             return response()->json([
                 'massage' => "Can't update this gig"
@@ -79,5 +59,10 @@ class GigService implements GigServiceInterface
                 'massage' => "Can't delete this gig"
             ], Response::HTTP_FORBIDDEN);
         }
+    }
+
+    public function updateStatus($gigId, $status)
+    {
+        return $this->gigRepository->updateStatus($gigId , $status);
     }
 }

@@ -50,4 +50,5 @@ Route::controller(SubcategoryController::class)->group(function() {
 Route::post('/gigs/create' , [GigController::class , 'store']);
 Route::put('/gigs/update/{gig}' , [GigController::class , 'update']);
 Route::delete('/gigs/delete/{gig}' , [GigController::class , 'destroy']);
+Route::patch('/gigs/update-status/{id}' , [GigController::class , 'updateStatus']);
 Route::get('/gigs' , [GigController::class , 'index']);

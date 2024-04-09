@@ -17,4 +17,5 @@ interface GigServiceInterface
     public function createGig(GigDto $gigDto): Gig;
     public function updateGig(GigDto $gigDto , Gig $gig): Gig;
     public function deleteGig(Gig $gig);
+    public function updateStatus($gigId , $status);
 }
