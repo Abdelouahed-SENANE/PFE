@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
             user,
             setUser,
         }),
-        [token]
+        [token , user]
     );
 
     return (

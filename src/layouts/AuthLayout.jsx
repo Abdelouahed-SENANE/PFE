@@ -12,6 +12,7 @@ const AuthLayout = () => {
             return <Navigate to={"/services"} />;
         } else {
             return <Navigate to={"/admin/dashboard"} />;
+            
         }
     }
     return (

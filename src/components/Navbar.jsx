@@ -5,9 +5,7 @@ import { FaAngleDown, FaArrowDown, FaBars, FaXmark } from "react-icons/fa6";
 import { useRef, useState } from "react";
 import Button from "./ui/Button";
 import { useAuth } from "../hooks/AuthContext";
-import Setting from "./ui/Setting";
 import { outsideClickAlert } from "../helpers/HandleClickOutside";
-import instance from "../config/ConfigAxios";
 import { handleLogout } from "../utils/logout";
 
 const links = [
