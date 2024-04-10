@@ -2,8 +2,13 @@ import { Link, NavLink } from "react-router-dom";
 import "../assets/theme-overrides.css";
 import Logo from "./ui/Logo";
 import { FaAngleDown, FaArrowDown, FaBars, FaXmark } from "react-icons/fa6";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Button from "./ui/Button";
+import { useAuth } from "../hooks/AuthContext";
+import Setting from "./ui/Setting";
+import { outsideClickAlert } from "../helpers/HandleClickOutside";
+import instance from "../config/ConfigAxios";
+import { handleLogout } from "../utils/logout";
 
 const links = [
     {
@@ -55,6 +60,13 @@ const catagories = [
 ];
 export const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const { user } = useAuth();
+    const [isActive, setIsActive] = useState(false);
+    const settingRef = useRef(null);
+    outsideClickAlert(settingRef, () => setIsActive(false));
+    const logout = async () => {
+        await handleLogout();
+    }
     return (
         <>
             <nav className=" py-2 relative  bg-white lg:py-0 border border-slate-500/20">
@@ -135,24 +147,65 @@ export const Navbar = () => {
                         )}
                     </div>
                     {/* Authentication buttons */}
-                    <div className="hidden lg:flex gap-4 ">
-                        <Button
-                            bgColor={"primary"}
-                            textColor={"text-white"}
-                            colorBorder={"border-primary"}
-                            to={"/login"}
-                            text={"Login"}
-                            fill={true}
-                        />
-                        <Button
-                            bgColor={"white"}
-                            textColor={"text-primary"}
-                            colorBorder={"border-primary"}
-                            to={"/signup"}
-                            text={"Sign up"}
-                            fill={false}
-                        />
-                    </div>
+                    {!user ? (
+                        <div className="hidden lg:flex gap-4 ">
+                            <Button
+                                bgColor={"primary"}
+                                textColor={"text-white"}
+                                colorBorder={"border-primary"}
+                                to={"/login"}
+                                text={"Login"}
+                                fill={true}
+                            />
+                            <Button
+                                bgColor={"white"}
+                                textColor={"text-primary"}
+                                colorBorder={"border-primary"}
+                                to={"/signup"}
+                                text={"Sign up"}
+                                fill={false}
+                            />
+                        </div>
+                    ) : (
+                        <div
+                            className="relative cursor-pointer"
+                            onClick={() => setIsActive(!isActive)}
+                        >
+                            <img
+                                src={`http://localhost:8000/storage/uploads/${user.picture}`}
+                                alt=""
+                                className="h-8 w-8 rounded-full"
+                            />
+                            <div
+                                ref={settingRef}
+                                className={`setting_wrapper ${
+                                    isActive ? "active" : "inactive"
+                                }`}
+                            >
+                                <h4 className="border-slate-300 border-b px-2 py-3 text-sm text-gray-600">
+                                    Settings
+                                </h4>
+                                <ul className="p-2">
+                                    <li>
+                                        <Link
+                                            to={"/profile"}
+                                            className="block px-2 py-2.5 hover:bg-gray-100 duration-500 transition-all"
+                                        >
+                                            Profile
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <button
+                                            onClick={logout}
+                                            className="block px-2 py-2.5 w-full text-left hover:bg-gray-100 duration-500 transition-all"
+                                        >
+                                            Logout
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </nav>
             <SubNav />
@@ -164,7 +217,7 @@ const SubNav = () => {
     return (
         <>
             {/* Sub navigation */}
-            <nav className=" py-4 bg-white hidden lg:block">
+            <nav className=" py-4 bg-white hidden border-b lg:block">
                 <div className="container mx-auto">
                     <ul className="mx-5 flex items-center gap-1">
                         {catagories.map((category, index) => {

@@ -25,7 +25,7 @@ import {
     MdOutlineKeyboardArrowLeft,
     MdOutlineKeyboardArrowRight,
 } from "react-icons/md";
-import Card from "../../components/ui/Card";
+import Cards from "../../components/ui/Cards";
 
 import { Link } from "react-router-dom";
 
@@ -419,7 +419,7 @@ const LatestService = () => {
                         Lucius Sergius Catilina.
                     </p>
                 </div>
-                <Card />
+                <Cards />
             </section>
         </>
     );

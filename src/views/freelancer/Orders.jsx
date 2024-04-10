@@ -8,8 +8,8 @@ const Orders = () => {
     const tabs = [
         {
             id: 1,
-            label: "Active",
-            tableHead: ["Buyer", "Gig", "Due on", "Status"],
+            label: "PENDING",
+            tableHead: ["Buyer", "Gig", "Due on", "Status","View"],
             rows: [
                 {
                     buyer: "Company A",
@@ -27,8 +27,8 @@ const Orders = () => {
         },
         {
             id: 2,
-            label: "Late",
-            tableHead: ["Buyer", "Gig", "Due on", "Status"],
+            label: "IN PROGRESS",
+            tableHead: ["Buyer", "Gig", "Due on", "Status","View"],
             rows: [
                 {
                     buyer: "Company A",
@@ -46,30 +46,9 @@ const Orders = () => {
         },
 
         {
-            id: 3,
-            label: "Delivred",
-            tableHead: ["Buyer", "Gig", "Due on", "Delivred at", "Status"],
-            rows: [
-                {
-                    buyer: "Company A",
-                    gig: "Service X",
-                    dueOn: "2024-04-01",
-                    delivredAt: "2024-04-02",
-                    status: "Pending",
-                },
-                {
-                    buyer: "Company B",
-                    gig: "Service Y",
-                    dueOn: "2024-04-02",
-                    delivredAt: "2024-04-02",
-                    status: "Completed",
-                },
-            ],
-        },
-        {
             id: 4,
             label: "Completed",
-            tableHead: ["Buyer", "Gig", "Due on", "Status"],
+            tableHead: ["Buyer", "Gig", "Due on", "Status","View"],
             rows: [
                 {
                     buyer: "Company A",
@@ -88,7 +67,7 @@ const Orders = () => {
         {
             id: 5,
             label: "Cancelled",
-            tableHead: ["Buyer", "Gig", "Due on", "Status"],
+            tableHead: ["Buyer", "Gig", "Due on", "Status","View"],
             rows: [
                 {
                     buyer: "Company A",
@@ -104,25 +83,7 @@ const Orders = () => {
                 },
             ],
         },
-        {
-            id: 6,
-            label: "Started",
-            tableHead: ["Buyer", "Gig", "Due on", "Status"],
-            rows: [
-                {
-                    buyer: "Company A",
-                    gig: "Service X",
-                    dueOn: "2024-04-01",
-                    status: "Pending",
-                },
-                {
-                    buyer: "Company B",
-                    gig: "Service Y",
-                    dueOn: "2024-04-02",
-                    status: "Completed",
-                },
-            ],
-        },
+        
     ];
 
     const handleClick = (tab) => {

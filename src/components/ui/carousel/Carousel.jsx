@@ -3,9 +3,9 @@ import test from "../../../assets/images/test.jpg";
 import "./carousel.css"; // Import CSS file for carousel styles (e.g., transition effects)
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-const Carousel = () => {
+const Carousel = ({images}) => {
     const [index, setIndex] = useState(0);
-    const images = ["image1", "image2", "image3"];
+    const data = ["image1", "image2", "image3", "image4"];
 
     const handlePrevious = () => {
         const newIndex = index - 1;
@@ -14,7 +14,7 @@ const Carousel = () => {
 
     const handleNext = () => {
         const newIndex = index + 1;
-        setIndex(newIndex >= images.length ? images.length - 1 : newIndex);
+        setIndex(newIndex >= data.length ? data.length - 1 : newIndex);
     };
     const imageWrapperStyle = {
         transform: `translateX(-${index * 100}%)`,
@@ -25,7 +25,7 @@ const Carousel = () => {
     return (
         <div className="carousel-container relative">
             <div className="carousel">
-                {images.map((image, idx) => (
+                {data.map((image, idx) => (
                     <>
                         <div
                             key={idx}
@@ -38,9 +38,9 @@ const Carousel = () => {
                 ))}
             </div>
             <div className="pagination">
-                {images.map((_, i) => {
+                {data.map((_, i) => {
                     return (
-                        <button
+                        <button key={i}
                             className={`dot ${i === index ? "active" : ""}`}
                             onClick={() => handleDotSelected(i)}
                         ></button>

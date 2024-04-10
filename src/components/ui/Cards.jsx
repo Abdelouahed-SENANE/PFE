@@ -3,7 +3,7 @@ import image from "../../assets/images/test.jpg";
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa6";
 import Carousel from "./carousel/Carousel";
-const Card = () => {
+const Cards = ({data}) => {
     const cards = [
         {
             id: 1,
@@ -130,4 +130,4 @@ const Card = () => {
     );
 };
 
-export default Card;
+export default Cards;

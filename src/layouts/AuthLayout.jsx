@@ -1,7 +1,19 @@
 import React from "react";
 import Logo from "../components/ui/Logo";
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
+import { useAuth } from "../hooks/AuthContext";
 const AuthLayout = () => {
+    const { token, user } = useAuth();
+
+    if (token && user) {
+        if (user.freelancer) {
+            return <Navigate to={"/orders"} />;
+        } else if (user.client) {
+            return <Navigate to={"/services"} />;
+        } else {
+            return <Navigate to={"/admin/dashboard"} />;
+        }
+    }
     return (
         <>
             <header className="py-3">

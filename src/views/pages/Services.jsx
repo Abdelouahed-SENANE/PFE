@@ -1,7 +1,121 @@
-import React from "react";
+import React, { useState } from "react";
+import fiterImage from "@assets/images/bg-filter.jpg";
+import Dropdown from "@components/select/Dropdown";
+import { ListItem } from "@components/select/Dropdown";
+import { HiMiniXMark } from "react-icons/hi2";
+import DropdownSearch from "../../components/select/DropdownSearch";
 
 const Services = () => {
-    return <div>Services</div>;
+    const [selected, setSelected] = useState("Sort by (default)");
+    const [isOpen, setIsOpen] = useState(false);
+    const [filters, setFilter] = useState(['ddd','ddd','ddd']);
+    const data = [
+        {
+            id:1,
+            name: 'Developpement'
+        },
+        {
+            id:2,
+            name: 'AI Services'
+        },
+        {
+            id:3,
+            name: 'Design'
+        },
+        {
+            id:4,
+            name: 'Writing'
+        }
+    ]
+    // Delete Filteer Function
+    const handleRemoveFilter = (index) => {
+        const updateFilter = filters.filter((_, i) => i !== index);
+        setFilter(updateFilter);
+    };
+    console.log(selected);
+    return (
+        <>
+            <div className="container mx-auto pt-[50px]">
+                <div
+                    className="w-full relative   min-h-[250px] rounded-xl "
+                    style={{ backgroundImage: `url(${fiterImage})` }}
+                >
+                    <div className="py-[70px] px-20">
+                        <h1 className="text-5xl">Subcategory</h1>
+                        <p className="my-1">
+                            Give your visitor a smooth online experience with a
+                            solid SubCategory
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div className="container  mx-auto py-[50px]">
+                <div className="flex items-center ">
+                    <div className="border border-gray-200 rounded-lg p-5 min-w-[400px] max-w-[400px]">
+                        {filters.length > 0 && (
+                            <div className="filter">
+                                <h4 className="font-medium  mb-2 text-lg">
+                                    Filter ({filters.length})
+                                </h4>
+                                <div className="flex items-start justify-between text-sm">
+                                    <ul className="flex items-center flex-wrap flex-1 gap-1">
+                                        {filters.map((filter, index) => {
+                                            return (
+                                                <li
+                                                    key={index}
+                                                    className="bg-rose-200/70 px-2 flex items-center rounded  text-sm py-1"
+                                                >
+                                                    <span>{filter}</span>
+                                                    <HiMiniXMark
+                                                        className="text-rose-600 ml-1 cursor-pointer"
+                                                        onClick={() =>
+                                                            handleRemoveFilter(
+                                                                index
+                                                            )
+                                                        }
+                                                    />
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
+                                    <button
+                                        className="text-rose-600"
+                                        onClick={() => setFilter([])}
+                                    >
+                                        Clear all
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                        <div className="categories w-full border-b border-gray-200 pb-8">
+                            <h4 className="font-medium  mb-2 text-lg">
+                                Categories
+                            </h4>
+                            <div>
+                                <DropdownSearch data={data}/>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="border border-gray-200 rounded-lg ml-5 p-5  flex-1">
+                        <div className="flex items-center justify-between">
+                            <span>Showing 1-8 of 10 Results</span>
+                            <Dropdown active={isOpen} selected={selected}>
+                                <ListItem value={""}>
+                                    Sort by (default)
+                                </ListItem>
+                                <ListItem   onChange={(e) => setSelected('Recommanded')} value={"Recommanded"}>
+                                    Recommanded
+                                </ListItem>
+                                <ListItem onClick={() => setSelected('Oldest')}  value={"Oldest"}>Oldest</ListItem>
+                                <ListItem onClick={() => setSelected('Newest')} value={"Newest"}>Newest</ListItem>
+                            </Dropdown>
+                        </div>
+                        <div>Services</div>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
 };
 
 export default Services;

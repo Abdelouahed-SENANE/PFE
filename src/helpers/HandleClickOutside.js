@@ -5,6 +5,7 @@ export const outsideClickAlert = (ref, onClose) => {
         const handleClickOut = (evt) => {
             if (ref.current && !ref.current.contains(evt.target)) {
                 onClose();
+
             }
         };
         document.addEventListener("mousedown", handleClickOut);

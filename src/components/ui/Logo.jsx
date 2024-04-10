@@ -2,10 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FcLink } from "react-icons/fc";
 
-const Logo = ({ width, height, text }) => {
+const Logo = ({ width, height, text , bgColor ,textColor }) => {
     return (
         <Link to={"/"}>
-            <div className="flex items-center w-fit bg-primary py-1 px-1 text-white ">
+            <div className={`flex items-center w-fit bg-${bgColor} py-1 px-1 text-${textColor} `}>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     x="0px"
@@ -49,7 +49,7 @@ const Logo = ({ width, height, text }) => {
                         </g>
                     </g>
                 </svg>
-                <h2 className={` ${text} bg-primary font-['Overlock SC'] font-bold text-white px-1`}>
+                <h2 className={` ${text} font-['Overlock SC'] font-bold  px-1`}>
                     Linkup.
                 </h2>
             </div>

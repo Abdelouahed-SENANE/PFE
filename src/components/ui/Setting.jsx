@@ -2,19 +2,23 @@ import React, { useState, useRef, useEffect } from "react";
 import { IoSettings } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { outsideClickAlert } from "../../helpers/HandleClickOutside";
+import { handleLogout } from "../../utils/logout";
 
 const Setting = () => {
     const [isActive, setIsActive] = useState(false);
     const settingRef = useRef(null);
 
     outsideClickAlert(settingRef, () => setIsActive(false));
+    const logout = async () => {
+        await handleLogout();
+    }
     return (
         <>
             <div className="relative">
                 <div
                     className={`w-8 h-8 bg-white  text-gray-600 group relative rounded-full flex items-center justify-center  text-lg cursor-pointer group transition-all hover:bg-primary  duration-500`}
                 >
-                    <IoSettings className="group-hover:text-white duration-300 transition-all" />
+                    <IoSettings className="group-hover:text-white duration-300 transition-all" onClick={() => setIsActive(!isActive)}/>
                 </div>
                 <div
                     ref={settingRef}
@@ -35,12 +39,11 @@ const Setting = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link
-                                to={"/logout"}
-                                className="block px-2 py-2.5 hover:bg-gray-100 duration-500 transition-all"
+                            <button onClick={logout}
+                                className="block px-2 text-left w-full py-2.5 hover:bg-gray-100 duration-500 transition-all"
                             >
                                 Logout
-                            </Link>
+                            </button>
                         </li>
                     </ul>
                 </div>

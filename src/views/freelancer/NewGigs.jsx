@@ -295,7 +295,7 @@ const NewGigs = () => {
                                     <textarea
                                         rows={5}
                                         value={description}
-                                        placeholder={"Excerpt Service"}
+                                        placeholder={"Description Service"}
                                         onChange={(e) =>
                                             setDescription(e.target.value)
                                         }
@@ -326,7 +326,7 @@ const NewGigs = () => {
                                 <div className="flex-1">
                                     <input
                                         type={"text"}
-                                        placeholder={"Excerpt Service"}
+                                        placeholder={"Delivery"}
                                         value={delivery}
                                         onChange={(e) =>
                                             setDelivery(e.target.value)

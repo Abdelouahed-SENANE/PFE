@@ -3,10 +3,15 @@ import Input from "../../components/ui/Input";
 
 import { FaGithub, FaLock, FaUser } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { Navigate , useNavigate } from 'react-router-dom'
 
 import { Link } from "react-router-dom";
 import Spinner from "../../components/ui/Spinner";
+import { useAuth } from "../../hooks/AuthContext";
+import instance from "../../config/ConfigAxios";
 const Login = () => {
+    const { setUser, setToken, user } = useAuth();
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [ErrEmail, setEmailErr] = useState("");
@@ -72,9 +77,27 @@ const Login = () => {
         }
         return result;
     };
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (validatePassword() || validateEmail()) {
+            try {
+                const response = await instance.post("/login", { email, password });
+                if (response.data) {
+                    setToken(response.data.authorization.token);
+                    setUser(response.data.user);
+                }
+            } catch (error) {
+                if (error.response.status == 422) {
+                    if (error.response.data.errors.email) {
+                        setEmailErr(error.response.data.errors.email)
+                        setEmailSuccess(false);
+                    }if (error.response.data.errors.password) {
+                        setEmailErr(error.response.data.errors.password)
+                        setPassSuccess(false);
+                    }
+                }
+            }
         }
     };
     return (

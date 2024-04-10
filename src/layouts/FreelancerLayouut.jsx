@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import { Navbar } from "../components/freelancer/Navbar";
 
-const Layout = () => {
+const FreelancerLayout = () => {
     return (
         <>
             <header className="z-50 shadow-md shadow-slate-100/10">
@@ -15,4 +15,4 @@ const Layout = () => {
     );
 };
 
-export default Layout;
+export default FreelancerLayout;

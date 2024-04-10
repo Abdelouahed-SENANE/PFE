@@ -52,9 +52,9 @@
     width: 8px;
     height: 8px;
     border-radius: 100%;
-    background-color: #fff;
+    background-color: #a0a0a077;
     margin-left: 4px;
 }
 .dot.active {
-    background-color: #6abe52;
+    background-color: #fff;
 }

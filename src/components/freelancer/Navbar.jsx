@@ -1,12 +1,14 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink , Navigate } from "react-router-dom";
 import "../../assets/theme-overrides.css";
 import Logo from "../ui/Logo";
 import { FaAngleDown, FaBars, FaXmark } from "react-icons/fa6";
 import { useRef, useState } from "react";
 import Notification from "@components/ui/Notification";
-import test from "@assets/uploads/vector.png";
 import Message from "../ui/Message";
 import { outsideClickAlert } from "../../helpers/HandleClickOutside";
+import instance from "../../config/ConfigAxios";
+import { useAuth } from "../../hooks/AuthContext";
+import { handleLogout } from "../../utils/logout";
 const links = [
     {
         link: "/orders",
@@ -20,10 +22,14 @@ const links = [
 
 export const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const { user } = useAuth();
     const [isActive, setIsActive] = useState(false);
     const settingRef = useRef(null);
 
     outsideClickAlert(settingRef, () => setIsActive(false));
+    const logout = async () => {
+        await handleLogout();
+    }
     return (
         <>
             <nav className=" py-2 relative  bg-white lg:py-0 border border-slate-500/20">
@@ -56,10 +62,10 @@ export const Navbar = () => {
                             <div
                                 className="relative cursor-pointer"
                                 onClick={() => setIsActive(!isActive)}
-                            >
+                             >
                                 <img
-                                    src={test}
-                                    alt=""
+                                src={`http://localhost:8000/storage/uploads/${user.picture}`}
+                                alt=""
                                     className="h-8 w-8 rounded-full"
                                 />
                                 <div
@@ -74,19 +80,19 @@ export const Navbar = () => {
                                     <ul className="p-2">
                                         <li>
                                             <Link
-                                                to={"/admin/profile"}
+                                                to={"/profile"}
                                                 className="block px-2 py-2.5 hover:bg-gray-100 duration-500 transition-all"
                                             >
                                                 Profile
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link
-                                                to={"/logout"}
-                                                className="block px-2 py-2.5 hover:bg-gray-100 duration-500 transition-all"
+                                            <button
+                                                onClick={logout}
+                                                className="block px-2 py-2.5 w-full text-left hover:bg-gray-100 duration-500 transition-all"
                                             >
                                                 Logout
-                                            </Link>
+                                            </button>
                                         </li>
                                     </ul>
                                 </div>

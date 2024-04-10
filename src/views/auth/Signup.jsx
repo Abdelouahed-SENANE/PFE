@@ -8,23 +8,39 @@ import {
 } from "react-icons/fa";
 import { BsPersonWorkspace } from "react-icons/bs";
 import Spinner from "../../components/ui/Spinner";
-import { Link } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
+import { Link, useNavigate } from "react-router-dom";
+import { FaAddressCard } from "react-icons/fa";
+import { MdDescription } from "react-icons/md";
+
 import { MdOutlineAlternateEmail } from "react-icons/md";
+import Logo from "../../components/ui/Logo";
+import MultiSelect from "../../components/ui/MultiSelect";
+import instance from "../../config/ConfigAxios";
+import { useAuth } from "../../hooks/AuthContext";
 
 const Signup = () => {
+    const { setUser, setToken, user } = useAuth();
+    const navigate = useNavigate();
     const [accountType, setAccountType] = useState("");
     const [isLoading, setIsloading] = useState(false);
     const [renderRegister, setRenderRegister] = useState(false);
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
+    const [name, setName] = useState("");
+    const [address, setAdress] = useState("");
+    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmpwd, setConfirmPwd] = useState("");
+    const [bio, setBio] = useState("");
+    const [skills, setSkills] = useState([]);
 
-    const [firstNameErr, setFirstNameErr] = useState("");
-    const [lastNameErr, setLastNameErr] = useState("");
+    const [nameErr, setNameErr] = useState("");
+    const [usernameErr, setUsernameErr] = useState("");
+    const [adressErr, setAddressErr] = useState("");
     const [emailErr, setEmailErr] = useState("");
     const [passwordErr, setPasswordErr] = useState("");
+    const [confirmPwdErr, setConfirmPwdErr] = useState(false);
+    const [bioErr, setBioErr] = useState(false);
+    const [skillsErr, setSkillsErr] = useState("");
 
     const handleClient = () => {
         setAccountType("client");
@@ -32,7 +48,7 @@ const Signup = () => {
         setTimeout(() => {
             setRenderRegister(true);
             setIsloading(false);
-        }, 3000);
+        }, 1000);
     };
     const handleFreelancer = () => {
         setAccountType("freelancer");
@@ -40,7 +56,7 @@ const Signup = () => {
         setTimeout(() => {
             setRenderRegister(true);
             setIsloading(false);
-        }, 3000);
+        }, 1000);
     };
 
     const emailRegex = () => {
@@ -54,17 +70,37 @@ const Signup = () => {
     // Validation Register =====
     const validationForm = () => {
         let result = true;
-        if (firstName === "") {
-            setFirstNameErr("Required!");
+        if (name === "") {
+            setNameErr("Required!");
             result = false;
         } else {
-            setFirstNameErr("");
+            setNameErr("");
         }
-        if (lastName === "") {
-            setLastNameErr("Required!");
+        if (username === "") {
+            setUsernameErr("Required!");
             result = false;
         } else {
-            setLastNameErr("");
+            setUsernameErr("");
+        }
+        if (address === "") {
+            setAddressErr("Required!");
+            result = false;
+        } else {
+            setAddressErr("");
+        }
+        if (accountType === 'freelancer') {
+            if (bio === "") {
+                setBioErr("Required!");
+                result = false;
+            } else {
+                setBioErr("");
+            }
+            if (skills.length === 0) {
+                setSkillsErr("Required!");
+                result = false;
+            } else {
+                setSkillsErr("");
+            }
         }
         if (email === "") {
             setEmailErr("Required!");
@@ -82,17 +118,70 @@ const Signup = () => {
             setPasswordErr("password must be at least 8 characters long");
             result = false;
         } else {
-            setPasswordErr("");
+            if (password !== confirmpwd) {
+                setConfirmPwdErr(true);
+                setPasswordErr("password confirmation deos not match!");
+                result = false;
+            } else {
+                setPasswordErr("");
+                setConfirmPwdErr(false);
+            }
         }
         return result;
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (validationForm()) {
-            console.log({
-                email , password, firstName , accountType , lastName
-            });
-        }
+        if (!validationForm()) {return}
+            if (accountType === "freelancer") {
+                const formData = {
+                    email: email,
+                    password: password,
+                    name: name,
+                    username: username,
+                    address: address,
+                    role: accountType,
+                    picture: "avatar.png",
+                    skills: skills,
+                    bio: bio,
+                };
+
+                try {
+                    const response = await instance.post("/register", formData);
+                    if (response.data) {
+                        setToken(response.data.authorization.token);
+                        setUser(response.data.user);
+                    }
+                } catch (error) {
+                    if (error.response) {
+                        setEmailErr(error.response.data.data.email);
+                    }
+                }
+            }
+            const formData = {
+                email: email,
+                password: password,
+                name: name,
+                username: username,
+                address: address,
+                role: accountType,
+                picture: "avatar.png",
+            };
+
+            try {
+                const response = await instance.post("/register", formData);
+                console.log(response);
+
+                if (response.data) {
+                    setToken(response.data.authorization.token);
+                    setUser(response.data.user);
+
+                }
+            } catch (error) {
+                if (error.response) {
+                    setEmailErr(error.response.data.data.email);
+                }
+            }
+        
     };
 
     if (!renderRegister && !isLoading) {
@@ -179,7 +268,7 @@ const Signup = () => {
                         value={accountType}
                         name="role"
                     />
-                    <div className="w-[80%] mx-auto flex items-center gap-4">
+                    {/* <div className="w-[80%] mx-auto flex items-center gap-4">
                         <Link className="block w-full">
                             <button className="w-full px-1 bg-blue-500 hover:bg-blue-600 border border-blue-500 transition-all duration-300 py-0.5 flex items-center text-white rounded-full">
                                 <div className="h-8 w-8 rounded-full bg-white flex items-center justify-center">
@@ -200,35 +289,41 @@ const Signup = () => {
                                 </span>
                             </button>
                         </Link>
-                    </div>
-                    <p className="h-[1px] w-full bg-gray-300 my-6 relative">
+                    </div> */}
+                    {/* <p className="h-[1px] w-full bg-gray-300 my-6 relative">
                         <span className="absolute bg-white left-[50%] top-[50%]  text-gray-400 translate-x-[-50%] translate-y-[-50%] h-8 w-8 text-xl  flex items-center justify-center">
                             or
                         </span>
-                    </p>
+                    </p> */}
+                    <div className="text-center w-[fit-content] mb-7 mx-auto">
+                        <Logo
+                            width={40}
+                            height={40}
+                            text={"text-4xl"}
+                            textColor={"primary"}
+                        />
+                    </div>
                     <div className="flex items-center  gap-2 w-full">
                         <div className="relative  gap-2 w-full text-gray-500 text-sm">
                             <div className="relative  gap-2 w-full text-gray-500 mt-6 text-sm">
                                 <FaUser className="absolute top-[50%] left-3 translate-y-[-50%]" />
                                 <input
                                     type={"text"}
-                                    placeholder={"Firstname"}
-                                    value={firstName}
-                                    onChange={(e) =>
-                                        setFirstName(e.target.value)
-                                    }
+                                    placeholder={"Name"}
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
                                     className={`text-gray-800 py-2 outline-none border-2 w-full px-8  transition-all duration-300  rounded-md
                                   ${
-                                      firstNameErr
+                                      nameErr
                                           ? "border-rose-500 focus:border-rose-500"
                                           : ""
                                   }`}
                                 />
                             </div>
-                            {firstNameErr && (
-                                <div className="w-fit text-left flex items-center px-2 gap-1 text-rose-500 absolute right-0 top-[0px] transition-all duration-300  text-sm font-medium   ">
+                            {nameErr && (
+                                <div className="w-fit text-left flex items-center px-2 gap-1 text-rose-500 absolute left-0 top-[0px] transition-all duration-300  text-sm font-medium   ">
                                     <FaExclamationTriangle />
-                                    <span className=" ">{firstNameErr}</span>
+                                    <span className=" ">{nameErr}</span>
                                 </div>
                             )}
                         </div>
@@ -238,25 +333,48 @@ const Signup = () => {
                                 <input
                                     type={"text"}
                                     placeholder={"Firstname"}
-                                    value={lastName}
+                                    value={username}
                                     onChange={(e) =>
-                                        setLastName(e.target.value)
+                                        setUsername(e.target.value)
                                     }
                                     className={`text-gray-800 py-2 outline-none border-2 w-full px-8  transition-all duration-300  rounded-md
                                   ${
-                                      lastNameErr
+                                      usernameErr
                                           ? "border-rose-500 focus:border-rose-500"
                                           : ""
                                   }`}
                                 />
                             </div>
-                            {lastNameErr && (
-                                <div className="w-fit text-left flex items-center px-2 gap-1 text-rose-500 absolute right-0 top-[0px] transition-all duration-300  text-sm font-medium   ">
+                            {usernameErr && (
+                                <div className="w-fit text-left flex items-center px-2 gap-1 text-rose-500 absolute left-0 top-[0px] transition-all duration-300  text-sm font-medium   ">
                                     <FaExclamationTriangle />
-                                    <span className=" ">{lastNameErr}</span>
+                                    <span className=" ">{usernameErr}</span>
                                 </div>
                             )}
                         </div>
+                    </div>
+                    <div className="relative  gap-2 w-full text-gray-500 text-sm">
+                        <div className="relative  gap-2 w-full text-gray-500 mt-6 text-sm">
+                            <FaAddressCard className="absolute top-[50%] left-3 translate-y-[-50%]" />
+                            <input
+                                type={"text"}
+                                placeholder={"Address"}
+                                value={address}
+                                onChange={(e) => setAdress(e.target.value)}
+                                className={`text-gray-800 py-2 outline-none border-2 w-full px-8  transition-all duration-300  rounded-md
+                                  ${
+                                      adressErr
+                                          ? "border-rose-500 focus:border-rose-500"
+                                          : ""
+                                  }`}
+                            />
+                        </div>
+                        {adressErr && (
+                            <div className="w-fit text-left flex items-center px-2 gap-1 text-rose-500 absolute left-0 top-[0px] transition-all duration-300  text-sm font-medium   ">
+                                <FaExclamationTriangle />
+                                <span className=" ">{adressErr}</span>
+                            </div>
+                        )}
                     </div>
                     <div className="relative  gap-2 w-full text-gray-500 text-sm">
                         <div className="relative  gap-2 w-full text-gray-500 mt-8 text-sm">
@@ -281,27 +399,97 @@ const Signup = () => {
                             </div>
                         )}
                     </div>
-                    <div className="relative  gap-2 w-full text-gray-500 text-sm">
-                        <div className="relative  gap-2 w-full text-gray-500 mt-8 text-sm">
-                            <FaLock className="absolute top-[50%] left-3 translate-y-[-50%]" />
-                            <input
-                                type={"password"}
-                                onChange={handlePassChange}
-                                value={password}
-                                placeholder={"Password (8 or more charachters)"}
-                                className={`text-gray-800 py-2 outline-none border-2 w-full px-8  transition-all duration-300  rounded-md
+
+                    <div className="w-full mt-6">
+                        {passwordErr && (
+                            <div className="w-fit text-left flex  items-center px-2 gap-1 text-rose-500  transition-all duration-300  text-sm font-medium   ">
+                                <FaExclamationTriangle />
+                                <span className=" ">{passwordErr}</span>
+                            </div>
+                        )}
+                        <div className="flex flex-1 w-full gap-2">
+                            <div className="relative flex-1 gap-2 w-full text-gray-500 text-sm">
+                                <div className="relative  gap-2 w-full text-gray-500 text-sm">
+                                    <FaLock className="absolute top-[50%] left-3 translate-y-[-50%]" />
+                                    <input
+                                        type={"password"}
+                                        onChange={handlePassChange}
+                                        value={password}
+                                        placeholder={
+                                            "Password (8 or more charachters)"
+                                        }
+                                        className={`text-gray-800 py-2 outline-none border-2 w-full px-8  transition-all duration-300  rounded-md
                                   ${
                                       passwordErr
                                           ? "border-rose-500 focus:border-rose-500"
                                           : ""
                                   }`}
-                            />
-                        </div>
-                        {passwordErr && (
-                            <div className="w-fit text-left flex items-center px-2 gap-1 text-rose-500 absolute left-0 top-[8px] transition-all duration-300  text-sm font-medium   ">
-                                <FaExclamationTriangle />
-                                <span className=" ">{passwordErr}</span>
+                                    />
+                                </div>
                             </div>
+                            <div className="relative flex-1 gap-2 w-full text-gray-500 text-sm">
+                                <div className="relative  gap-2 w-full text-gray-500  text-sm">
+                                    <FaLock className="absolute top-[50%] left-3 translate-y-[-50%]" />
+                                    <input
+                                        type={"password"}
+                                        onChange={(e) =>
+                                            setConfirmPwd(e.target.value)
+                                        }
+                                        value={confirmpwd}
+                                        placeholder={"Confirm password"}
+                                        className={`text-gray-800 py-2 outline-none border-2 w-full px-8  transition-all duration-300  rounded-md
+                                  ${
+                                      confirmPwdErr
+                                          ? "border-rose-500 focus:border-rose-500"
+                                          : ""
+                                  }`}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {accountType === "freelancer" && (
+                            <>
+                                <div className="relative  mt-5 gap-2 w-full text-gray-500  text-sm">
+                                    {bioErr && (
+                                        <div className="w-fit text-left flex items-center mt-4 px-2 gap-1 text-rose-500   transition-all duration-300  text-sm font-medium   ">
+                                            <FaExclamationTriangle />
+                                            <span className=" ">{bioErr}</span>
+                                        </div>
+                                    )}
+                                    <div className="relative">
+                                        <MdDescription className="absolute top-5 left-3 translate-y-[-50%]" />
+                                        <textarea
+                                            type={"text"}
+                                            placeholder={"Bio"}
+                                            value={bio}
+                                            onChange={(e) =>
+                                                setBio(e.target.value)
+                                            }
+                                            className={`text-gray-800 py-2 outline-none border-2 w-full resize-none px-8  transition-all duration-300  rounded-md
+                                  ${
+                                      bioErr
+                                          ? "border-rose-500 focus:border-rose-500"
+                                          : ""
+                                  }`}
+                                        ></textarea>
+                                    </div>
+                                </div>
+                                <div className="w-full">
+                                    <MultiSelect
+                                        tags={skills}
+                                        setTags={setSkills}
+                                    />
+                                    {skillsErr && (
+                                        <div className="w-fit text-left flex  items-center px-2 gap-1 text-rose-500  transition-all duration-300  text-sm font-medium   ">
+                                            <FaExclamationTriangle />
+                                            <span className=" ">
+                                                {skillsErr}
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+                            </>
                         )}
                     </div>
 

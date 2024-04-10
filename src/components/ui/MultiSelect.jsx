@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-function MultiSelect({ tags = [], setTags, error }) {
+function MultiSelect({ tags = [], setTags }) {
     const [inputValue, setInputValue] = useState("");
     const [isFocus, setIsFocus] = useState(false);
 

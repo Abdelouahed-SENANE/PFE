@@ -1,7 +1,12 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet , Navigate } from "react-router-dom";
 import AdminSidebar from "../components/admin/AdminSidebar";
+import { useAuth } from "../hooks/AuthContext";
 const AdminLayout = () => {
+    const { user } = useAuth()
+    if (user.role !== 'admin') {
+        return <Navigate to={'/login'}/>
+    }
     return (
         <>
             <AdminSidebar />

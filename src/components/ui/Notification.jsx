@@ -5,14 +5,18 @@ import { outsideClickAlert } from "../../helpers/HandleClickOutside";
 const Notification = () => {
     const notificationRef = useRef(null);
     const [isActive, setIsActive] = useState(false);
+    const toggling = () => setIsActive(!isActive);
 
+    const handleIconClick = (e) => {
+        toggling();
+        e.stopPropagation(); // Stop event propagation to prevent closing immediately due to outsideClickAlert
+    };
     outsideClickAlert(notificationRef, () => setIsActive(false));
     return (
         <>
             <div className="relative">
                 <div
-                    ref={notificationRef}
-                    onClick={() => setIsActive(!isActive)}
+                    onClick={handleIconClick}
                     className={`${
                         isActive
                             ? "bg-primary text-white"
@@ -23,16 +27,18 @@ const Notification = () => {
                     <span className="absolute right-1 top-0 bg-gray-600 h-2 w-2 border border-white rounded-full block z-40 transition-all duration-500 group-hover:bg-primary group-hover:text-white"></span>
                 </div>
 
-                <div
-                    ref={notificationRef}
-                    className={`notification_container ${
-                        isActive ? "active" : "inactive"
-                    }`}
-                >
-                    <h4 className="border-slate-300 border-b  px-2 py-3 text-sm text-gray-600">
-                        Notification (0)
-                    </h4>
-                    <ul></ul>
+                <div ref={notificationRef}>
+                    <div
+                        
+                        className={`notification_container ${
+                            isActive ? "active" : "inactive"
+                        }`}
+                    >
+                        <h4 className="border-slate-300 border-b  px-2 py-3 text-sm text-gray-600">
+                            Notification (0)
+                        </h4>
+                        <ul></ul>
+                    </div>
                 </div>
             </div>
         </>
