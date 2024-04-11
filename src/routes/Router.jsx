@@ -135,24 +135,6 @@ const Routes = () => {
                 },
                 {
                     path: "/",
-                    element: <FreelancerLayout />,
-                    children: [
-                        {
-                            path: "/orders",
-                            element: <Orders />,
-                        },
-                        {
-                            path: "/gigs",
-                            element: <Gigs />,
-                        },
-                        {
-                            path: "/gigs/create",
-                            element: <NewGigs />,
-                        },
-                    ],
-                },
-                {
-                    path: "/",
                     element: <ProfileLayout />,
                     children: [
                         {

@@ -3,7 +3,7 @@ import Input from "../../components/ui/Input";
 
 import { FaGithub, FaLock, FaUser } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Navigate , useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 import Spinner from "../../components/ui/Spinner";
@@ -19,7 +19,7 @@ const Login = () => {
     const [emailSuccess, setEmailSuccess] = useState(false);
     const [passSuccess, setPassSuccess] = useState(false);
     const [isLoanding, setIsloading] = useState(false);
-
+    const [errMessage, setErrmessage] = useState("");
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
     };
@@ -32,7 +32,7 @@ const Login = () => {
         setIsloading(true);
         setTimeout(() => {
             setIsloading(false);
-        }, 3000);
+        }, 700);
     }, []);
     // ========= Validate Email ============
     const emailRegex = () => {
@@ -81,23 +81,52 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (validatePassword() || validateEmail()) {
-            try {
-                const response = await instance.post("/login", { email, password });
-                if (response.data) {
-                    setToken(response.data.authorization.token);
-                    setUser(response.data.user);
-                }
-            } catch (error) {
-                if (error.response.status == 422) {
-                    if (error.response.data.errors.email) {
-                        setEmailErr(error.response.data.errors.email)
-                        setEmailSuccess(false);
-                    }if (error.response.data.errors.password) {
-                        setEmailErr(error.response.data.errors.password)
-                        setPassSuccess(false);
+            instance
+                .post("/login", { email, password })
+                .then((json) => {
+                    if (json.data.status) {
+                        setUser(json.data.user);
+                        setToken(json.data.authorization.token);
                     }
-                }
-            }
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        if (error.response.status === 401) {
+                            if (error.response.data.message) {
+                                setEmail("");
+                                setPassword("");
+                                setEmailSuccess(false);
+                                setPassSuccess(false);
+                                setErrmessage(error.response.data.message);
+                            }
+
+                        }
+                        if (error.response.status === 422) {
+                            if (error.response.data.errors) {
+                                setEmailErr(error.response.data.errors.email[0])
+                                setErrmessage('');
+
+                            }
+                        }
+                    }
+                });
+            // if (response.data) {
+            //     setToken(response.data.authorization.token);
+            //     setUser(response.data.user);
+            // }
+            // } catch (error) {
+
+            //     // if (error.response.status == 422) {
+            //     //     if (error.response.data.errors.email) {
+            //     //         setEmailErr(error.response.data.errors.email)
+            //     //         setEmailSuccess(false);
+            //     //         console.log(error.message);
+            //     //     }if (error.response.data.errors.password) {
+            //     //         setEmailErr(error.response.data.errors.password)
+            //     //         setPassSuccess(false);
+            //     //     }
+            //     // }
+            // }
         }
     };
     return (
@@ -110,6 +139,14 @@ const Login = () => {
                         <h1 className="text-4xl font-medium text-center my-6">
                             Login In Linkup
                         </h1>
+                        {errMessage && (
+                            <div
+                                className="bg-rose-50 border-l-4 text-sm mb-2 mx-4 border-rose-500 text-rose-700 p-2 "
+                                role="alert"
+                            >
+                                <p>{errMessage}</p>
+                            </div>
+                        )}
                         <form
                             id="login"
                             className="flex flex-col items-start px-4 w-full "

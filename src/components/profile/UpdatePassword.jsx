@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import { FaLock } from "react-icons/fa";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
+import instance from "../../config/ConfigAxios";
+import { useAuth } from "../../hooks/AuthContext";
 const UpdatePassword = () => {
+    const {setUser } = useAuth()
     const [currentPassword, setCurrentPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [errCurrentPassword, setErrCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [errNewPassword, setErrNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [errMessage, setErrMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         let result = true;
         if (currentPassword.trim() === "" || currentPassword.length === null) {
@@ -39,9 +44,63 @@ const UpdatePassword = () => {
                 result = true;
             }
         }
+        if (!result) {
+            return;
+        }
+        let formData = {
+            currentPwd: currentPassword,
+            password: newPassword,
+            confirmPwd: confirmPassword,
+        };
+        try {
+            const response = await instance.patch(`/update-password`, formData);
+            if (response.status === 200) {
+                if (!response.data.status) {
+                    if (response.data.errors) {
+                        setErrMessage(response.data.errors.password[0]);
+                        console.log(response.data.errors.password[0]);
+
+                    }
+                    if (response.data.message) {
+                        setErrMessage(response.data.message);
+                    }
+
+                } else {
+                    setConfirmPassword('')
+                    setNewPassword('')
+                    setCurrentPassword('')
+                    setErrMessage('');
+                    setSuccessMessage(response.data.message);
+                    setUser(response.data.user);
+                    setTimeout(() => {
+                        setSuccessMessage("");
+                    }, 5000);
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
     return (
         <div className="mb-5 border rounded-lg bg-white border-gray-200 p-4 lg:mr-[200px]">
+            {successMessage && (
+                <div
+                    className="bg-green-50 border-l-4 mb-2 border-green-500 text-green-700 p-2 "
+                    role="alert"
+                >
+                    <p className="font-bold">Success</p>
+                    <p>{successMessage}</p>
+                </div>
+            )}
+            {errMessage && (
+                <div
+                    className="bg-rose-50 border-l-4 mb-2 border-rose-500 text-rose-700 p-2 "
+                    role="alert"
+                >
+                    <p className="font-bold">Error</p>
+                    <p>{errMessage}</p>
+                </div>
+            )}
             <header>
                 <h1 className="text-3xl">Update Password</h1>
                 <p className="text-sm text-gray-600">
@@ -49,6 +108,7 @@ const UpdatePassword = () => {
                     secure.
                 </p>
             </header>
+
             <div className="my-5">
                 <form action="" onSubmit={handleSubmit} noValidate>
                     <div className="flex items-center gap-3  my-6 w-full">

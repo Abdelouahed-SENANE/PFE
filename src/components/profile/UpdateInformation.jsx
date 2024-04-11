@@ -96,7 +96,7 @@ const UpdateInformation = () => {
         <div className="mb-5 border rounded-lg bg-white border-gray-200 p-4 lg:mr-[200px]">
             {successMessage && (
                 <div
-                    class="bg-green-50 border-l-4 mb-2 border-green-500 text-green-700 p-2 "
+                    className="bg-green-50 border-l-4 mb-2 border-green-500 text-green-700 p-2 "
                     role="alert"
                 >
                     <p class="font-bold">Success</p>
@@ -105,7 +105,7 @@ const UpdateInformation = () => {
             )}
             {errMessage && (
                 <div
-                    class="bg-rose-50 border-l-4 mb-2 border-rose-500 text-rose-700 p-2 "
+                    className="bg-rose-50 border-l-4 mb-2 border-rose-500 text-rose-700 p-2 "
                     role="alert"
                 >
                     <p class="font-bold">Error</p>
@@ -202,7 +202,7 @@ const UpdateInformation = () => {
                                     onChange={(e) => setAddress(e.target.value)}
                                     className={`text-gray-800 py-2 outline-none border-2 w-full px-8 focus:border-slate-500 transition-all duration-300 rounded-md
                                     ${
-                                        errEmail
+                                        errAddress
                                             ? "border-red-500 focus:border-red-500"
                                             : ""
                                     }`}
