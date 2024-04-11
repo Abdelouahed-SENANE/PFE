@@ -12,11 +12,39 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::factory(10)->create();
+        // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $freelancer = \App\Models\User::factory()->create([
+            'name' => 'Freelancer',
+            'username' => 'Freelancer',
+            'address' => fake()->address(),
+            'picture' => 'vector.png',
+            'email' => 'freelancer@test.com',
+            'password' => bcrypt('password'),
+        ]);
+        $freelancer->freelancer()->create([
+            'skills' => ['React js', 'Tailwind css', 'Laravel'],
+            'bio' => fake()->sentence(),
+        ]);
+
+        $client = \App\Models\User::factory()->create([
+            'name' => 'Client',
+            'username' => 'client',
+            'address' => fake()->address(),
+            'picture' => 'avatar.png',
+            'email' => 'client@test.com',
+            'password' => bcrypt('password'),
+        ]);
+        $client->client()->create();
+
+        $admin = \App\Models\User::factory()->create([
+            'name' => 'admin',
+            'username' => 'admin',
+            'address' => fake()->address(),
+            'picture' => 'vector.png',
+            'email' => 'admin@test.com',
+            'password' => bcrypt('password'),
+        ]);
+        $admin->admin()->create();
     }
 }

@@ -36,9 +36,6 @@ class RegisterRequest extends FormRequest
             $rules['skills'] = 'required|array';
             $rules['bio'] = 'required|regex:/^[A-Za-z0-9\s\-_\.,\'"!@#$%^&*()]*$/|max:500';
         }
-        if ($this->input('role') === 'client') {
-            $rules['payment_information'] = 'required|string';
-        }
         return $rules;
     }
 

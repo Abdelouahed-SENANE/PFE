@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
@@ -25,18 +26,26 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         $token = Auth::attempt($credentials);
         if (!$token) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Unauthorized'
-            ], 401);
+            return response()->json(
+                [
+                    'status' => 'error',
+                    'message' => 'Something went wrong. Please try again.',
+                ],
+                401
+            );
         }
 
         $user = Auth::user();
         $userDetails = $this->userDetails($user);
-        if ($userDetails->freelancer !== 'freelancer') {
-            unset($userDetails->client);
+        if ($userDetails->freelancer) {
+            $userDetails['role'] = 'freelancer';
+            unset($userDetails->client, $userDetails->admin);
+        } else if ($userDetails->client) {
+            $userDetails['role'] = 'client';
+            unset($userDetails->freelancer, $userDetails->admin);
         } else {
-            unset($userDetails->freelancer);
+            $userDetails['role'] = 'admin';
+            unset($userDetails->freelancer, $userDetails->client);
         }
         return response()->json([
             'status' => true,
@@ -59,17 +68,26 @@ class AuthController extends Controller
                 'bio' => $payload['bio']
             ]);
         } else {
-            $user->client()->create([
-                'payment_information' => $payload['payment_information']
-            ]);
+            $user->client()->create();
         }
 
         $token = Auth::login($user);
-
+        $user = Auth::user();
+        $userDetails = $this->userDetails($user);
+        if ($userDetails->freelancer) {
+            $userDetails['role'] = 'freelancer';
+            unset($userDetails->client, $userDetails->admin);
+        } else if ($userDetails->client) {
+            $userDetails['role'] = 'client';
+            unset($userDetails->freelancer, $userDetails->admin);
+        } else {
+            $userDetails['role'] = 'admin';
+            unset($userDetails->freelancer, $userDetails->client);
+        }
         return response()->json([
             'status' => true,
             'message' => 'User created successfully',
-            'user' => $this->userDetails($user),
+            'user' => $userDetails,
             'authorization' => [
                 'token' => $token,
                 'type' => 'bearer',
