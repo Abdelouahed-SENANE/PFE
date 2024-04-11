@@ -11,7 +11,8 @@ export default defineConfig({
       '@assets' : '/src/assets',
       '@helpers' : '/src/helpers',
       '@ui' : '/src/components/ui',
-      '@components' : '/src/components'
+      '@components' : '/src/components',
+      '@config' : '/src/config'
     },
   },
 });

@@ -7,7 +7,7 @@ const Select = (props) => {
                 id=""
                 value={props.selectedCategory}
                 onChange={props.handleChangeCategory}
-                className={`py-2 text-gray-400 flex-1 uppercase outline-none block border-2 w-full px-2 bg-white  transition-all duration-300  rounded-md
+                className={`py-2 text-gray-700 flex-1 uppercase outline-none block border-2 w-full px-2 bg-white  transition-all duration-300  rounded-md
                 ${
                     ""
                         ? "border-red-500 focus:border-red-500"
@@ -18,10 +18,10 @@ const Select = (props) => {
                 <option value="" className="py-2 block" selected>
                     Select Category
                 </option>
-                {props.data.categories.map((category) => {
+                {props.categories.map((category , index) => {
                     return (
                         <option
-                            key={category.id}
+                            key={index}
                             value={category.id}
                             className="py-2 block"
                         >
@@ -32,9 +32,8 @@ const Select = (props) => {
             </select>
             {/* ======= Subcategory ===== */}
             <select
-                id=""
                 onChange={props.handleChangeSubCategory}
-                className={`py-2 text-gray-400 uppercase flex-1 outline-none block border-2 w-full px-2 bg-white  transition-all duration-300  rounded-md
+                className={`py-2 text-gray-700 uppercase flex-1 outline-none block border-2 w-full px-2 bg-white  transition-all duration-300  rounded-md
                 ${
                     ""
                         ? "border-red-500 focus:border-red-500"
@@ -45,14 +44,14 @@ const Select = (props) => {
                 <option value="" className="py-2 block" selected>
                     Select Subcategory
                 </option>
-                {props.data.subcategories
+                {props.subcategories
                     .filter(
                         (subcategorie) =>
                             subcategorie.category_id == props.selectedCategory
                     )
-                    .map((subcategorie) => {
+                    .map((subcategorie , index) => {
                         return (
-                            <option
+                            <option key={index}
                                 value={subcategorie.id}
                                 className="py-2 block"
                             >

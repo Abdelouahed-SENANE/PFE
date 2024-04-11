@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaExclamationTriangle } from "react-icons/fa";
 import "react-datepicker/dist/react-datepicker.css";
 import MultiSelect from "@components/ui/MultiSelect";
@@ -7,52 +7,10 @@ import DatePicker from "react-datepicker";
 import "@assets/theme-overrides.css";
 import ImagesUpload from "../../components/ui/ImagesUpload";
 import Select from "../../components/ui/Select";
-
+import { getAllCategories } from "../../data/category/CategoryData";
+import { getAllSubCategories } from "../../data/subcategory/SubcategoryData";
+import Spinner from '@ui/Spinner'
 // Exemple ==============
-const data = {
-    categories: [
-        {
-            id: 1,
-            name: "Category A",
-        },
-        {
-            id: 2,
-            name: "Category B",
-        },
-    ],
-    subcategories: [
-        {
-            id: 1,
-            name: "Subcategory 1",
-            category_id: 1,
-        },
-        {
-            id: 2,
-            name: "Subcategory 2",
-            category_id: 1,
-        },
-        {
-            id: 3,
-            name: "Subcategory 3",
-            category_id: 1,
-        },
-        {
-            id: 4,
-            name: "Subcategory 4",
-            category_id: 2,
-        },
-        {
-            id: 5,
-            name: "Subcategory 5",
-            category_id: 2,
-        },
-        {
-            id: 6,
-            name: "Subcategory 6",
-            category_id: 2,
-        },
-    ],
-};
 
 const NewGigs = () => {
     const [title, setTitle] = useState("");
@@ -70,7 +28,9 @@ const NewGigs = () => {
     const [selectedCategory, setSelectedCategory] = useState("");
     const [errSelectedCategory, setErrSelectedCategory] = useState("");
     const [selectSubCategory, setSelectedSubCategory] = useState("");
-
+    const [categories, setCategories] = useState([]);
+    const [subCaregories, setSubcategories] = useState([]);
+    const [isLoading , setIsLoanding] = useState(true)
     // ======= categories ====
 
     const validateGig = () => {
@@ -134,22 +94,23 @@ const NewGigs = () => {
         }
         if (images.length === 0) {
             setErrImages("Required!");
-        } if (images.length === 0) {
+        }
+        if (images.length === 0) {
             setErrImages("Image is required!");
         } else {
             const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
             let isValid = true;
-        
+
             for (let i = 0; i < images.length; i++) {
                 const imageType = images[i].type.toLowerCase();
-        
+
                 if (!allowedTypes.includes(imageType)) {
                     setErrImages("Invalid image type!");
                     isValid = false;
                     break; // Exit the loop early since one invalid image type is enough to determine the overall validation result
                 }
             }
-        
+
             if (isValid) {
                 setErrImages(""); // Clear the error message if all image types are valid
             }
@@ -157,7 +118,28 @@ const NewGigs = () => {
 
         return check;
     };
-    console.log(images);
+    // ============= Get Category Array
+    const getCategories = () => {
+        const fetch = async () => {
+            try {
+                const categories = await getAllCategories();
+                setCategories(categories);
+                const subcategories = await getAllSubCategories();
+                setSubcategories(subcategories);
+            } catch (error) {
+                console.log(error);
+            }finally {
+                setTimeout(() => {
+                    setIsLoanding(false)
+                }, 800);
+            }
+        };
+        fetch();
+    };
+
+    useEffect(() => {
+        getCategories();
+    }, []);
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateGig()) {
@@ -171,6 +153,13 @@ const NewGigs = () => {
             });
         }
     };
+    if (isLoading) {
+        return <>
+        <div className="w-full h-[80vh] flex items-center justify-center"> 
+            <Spinner/>
+        </div>
+        </>
+    }
     return (
         <>
             <div className=" min-h-screen  w-full flex items-start justify-center">
@@ -236,7 +225,8 @@ const NewGigs = () => {
                                                     e.target.value
                                                 )
                                             }
-                                            data={data}
+                                            categories={categories.categories}
+                                            subcategories={subCaregories}
                                         />
                                     </div>
                                     {errSelectedCategory && (
