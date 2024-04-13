@@ -26,6 +26,7 @@ import Services from "../views/pages/Services";
 import Orders from "../views/freelancer/Orders";
 import Gigs from "../views/freelancer/Gigs";
 import NewGigs from "../views/freelancer/NewGigs";
+import UpdateGig from "../views/freelancer/UpdateGig";
 import ProtectedRoutes from "../layouts/ProtectedRoutes";
 import { useAuth } from "../hooks/AuthContext";
 
@@ -130,6 +131,10 @@ const Routes = () => {
                         {
                             path: "/gigs/create",
                             element: <NewGigs />,
+                        },
+                        {
+                            path: "/gigs/update/:id",
+                            element: <UpdateGig />,
                         },
                     ],
                 },

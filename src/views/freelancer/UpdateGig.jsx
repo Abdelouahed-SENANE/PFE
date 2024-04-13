@@ -10,12 +10,13 @@ import Select from "../../components/ui/Select";
 import { getAllCategories } from "../../data/category/CategoryData";
 import { getAllSubCategories } from "../../data/subcategory/SubcategoryData";
 import Spinner from "@ui/Spinner";
-import { useNavigate } from "react-router-dom";
-import { createGig } from "../../data/gigs/GigService";
+import { useNavigate, useParams } from "react-router-dom";
+import { createGig, updateGig } from "../../data/gigs/GigService";
 import { useMessage } from "../../hooks/MessageContext";
+import { getGig } from "../../data/gigs/GigData";
 // Exemple ==============
 
-const NewGigs = () => {
+const UpdateGig = () => {
     const [title, setTitle] = useState("");
     const [tags, setTags] = useState([]);
     const [images, setImages] = useState([]);
@@ -39,9 +40,8 @@ const NewGigs = () => {
     const [ErrMsg, setErrMsg] = useState("");
     const { setMessage } = useMessage();
     const navigate = useNavigate();
-
+    const {id} = useParams()
     // ======= categories ====
-
     const validateGig = () => {
         const integerRegex = /^[+-]?\d+$/;
         let check = true;
@@ -72,7 +72,7 @@ const NewGigs = () => {
             setErrDesc("");
             check = true;
         }
-        if (delivery.trim() === "") {
+        if (delivery === "") {
             setErrDelivery("Required!");
             check = false;
         } else if (!integerRegex.test(delivery)) {
@@ -154,9 +154,31 @@ const NewGigs = () => {
         };
         fetch();
     };
+    const fetchGig = () => {
+        const fetch = async () => {
+            try {
+                const result = await getGig(id);
+                setTitle(result.gig.title)
+                setDescription(result.gig.description)
+                setExcerpt(result.gig.excerpt)
+                setPrice(result.gig.price)
+                setTags(result.gig.search_tags)
+                setDelivery(result.gig.delivery)
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setTimeout(() => {
+                    setIsLoanding(false);
+                }, 800);
+            }
+        };
+        fetch();
+    };
 
     useEffect(() => {
         getCategories();
+        fetchGig()
+
     }, []);
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -172,18 +194,19 @@ const NewGigs = () => {
                     delivery: delivery,
                     subcategory_id: selectSubCategory,
                 };
-                const result = await createGig(payload);
-                if (result && result.response) {
-                    if (result.response.status === 422) {
+                
+                const result = await updateGig(payload ,id);
+                    if (result.status === 201) {
+                        setMessage("The Gig updated  succefully");
+                        return navigate(-1);
+                    }
+            } catch (error) {
+                if (error && error.response) {
+                    if (error.response.status === 422) {
                         setErrMsg("Somthing Wrong! , Please Try Again");
                     }
                 }
-                if (result.status === 201) {
-                    setMessage("The Gig created succefully");
-                    return navigate(-1);
-                }
-            } catch (error) {
-                console.log(error);
+
             }
         }
     };
@@ -204,7 +227,7 @@ const NewGigs = () => {
                     className="bg-rose-50 w-[744px] mx-auto border-l-4 mb-2 border-rose-500 text-rose-700 p-2 "
                     role="alert"
                 >
-                    <p class="font-bold">Error</p>
+                    <p className="font-bold">Error</p>
                     <p>{ErrMsg}</p>
                 </div>
             )}
@@ -390,13 +413,9 @@ const NewGigs = () => {
                                     htmlFor=""
                                     className="w-[120px] text-gray-600 text-base"
                                 >
-                                    Delivery
+                                    Delivery Date
                                 </label>
                                 <div className="flex-1">
-                                    <span className="text-gray-400 text-xs">
-                                        number of the days tp acheive the
-                                        service
-                                    </span>
                                     <input
                                         type={"text"}
                                         placeholder={"Delivery"}
@@ -473,7 +492,7 @@ const NewGigs = () => {
                                 type="submit"
                                 className="w-full text-center py-2 px-4 bg-black text-white rounded-lg"
                             >
-                                Create
+                                Update
                             </button>
                         </div>
                     </form>
@@ -483,4 +502,4 @@ const NewGigs = () => {
     );
 };
 
-export default NewGigs;
+export default UpdateGig;
