@@ -20,5 +20,5 @@ interface GigServiceInterface
     public function updateStatus($gigId , $status);
     public function myGigs(): JsonResponse;
     public function show(Gig $gig): JsonResponse;
-    public function getActiveGigs(): JsonResponse;
+    public function getActiveGigs();
 }

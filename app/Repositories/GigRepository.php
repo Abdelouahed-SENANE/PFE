@@ -44,7 +44,7 @@ class GigRepository implements GigRepositoryInterface
       $deniedGig = [];
 
       foreach ($myGigs as $myGig) {
-         
+
          $formattedGig = [
             'id' => $myGig->id,
             'title' => $myGig->title,
@@ -65,19 +65,19 @@ class GigRepository implements GigRepositoryInterface
          [
             'id' => 1,
             'label' => 'Active',
-            'tableHead' => ['ID', 'title', 'Excerpt','Delivery date' , 'Status'],
+            'tableHead' => ['ID', 'title', 'Excerpt', 'Delivery date', 'Status'],
             'rows' => $activeGig,
          ],
          [
             'id' => 2,
             'label' => 'Pending approval',
-            'tableHead' => ['ID','title', 'Excerpt', 'Delivery date', 'Status', 'actions'],
+            'tableHead' => ['ID', 'title', 'Excerpt', 'Delivery date', 'Status', 'actions'],
             'rows' => $pendingGig,
          ],
          [
             'id' => 3,
             'label' => 'Denied',
-            'tableHead' => ['ID', 'title', 'Excerpt','Delivery date' , 'Status'],
+            'tableHead' => ['ID', 'title', 'Excerpt', 'Delivery date', 'Status'],
             'rows' => $deniedGig,
          ],
       ];
@@ -115,11 +115,18 @@ class GigRepository implements GigRepositoryInterface
    public function show(Gig $gig): JsonResponse
    {
       $foundGig = $this->gig::findOrFail($gig->id);
-      return response()->json($foundGig, JsonResponse::HTTP_OK);      
+      return response()->json($foundGig, JsonResponse::HTTP_OK);
    }
-   public function getActiveGigs(): JsonResponse
+   public function getActiveGigs()
    {
-      dd(true);
-      return $this->gig->where('status' , 'active')->get();
+      $activeGigs = $this->gig
+         ->with(['freelancer' => function ($query) {
+            $query->select('id','user_id')->with(['user' => function($query) {
+               $query->select('id','name' , 'picture');
+            }]);
+         }])
+         ->where('status', 'approved')
+         ->paginate(3);
+      return $activeGigs;
    }
 }

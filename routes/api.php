@@ -55,7 +55,7 @@ Route::patch('/gigs/update-status/{id}', [GigController::class, 'updateStatus'])
 Route::get('/gigs', [GigController::class, 'index']);
 Route::get('/my-gigs', [GigController::class, 'myGigs']);
 Route::get('/gigs/{gig}', [GigController::class, 'show']);
-Route::get('/gigs/active', [GigController::class, 'activeGigs']);
+Route::get('/active-gigs', [GigController::class, 'activeGigs']);
 
 
 // Profle Controller 

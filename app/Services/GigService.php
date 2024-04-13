@@ -19,7 +19,7 @@ class GigService implements GigServiceInterface
     public function __construct(protected GigRepositoryInterface $gigRepository)
     {
     }
-    public function getActiveGigs(): JsonResponse
+    public function getActiveGigs()
     {
        return $this->gigRepository->getActiveGigs();
     }
