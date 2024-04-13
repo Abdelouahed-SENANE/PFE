@@ -31,13 +31,27 @@ class GigDto
             description: $validedData['description'],
             excerpt: $validedData['excerpt'],
             price: $validedData['price'],
-            images: $validedData['images'],
+            images: self::uploadImages($request),
             delivery: $validedData['delivery'],
             searchTags: $validedData['search_tags'],
             subcategory: $subcategory
         );
     }
-    public function toArray(): Array
+    private static function uploadImages(GigRequest $request): array
+    {
+        $imagesName = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+
+                $image->storeAs('public/uploads', $imageName);
+
+                $imagesName[] = $imageName;
+            }
+        }
+        return $imagesName;
+    }
+    public function toArray(): array
     {
         return [
             'title' => $this->title,

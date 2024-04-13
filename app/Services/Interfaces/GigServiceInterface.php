@@ -15,7 +15,10 @@ interface GigServiceInterface
 
     public function all() : JsonResponse;
     public function createGig(GigDto $gigDto): Gig;
-    public function updateGig(GigDto $gigDto , Gig $gig): Gig;
-    public function deleteGig(Gig $gig);
+    public function updateGig(GigDto $gigDto , int $gigId): Gig;
+    public function deleteGig($gigId);
     public function updateStatus($gigId , $status);
+    public function myGigs(): JsonResponse;
+    public function show(Gig $gig): JsonResponse;
+    public function getActiveGigs(): JsonResponse;
 }

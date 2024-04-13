@@ -28,7 +28,7 @@ class SubcategoryRepository implements SubcategoryRepositoryInterface
     {
         $subcategories = $this->subcategory->all();
         return response()->json([
-            'subcategory' => $subcategories
+            'subcategories' => $subcategories
         ], Response::HTTP_OK);
     }
     public function create(Subcategory $subcategory, Category $category): JsonResponse
@@ -57,12 +57,11 @@ class SubcategoryRepository implements SubcategoryRepositoryInterface
                 'message' => 'Subcategory deleted succefully',
                 'subcategory' => $subcategory,
             ]);
-        }else {
+        } else {
             return response()->json([
                 'message' => 'Failed to delete subcategory',
                 'subcategory' => $subcategory,
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
     }
 }

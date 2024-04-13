@@ -31,6 +31,7 @@ class GigRequest extends FormRequest
             'price' => 'required|numeric',
             'delivery' => 'required|integer',
             'images' => 'required|array',
+            'images.*' => 'required|image|mimes:jpeg,png|max:2048', 
             'search_tags' => 'required|array',
             'subcategory_id' => 'required'
         ];

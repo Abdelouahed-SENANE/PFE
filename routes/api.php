@@ -49,13 +49,20 @@ Route::controller(SubcategoryController::class)->group(function () {
 
 //  Test Route Gig
 Route::post('/gigs/create', [GigController::class, 'store']);
-Route::put('/gigs/update/{gig}', [GigController::class, 'update']);
-Route::delete('/gigs/delete/{gig}', [GigController::class, 'destroy']);
+Route::post('/gigs/update/{id}', [GigController::class, 'update']);
+Route::delete('/gigs/delete/{id}', [GigController::class, 'destroy']);
 Route::patch('/gigs/update-status/{id}', [GigController::class, 'updateStatus']);
 Route::get('/gigs', [GigController::class, 'index']);
+Route::get('/my-gigs', [GigController::class, 'myGigs']);
+Route::get('/gigs/{gig}', [GigController::class, 'show']);
+Route::get('/gigs/active', [GigController::class, 'activeGigs']);
 
 
 // Profle Controller 
-    Route::patch('/update-info', [ProfileController::class, 'updateInfos']);
-    Route::post('/update-picture', [ProfileController::class, 'updatePicture']);
-    Route::patch('/update-password', [ProfileController::class, 'updatePassword']);
+Route::patch('/update-info', [ProfileController::class, 'updateInfos']);
+Route::post('/update-picture', [ProfileController::class, 'updatePicture']);
+Route::patch('/update-password', [ProfileController::class, 'updatePassword']);
+
+    // Profle Categories Router 
+    Route::get('/categories', [CategoryController::class, 'index']);
+

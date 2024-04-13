@@ -71,7 +71,7 @@ class ProfileController extends Controller
         if ($request->hasFile('picture') && $request->file('picture')->isValid()) {
             $picture = $request->file('picture');
             $picName = time() . '.' . $picture->getClientOriginalExtension();
-            $picture->storeAs('public/uploads', $picName);
+            $picture->storeAs('public/avatars', $picName);
             $user->picture = $picName;
             $user->save();
         }
