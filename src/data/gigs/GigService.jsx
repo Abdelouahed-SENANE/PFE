@@ -44,28 +44,34 @@ export const oneGig = async (gig) => {
 
 export const updateGig = async (payload, id) => {
     try {
-        const apiUrl = 'gigs/update/' + id;
+        const apiUrl = "gigs/update/" + id;
         const response = await instance.post(apiUrl, payload, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
         });
-        return response
+        return response;
     } catch (error) {
         console.log(error);
-        throw error; 
-
+        throw error;
     }
 };
 export const deleteGig = async (id) => {
     try {
-        const apiUrl = 'gigs/delete/' + id;
-        console.log(id);
-        const response = await instance.delete(apiUrl);
-        return response
+        const response = await instance.delete("gigs/delete/" + id);
+        return response;
     } catch (error) {
         console.log(error);
-        throw error; 
+        throw error;
+    }
+};
 
+export const fetchActiveGig = async (page = '1') => {
+    try {
+        const response = await instance.get(`/active-gigs?page=${page}`);
+        return response;
+    } catch (error) {
+        console.log(error);
+        throw error;
     }
 };

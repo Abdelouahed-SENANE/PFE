@@ -1,95 +1,42 @@
 import React from "react";
-import image from "../../assets/images/test.jpg";
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa6";
 import Carousel from "./carousel/Carousel";
-const Cards = ({data}) => {
-    const cards = [
-        {
-            id: 1,
-            category: "Design & Creative",
-            title: "Developers drop the framework folder into a new parent",
-            image: "path/to/image1.jpg",
-            rating: 4.5,
-            numReviews: 2,
-            seller: {
-                name: "Senane",
-                profileImage: "path/to/seller1/profile/image.jpg",
-            },
-            price: 128,
-        },
-        {
-            id: 2,
-            category: "Development",
-            title: "Building Responsive Websites",
-            image: "path/to/image2.jpg",
-            rating: 4.2,
-            numReviews: 5,
-            seller: {
-                name: "John Doe",
-                profileImage: "path/to/seller2/profile/image.jpg",
-            },
-            price: 150,
-        },
-        {
-            id: 3,
-            category: "Marketing",
-            title: "Social Media Marketing Strategy",
-            image: "path/to/image3.jpg",
-            rating: 4.8,
-            numReviews: 10,
-            seller: {
-                name: "Jane Smith",
-                profileImage: "path/to/seller3/profile/image.jpg",
-            },
-            price: 200,
-        },
-        {
-            id: 4,
-            category: "Writing",
-            title: "Content Writing Services",
-            image: "path/to/image4.jpg",
-            rating: 4.3,
-            numReviews: 3,
-            seller: {
-                name: "Emily Johnson",
-                profileImage: "path/to/seller4/profile/image.jpg",
-            },
-            price: 100,
-        },
-    ];
-
+const Cards = ({ data }) => {
+    
     return (
         <>
-            <div className="container mx-auto w-[70%]">
-                <div className="grid mt-10 grid-cols-4 gap-4">
-                    {cards.map((card) => {
+            <div className="container mx-auto ">
+                <div className="grid mt-10 grid-cols-3 gap-5">
+                    {data?.map((card) => {
                         return (
                             <div
                                 key={card.id}
-                                className="border  border-slate-200 overflow-hidden  rounded-lg shadow-md shadow-slate-200/20 duration-500 transition-all  hover:border-primary"
+                                className="border flex flex-col border-slate-200 overflow-hidden   rounded-lg shadow-md shadow-slate-200/20 duration-500 transition-all  hover:border-primary"
                             >
                                 <Link to={"#"}>
-                                    <Carousel />
-                                    {/* <div className="image_wrapper rounded-ss-lg rounded-se-lg overflow-hidden">
-                                        <img
-                                            src={image}
-                                            alt=""
-                                            className="h-[230px] object-fill"
-                                        />
-                                    </div> */}
+                                    <Carousel id={card.id} images={card.images} />
                                 </Link>
-                                <div className="p-6 bg-white">
+                                <div className="p-3 bg-white flex-grow">
                                     <h6 className="text-gray-500 text-sm">
-                                        {card.category}
+                                        {card.title}
                                     </h6>
                                     <Link to={"/service"}>
-                                        <p className="hover:underline hover:text-primary cursor-pointer transition-colors duration-300">
-                                            Developers drop the framework folder
-                                            into a new parent
+                                        <p className="hover:underline pt-1 text-ellipsis overflow-hidden text-nowrap text-sm hover:text-primary cursor-pointer transition-colors duration-300">
+                                            {card.excerpt}
                                         </p>
                                     </Link>
-                                    <div className="flex items-center border-b py-3 border-slate-200">
+                                    <div className="pt-3">
+                                        {
+                                            card.search_tags.map((tag , i) => {
+                                                return (
+                                                    <span key={i} className="text-[13px] text-white bg-primary inline-flex py-1 mr-1 rounded mb-1 px-2">{tag}</span>
+                                                )
+                                            })
+
+                                        }
+                                    </div>
+                                    <div className="flex items-center border-b py-2 border-slate-200">
                                         <FaStar className="text-yellow-400" />
                                         <div>
                                             <span className="px-2">
@@ -104,20 +51,29 @@ const Cards = ({data}) => {
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-1">
                                                 <img
-                                                    src=""
+                                                    src={`http://localhost:8000/storage/uploads/${card.freelancer.user.picture}`}
                                                     alt="Profile"
                                                     className="h-7 w-7 rounded-full bg-slate-400"
                                                 />
                                                 <h6 className="text-sm">
-                                                    {card.seller.name}
+                                                    {card.freelancer.user.name}
                                                 </h6>
                                             </div>
                                             <div>
                                                 <span className="text-sm text-gray-500">
-                                                    Starting at:
+                                                    Price :
                                                 </span>
                                                 <span>${card.price}</span>
                                             </div>
+                                        </div>
+                                        <div className="text-sm pt-2 border-t mt-3 text-gray-500">
+                                            <span>Delivered in</span>
+                                            <span>
+                                                {" "}
+                                                {card.delivery > 1
+                                                    ? card.delivery + " days"
+                                                    : card.delivery + " day"}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
