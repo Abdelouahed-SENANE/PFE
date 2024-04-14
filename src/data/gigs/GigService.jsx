@@ -66,9 +66,11 @@ export const deleteGig = async (id) => {
     }
 };
 
-export const fetchActiveGig = async (page = '1') => {
+export const fetchActiveGig = async (page = 1, filters) => {
     try {
-        const response = await instance.get(`/active-gigs?page=${page}`);
+        const response = await instance.get(`/active-gigs?page=${page}`, {
+            params: filters
+        });
         return response;
     } catch (error) {
         console.log(error);

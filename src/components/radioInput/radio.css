@@ -1,0 +1,20 @@
+.custom__radio {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(106, 190, 82, 0.7); /* Border color with opacity */
+    border-radius: 100%; /* Make the container circular */
+    cursor: pointer;
+}
+
+.inner__dot  {
+    width: 9px;
+    height: 9px;
+    background-color: rgba(106, 190, 82, 0.7); /* Dot color with opacity */
+    border-radius: 50%; /* Make the dot circular */
+    position: absolute;
+    top: 50%; /* Position the dot vertically centered */
+    left: 50%; /* Position the dot horizontally centered */
+    transform: translate(-50%, -50%);
+     /* Center the dot within the container */
+}

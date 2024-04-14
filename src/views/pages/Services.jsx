@@ -1,53 +1,65 @@
 import React, { useEffect, useState } from "react";
 import fiterImage from "@assets/images/bg-filter.jpg";
-import Dropdown from "@components/select/Dropdown";
-import { ListItem } from "@components/select/Dropdown";
 import { HiMiniXMark } from "react-icons/hi2";
-import DropdownSearch from "../../components/select/DropdownSearch";
 import Cards from "../../components/ui/Cards";
 import { getActiveGigs } from "../../data/gigs/GigData";
-import { Link } from "react-router-dom";
 import CardPulse from "../../components/ui/carousel/CardPulse";
 import Pagination from "../../components/ui/Pagination";
+import { getAllSubCategories } from "../../data/subcategory/SubcategoryData";
+import DropdownSelect from "../../components/select/DropdownSearch";
+import RadioInput from "../../components/radioInput/RadioInput";
+import PriceRange from "../../components/pricesInput/PriceRange";
 
 const Services = () => {
-    const [selected, setSelected] = useState("Sort by (default)");
-    const [isOpen, setIsOpen] = useState(false);
     const [gigsData, setGigData] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [pages, setPages] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
-    const [filters, setFilter] = useState(["ddd", "ddd", "ddd"]);
-    const data = [
-        {
-            id: 1,
-            name: "Developpement",
-        },
-        {
-            id: 2,
-            name: "AI Services",
-        },
-        {
-            id: 3,
-            name: "Design",
-        },
-        {
-            id: 4,
-            name: "Writing",
-        },
-    ];
+    const [filters, setFilters] = useState({
+        subcategory: "",
+        delivery: "",
+        maxPrice: "",
+        minPrice: "",
+    });
+    const [searchByTitle , setSeachByTitle] = useState
+    // Filter By Subcategory
+    const handleSelect = (option) => {
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            subcategory: option.name,
+        }));
+    };
+
+    const clearFilters = () => {
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            subcategory: "",
+            delivery: "",
+            maxPrice: "",
+            minPrice: "",
+            title: "",
+        }));
+    };
     // Delete Filteer Function
-    const handleRemoveFilter = (index) => {
-        const updateFilter = filters.filter((_, i) => i !== index);
-        setFilter(updateFilter);
+    const handleRemoveFilter = (filterKey) => {
+        const updatedFilters = { ...filters };
+        updatedFilters[filterKey] = "";
+        setFilters(updatedFilters);
+    };
+    const handleFieldsChange = (e) => {
+        const { name, value } = e.target;
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [name]: value,
+        }));
     };
     const fetchData = async () => {
         setIsLoading(true);
         try {
-            const res = await getActiveGigs(currentPage);
+            const res = await getActiveGigs(currentPage, filters);
             setGigData(res.activeGigs);
             setPages(res.paginations);
-
         } catch (error) {
             console.log(error);
         } finally {
@@ -55,11 +67,30 @@ const Services = () => {
                 setIsLoading(false);
             }, 1500);
         }
+        const getSubcategories = async () => {
+            try {
+                const res = await getAllSubCategories();
+                setCategories(res);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getSubcategories();
     };
     useEffect(() => {
-        fetchData();
-    }, [currentPage]);
-    console.log(pages);
+        if (currentPage) {
+            fetchData();
+            window.scrollTo({ top: 250, behavior: "smooth" });
+        }
+    }, [currentPage, filters]);
+    // Check Filter
+    const shouldRenderButton = Object.values(filters).some((value) =>
+        Boolean(value)
+    );
+    // Count
+    const filtersCount = Object.keys(filters).filter(
+        (key) => !!filters[key]
+    ).length;
 
     return (
         <>
@@ -80,47 +111,107 @@ const Services = () => {
             <div className=" w-[78%]  mx-auto py-[50px]">
                 <div className="flex items-start flex-1">
                     <div className="border border-gray-200 rounded-lg p-5 min-w-[400px] max-w-[400px]">
-                        {filters.length > 0 && (
-                            <div className="filter">
-                                <h4 className="font-medium  mb-2 text-lg">
-                                    Filter ({filters.length})
-                                </h4>
+                        <div className="filter">
+                            <h4 className="font-medium  mb-2 text-lg">
+                                Filter
+                                <span className="text-sm ml-1">
+                                    {filtersCount > 0
+                                        ? `(${filtersCount})`
+                                        : ""}
+                                </span>
+                            </h4>
+                            {shouldRenderButton && (
                                 <div className="flex items-start justify-between text-sm">
                                     <ul className="flex items-center flex-wrap flex-1 gap-1">
-                                        {filters.map((filter, index) => {
-                                            return (
-                                                <li
-                                                    key={index}
-                                                    className="bg-rose-200/70 px-2 flex items-center rounded  text-sm py-1"
-                                                >
-                                                    <span>{filter}</span>
-                                                    <HiMiniXMark
-                                                        className="text-rose-600 ml-1 cursor-pointer"
-                                                        onClick={() =>
-                                                            handleRemoveFilter(
-                                                                index
-                                                            )
-                                                        }
-                                                    />
-                                                </li>
-                                            );
-                                        })}
+                                        {Object.entries(filters).map(
+                                            ([key, value]) =>
+                                                value && (
+                                                    <li
+                                                        key={key}
+                                                        className="bg-green-200/60 text-green-700 px-2 flex items-center rounded text-sm py-1"
+                                                    >
+                                                        <span>{value}</span>
+
+                                                        <HiMiniXMark
+                                                            className="text-green-700 ml-1 cursor-pointer"
+                                                            onClick={() =>
+                                                                handleRemoveFilter(
+                                                                    key
+                                                                )
+                                                            }
+                                                        />
+                                                    </li>
+                                                )
+                                        )}
                                     </ul>
                                     <button
-                                        className="text-rose-600"
-                                        onClick={() => setFilter([])}
+                                        className="text-green-600"
+                                        onClick={clearFilters}
                                     >
                                         Clear all
                                     </button>
                                 </div>
-                            </div>
-                        )}
-                        <div className="categories w-full border-b border-gray-200 pb-8">
+                            )}
+                        </div>
+                        <div className="categories w-full border-b mb-1 border-gray-200 py-4">
                             <h4 className="font-medium  mb-2 text-lg">
                                 Categories
                             </h4>
                             <div>
-                                <DropdownSearch data={data} />
+                                {categories && (
+                                    <DropdownSelect
+                                        options={categories}
+                                        onSelect={handleSelect}
+                                        initialValue={filters.subcategory}
+                                    />
+                                )}
+                            </div>
+                        </div>
+                        <div className="categories w-full border-b border-gray-200 py-4">
+                            <h4 className="font-medium  mb-2 text-lg">
+                                Delivery time
+                            </h4>
+                            <div className="delivery__filters">
+                                <RadioInput
+                                    id={"option1"}
+                                    label={"Within 1 day"}
+                                    checked={filters.delivery === "1"}
+                                    onChange={handleFieldsChange}
+                                    name={'delivery'}
+                                    value={'1'}
+                                />
+                                <RadioInput
+                                    id={"option2"}
+                                    label={"Within 2 days"}
+                                    checked={filters.delivery === "2"}
+                                    onChange={handleFieldsChange}
+                                    name={'delivery'}
+                                    value={'2'}
+                                />
+                                <RadioInput
+                                    id={"option3"}
+                                    label={"Within 3 days"}
+                                    checked={filters.delivery === "3"}
+                                    onChange={handleFieldsChange}
+                                    name={'delivery'}
+                                    value={'3'}
+                                />
+                                <RadioInput
+                                    id={"option4"}
+                                    label={"Within 4 days"}
+                                    checked={filters.delivery === "4"}
+                                    onChange={handleFieldsChange}
+                                    name={'delivery'}
+                                    value={'4'}
+                                />
+                            </div>
+                        </div>
+                        <div className="categories w-full border-b border-gray-200 py-4">
+                            <h4 className="font-medium  mb-2 text-lg">
+                                Price
+                            </h4>
+                            <div className="prices_filters">
+                                <PriceRange filters={filters} setFilters={setFilters}/>
                             </div>
                         </div>
                     </div>
@@ -129,38 +220,6 @@ const Services = () => {
                             <div className="border border-gray-200 rounded-lg ml-5 p-5  w-full flex-1">
                                 <div className="flex items-center justify-between">
                                     <span>Showing 1-8 of 10 Results</span>
-                                    <Dropdown
-                                        active={isOpen}
-                                        selected={selected}
-                                    >
-                                        <ListItem value={""}>
-                                            Sort by (default)
-                                        </ListItem>
-                                        <ListItem
-                                            onChange={(e) =>
-                                                setSelected("Recommanded")
-                                            }
-                                            value={"Recommanded"}
-                                        >
-                                            Recommanded
-                                        </ListItem>
-                                        <ListItem
-                                            onClick={() =>
-                                                setSelected("Oldest")
-                                            }
-                                            value={"Oldest"}
-                                        >
-                                            Oldest
-                                        </ListItem>
-                                        <ListItem
-                                            onClick={() =>
-                                                setSelected("Newest")
-                                            }
-                                            value={"Newest"}
-                                        >
-                                            Newest
-                                        </ListItem>
-                                    </Dropdown>
                                 </div>
                                 <div className="w-full">
                                     {isLoading ? (
