@@ -13,6 +13,8 @@ import Spinner from "@ui/Spinner";
 import { useNavigate } from "react-router-dom";
 import { createGig } from "../../data/gigs/GigService";
 import { useMessage } from "../../hooks/MessageContext";
+import { set } from "rsuite/esm/utils/dateUtils";
+import { IoReturnUpBack } from "react-icons/io5";
 // Exemple ==============
 
 const NewGigs = () => {
@@ -48,30 +50,12 @@ const NewGigs = () => {
         if (title.trim() === "" || title.length === null) {
             setErrTitle("Required!");
             check = false;
-        } else {
+        }  else {
             setErrTitle("");
             check = true;
         }
-        if (excerpt.trim() === "" || excerpt.length === null) {
-            setErrExcerpt("Required!");
-            check = false;
-        } else if (excerpt.length < 40) {
-            setErrExcerpt("Excerpt must be greatest  than 40 characters");
-            check = false;
-        } else {
-            setErrExcerpt("");
-            check = true;
-        }
-        if (description.trim() === "" || description.length === null) {
-            setErrDesc("Required!");
-            check = false;
-        } else if (description.length < 140) {
-            setErrDesc("Excerpt must greatest 140 characters");
-            check = false;
-        } else {
-            setErrDesc("");
-            check = true;
-        }
+
+
         if (delivery.trim() === "") {
             setErrDelivery("Required!");
             check = false;
@@ -158,32 +142,69 @@ const NewGigs = () => {
     useEffect(() => {
         getCategories();
     }, []);
+    const clearMessageErr = () => {
+        setErrDelivery("");
+        setErrDesc("");
+        setErrTags("");
+        setErrImages("");
+        setErrExcerpt("");
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (validateGig()) {
-            try {
-                const payload = {
-                    title: title,
-                    description: description,
-                    excerpt: excerpt,
-                    price: price,
-                    images: images,
-                    search_tags: tags,
-                    delivery: delivery,
-                    subcategory_id: selectSubCategory,
-                };
-                const result = await createGig(payload);
-                if (result && result.response) {
-                    if (result.response.status === 422) {
-                        setErrMsg("Somthing Wrong! , Please Try Again");
+        clearMessageErr();
+        if (!validateGig()) {
+            return;
+        }
+        try {
+            const payload = {
+                title: title,
+                description: description,
+                excerpt: excerpt,
+                price: price,
+                images: images,
+                search_tags: tags,
+                delivery: delivery,
+                subcategory_id: selectSubCategory,
+            };
+            const result = await createGig(payload);
+
+            if (result.status === 201) {
+                setMessage("The Gig created succefully");
+                return navigate(-1);
+            }
+        } catch (error) {
+            const status = error.response.data.status;
+            const errors = error.response.data.errors;
+            if (error.response.status == 422) {
+                // Assuming 'errors' is an object containing error messages for different fields
+
+                Object.keys(errors).forEach((field) => {
+                    switch (field) {
+                        case "title":
+                            setErrTitle(errors.title);
+                            break;
+                        case "description":
+                            setErrDesc(errors.description);
+                            break;
+                        case "excerpt":
+                            setErrExcerpt(errors.excerpt);
+                            break;
+                        case "delivery":
+                            setErrDelivery(errors.delivery);
+                            break;
+                        case "price":
+                            setErrPrice(errors.price);
+                            break;
+                        case "search_tags":
+                            setErrTags(errors.search_tags);
+                            break;
+                        case "images":
+                            setErrImages(errors.images);
+                            break;
+                        default:
+                            break;
                     }
-                }
-                if (result.status === 201) {
-                    setMessage("The Gig created succefully");
-                    return navigate(-1);
-                }
-            } catch (error) {
-                console.log(error);
+                });
             }
         }
     };

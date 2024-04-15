@@ -11,16 +11,12 @@ export const fetchGigs = async () => {
 };
 
 export const createGig = async (payload) => {
-    try {
-        const response = await instance.post("/gigs/create", payload, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        });
-        return response;
-    } catch (error) {
-        return error;
-    }
+    const response = await instance.post("/gigs/create", payload, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    });
+    return response
 };
 
 export const MyGigs = async () => {
@@ -66,11 +62,14 @@ export const deleteGig = async (id) => {
     }
 };
 
-export const fetchActiveGig = async (page = 1, filters) => {
+export const fetchActiveGig = async (page = 1, filters, search) => {
     try {
-        const response = await instance.get(`/active-gigs?page=${page}`, {
-            params: filters
-        });
+        const response = await instance.get(
+            `/active-gigs?page=${page}&search=${search}`,
+            {
+                params: filters,
+            }
+        );
         return response;
     } catch (error) {
         console.log(error);

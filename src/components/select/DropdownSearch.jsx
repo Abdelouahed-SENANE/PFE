@@ -10,7 +10,6 @@ const DropdownSelect = ({ options,onSelect }) => {
     const filteredOptions = options.filter(option =>
         option.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
     const handleSelect = (option) => {
         setSelectedOption(option);
         onSelect(option);

@@ -22,9 +22,9 @@ export const getGig = async (gig) => {
     }
 };
 
-export const getActiveGigs = async (page , filters) => {
+export const getActiveGigs = async (page , filters , search) => {
     try {
-        const response = await fetchActiveGig(page , filters);
+        const response = await fetchActiveGig(page , filters , search);
         return {
             activeGigs: response.data.data,
             paginations: response.data,

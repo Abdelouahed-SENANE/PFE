@@ -9,6 +9,7 @@ import { getAllSubCategories } from "../../data/subcategory/SubcategoryData";
 import DropdownSelect from "../../components/select/DropdownSearch";
 import RadioInput from "../../components/radioInput/RadioInput";
 import PriceRange from "../../components/pricesInput/PriceRange";
+import { HiSearch } from "react-icons/hi";
 
 const Services = () => {
     const [gigsData, setGigData] = useState([]);
@@ -22,13 +23,23 @@ const Services = () => {
         maxPrice: "",
         minPrice: "",
     });
-    const [searchByTitle , setSeachByTitle] = useState
+    const [search, setSearch] = useState("");
+    const [inputValue, setInputValue] = useState("");
+    const handleSearch = (e) => {
+        setSearch(inputValue)
+    }
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            handleSearch()
+        }
+    }
     // Filter By Subcategory
     const handleSelect = (option) => {
         setFilters((prevFilters) => ({
             ...prevFilters,
             subcategory: option.name,
         }));
+        setCurrentPage(1);
     };
 
     const clearFilters = () => {
@@ -38,7 +49,6 @@ const Services = () => {
             delivery: "",
             maxPrice: "",
             minPrice: "",
-            title: "",
         }));
     };
     // Delete Filteer Function
@@ -46,6 +56,8 @@ const Services = () => {
         const updatedFilters = { ...filters };
         updatedFilters[filterKey] = "";
         setFilters(updatedFilters);
+        setCurrentPage(1);
+
     };
     const handleFieldsChange = (e) => {
         const { name, value } = e.target;
@@ -53,11 +65,12 @@ const Services = () => {
             ...prevFilters,
             [name]: value,
         }));
+        setCurrentPage(1);
     };
     const fetchData = async () => {
         setIsLoading(true);
         try {
-            const res = await getActiveGigs(currentPage, filters);
+            const res = await getActiveGigs(currentPage, filters, search);
             setGigData(res.activeGigs);
             setPages(res.paginations);
         } catch (error) {
@@ -78,11 +91,9 @@ const Services = () => {
         getSubcategories();
     };
     useEffect(() => {
-        if (currentPage) {
             fetchData();
             window.scrollTo({ top: 250, behavior: "smooth" });
-        }
-    }, [currentPage, filters]);
+    }, [currentPage, filters , search]);
     // Check Filter
     const shouldRenderButton = Object.values(filters).some((value) =>
         Boolean(value)
@@ -105,6 +116,23 @@ const Services = () => {
                             Give your visitor a smooth online experience with a
                             solid SubCategory
                         </p>
+                        <div className="mt-8 flex items-center relative w-fit gap-2 ">
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    className="py-2.5 pl-8 block w-[550px] outline-none rounded-md border-2 focus:ring-4 focus:border-primary focus:ring-primary/50 transition-all duration-300 bg-white"
+                                    placeholder="Search..."
+                                    onChange={(e) => setInputValue(e.target.value)}
+                                    onKeyDown={handleKeyDown}
+                                />
+                                <HiSearch className="absolute top-[50%] text-gray-400 left-2 text-xl translate-y-[-50%] " />
+                            </div>
+                            <div >
+                                <button className="bg-primary text-white text-sm py-3 px-6 rounded-md" onClick={handleSearch}>
+                                    Search
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -177,43 +205,45 @@ const Services = () => {
                                     label={"Within 1 day"}
                                     checked={filters.delivery === "1"}
                                     onChange={handleFieldsChange}
-                                    name={'delivery'}
-                                    value={'1'}
+                                    name={"delivery"}
+                                    value={"1"}
                                 />
                                 <RadioInput
                                     id={"option2"}
                                     label={"Within 2 days"}
                                     checked={filters.delivery === "2"}
                                     onChange={handleFieldsChange}
-                                    name={'delivery'}
-                                    value={'2'}
+                                    name={"delivery"}
+                                    value={"2"}
                                 />
                                 <RadioInput
                                     id={"option3"}
                                     label={"Within 3 days"}
                                     checked={filters.delivery === "3"}
                                     onChange={handleFieldsChange}
-                                    name={'delivery'}
-                                    value={'3'}
+                                    name={"delivery"}
+                                    value={"3"}
                                 />
                                 <RadioInput
                                     id={"option4"}
                                     label={"Within 4 days"}
                                     checked={filters.delivery === "4"}
                                     onChange={handleFieldsChange}
-                                    name={'delivery'}
-                                    value={'4'}
+                                    name={"delivery"}
+                                    value={"4"}
                                 />
                             </div>
                         </div>
                         <div className="categories w-full border-b border-gray-200 py-4">
-                            <h4 className="font-medium  mb-2 text-lg">
-                                Price
-                            </h4>
+                            <h4 className="font-medium  mb-2 text-lg">Price</h4>
                             <div className="prices_filters">
-                                <PriceRange filters={filters} setFilters={setFilters}/>
+                                <PriceRange
+                                    filters={filters}
+                                    setFilters={setFilters}
+                                />
                             </div>
                         </div>
+
                     </div>
                     <div className="w-full">
                         <div className="w-full">

@@ -9,6 +9,10 @@ export const handleLogout = async () => {
             return window.location.href = "/";
         }
     } catch (error) {
-        console.log(error);
+        if (error.response.status === 500) {
+            sessionStorage.removeItem("user");
+            sessionStorage.removeItem("token");
+            return window.location.href = "/";
+        }
     }
 };

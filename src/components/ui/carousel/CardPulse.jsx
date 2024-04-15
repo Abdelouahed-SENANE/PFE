@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const CardPulse = ({ data }) => {
+const CardPulse = () => {
+    const data = 9;
     return (
         <div className="container mx-auto ">
             <div className="grid mt-10 grid-cols-3 gap-5 flex-1">
-                {data.map((_, i) => (
+                {...Array.from({length : data}).map((_, i) => (
                     <div
                         key={i}
                         className="border flex flex-col overflow-hidden border-slate-200 rounded-lg shadow-md shadow-slate-200/20 duration-500 transition-all hover:border-primary animate-pulse"
