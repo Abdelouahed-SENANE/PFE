@@ -40,9 +40,11 @@ class GigDto
     private static function uploadImages(GigRequest $request): array
     {
         $imagesName = [];
+        $i = 0;
         if ($request->hasFile('images')) {
+            
             foreach ($request->file('images') as $image) {
-                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $imageName = time() . $i++ . '.' . $image->getClientOriginalExtension();
 
                 $image->storeAs('public/uploads', $imageName);
 

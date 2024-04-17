@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Freelancer;
 use App\Models\Gig;
 use App\Models\Subcategory;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 
@@ -19,6 +20,6 @@ interface GigServiceInterface
     public function deleteGig($gigId);
     public function updateStatus($gigId , $status);
     public function myGigs(): JsonResponse;
-    public function show(Gig $gig): JsonResponse;
-    public function getActiveGigs();
+    public function show(Gig $gig);
+    public function getActiveGigs(Request $request);
 }

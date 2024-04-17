@@ -9,8 +9,12 @@ use App\Models\User;
 use App\Repositories\Interfaces\GigRepositoryInterface;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use Symfony\Component\HttpFoundation\Response;
+
+use function Laravel\Prompts\select;
 
 class GigRepository implements GigRepositoryInterface
 {
@@ -112,21 +116,43 @@ class GigRepository implements GigRepositoryInterface
       $gig->save();
       return $gig;
    }
-   public function show(Gig $gig): JsonResponse
+   public function show(Gig $gig)
    {
-      $foundGig = $this->gig::findOrFail($gig->id);
-      return response()->json($foundGig, JsonResponse::HTTP_OK);
+      $foundGig = $this->gig->with('freelancer.user:id,name,picture')->findOrFail($gig->id);
+      return $foundGig;
    }
-   public function getActiveGigs()
+   public function getActiveGigs($request)
    {
-      $activeGigs = $this->gig
-         ->with(['freelancer' => function ($query) {
-            $query->select('id','user_id')->with(['user' => function($query) {
-               $query->select('id','name' , 'picture');
-            }]);
-         }])
-         ->where('status', 'approved')
-         ->paginate(3);
-      return $activeGigs;
+      $subcategory = $request->input('subcategory');
+      $searchTerm = $request->input('search');
+      $delivery_time = $request->input('delivery');
+      $min_price = $request->input('minPrice');
+      $max_price = $request->input('maxPrice');
+
+      $query = Gig::query();
+
+      $query->with(['freelancer.user:id,name,picture', 'subcategory:id,name']);
+
+      $query->where('status', 'approved');
+
+      if ($delivery_time) {
+         $query->where('delivery', $delivery_time);
+      }
+      if ($searchTerm) {
+         $lowercaseSearchTerm = strtolower($searchTerm);
+         $query->whereRaw("LOWER(title) LIKE ?", ['%' . $lowercaseSearchTerm . '%']);
+      }
+
+
+      if ($min_price && $max_price) {
+         $query->whereBetween('price', [$min_price, $max_price]);
+      }
+      if ($subcategory) {
+         $query->whereHas('subcategory', function ($query) use ($subcategory) {
+            $query->where('name', $subcategory);
+         });
+      }
+      $result = $query->paginate(3);
+      return $result;
    }
 }

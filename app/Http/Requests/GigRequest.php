@@ -26,8 +26,8 @@ class GigRequest extends FormRequest
         return [
             //
             'title' => 'required|string|max:255',
-            'description' => 'required|string|max:500',
-            'excerpt' => 'required|string|max:255',
+            'description' => 'required|string|min:160',
+            'excerpt' => 'required|string|min:40',
             'price' => 'required|numeric',
             'delivery' => 'required|integer',
             'images' => 'required|array',

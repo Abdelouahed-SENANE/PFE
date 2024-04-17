@@ -83,13 +83,15 @@ class GigController extends Controller
         return $this->gigService->deleteGig($gigId);
     }
 
-    public function activeGigs() {
-     
+    public function activeGigs(Request $request)
+    {
+
         try {
-            $activeGigs = $this->gigService->getActiveGigs();
+            $activeGigs = $this->gigService->getActiveGigs($request);
             return response()->json(
-                $activeGigs
-            , Response::HTTP_OK);
+                $activeGigs,
+                Response::HTTP_OK
+            );
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Failed to status gig',

@@ -10,6 +10,8 @@ use App\Repositories\Interfaces\GigRepositoryInterface;
 use App\Services\Interfaces\GigServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -19,9 +21,10 @@ class GigService implements GigServiceInterface
     public function __construct(protected GigRepositoryInterface $gigRepository)
     {
     }
-    public function getActiveGigs()
+    public function getActiveGigs(Request $request)
     {
-       return $this->gigRepository->getActiveGigs();
+
+        return $this->gigRepository->getActiveGigs($request);
     }
     public function all(): JsonResponse
     {
@@ -31,10 +34,9 @@ class GigService implements GigServiceInterface
     {
         return $this->gigRepository->myGigs();
     }
-    public function show(Gig $gig): JsonResponse
+    public function show(Gig $gig)
     {
         return $this->gigRepository->show($gig);
-
     }
     public function createGig(GigDto $gigDto): Gig
     {
@@ -67,7 +69,7 @@ class GigService implements GigServiceInterface
             return response()->json([
                 'message' => 'Gig deleted succfully',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'massage' => "Can't delete this gig"
             ], Response::HTTP_FORBIDDEN);
@@ -76,6 +78,6 @@ class GigService implements GigServiceInterface
 
     public function updateStatus($gigId, $status)
     {
-        return $this->gigRepository->updateStatus($gigId , $status);
+        return $this->gigRepository->updateStatus($gigId, $status);
     }
 }

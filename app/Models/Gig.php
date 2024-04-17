@@ -25,6 +25,9 @@ class Gig extends Model
     public function freelancer() {
         return $this->belongsTo(Freelancer::class);
     }
+    public function subcategory() {
+        return $this->belongsTo(Subcategory::class);
+    }
     public function orders() {
         return $this->hasMany(Order::class , 'gig_id');
     }

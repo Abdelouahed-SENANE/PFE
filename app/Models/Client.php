@@ -23,4 +23,8 @@ class Client extends Model
     public function orders() {
         return $this->hasMany(Order::class , 'client_id');
     }
+
+    public function temp_order() {
+        return $this->hasMany(Temp_Order::class , 'client_id');
+    }
 }

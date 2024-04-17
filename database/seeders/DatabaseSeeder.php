@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Freelancer',
             'username' => 'Freelancer',
             'address' => fake()->address(),
-            'picture' => 'vector.png',
+            'picture' => 'default.jpg',
             'email' => 'freelancer@test.com',
             'password' => bcrypt('password'),
         ]);
@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Client',
             'username' => 'client',
             'address' => fake()->address(),
-            'picture' => 'avatar.png',
+            'picture' => 'default.jpg',
             'email' => 'client@test.com',
             'password' => bcrypt('password'),
         ]);
@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'admin',
             'username' => 'admin',
             'address' => fake()->address(),
-            'picture' => 'vector.png',
+            'picture' => 'default.jpg',
             'email' => 'admin@test.com',
             'password' => bcrypt('password'),
         ]);
