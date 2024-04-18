@@ -1,7 +1,5 @@
 import React from "react";
 import {
-    BrowserRouter,
-    Route,
     RouterProvider,
     createBrowserRouter,
 } from "react-router-dom";
@@ -29,6 +27,7 @@ import NewGigs from "../views/freelancer/NewGigs";
 import UpdateGig from "../views/freelancer/UpdateGig";
 import ProtectedRoutes from "../layouts/ProtectedRoutes";
 import { useAuth } from "../hooks/AuthContext";
+import ServiceDetails from "../views/pages/GigDetails";
 
 // const Router = createBrowserRouter([
 //     {
@@ -88,6 +87,10 @@ const Routes = () => {
                 {
                     path: "/about",
                     element: <About />,
+                },
+                {
+                    path: "/service-details/:id",
+                    element: <ServiceDetails />,
                 },
             ],
         },

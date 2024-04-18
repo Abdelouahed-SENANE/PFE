@@ -16,7 +16,7 @@ export const createGig = async (payload) => {
             "Content-Type": "multipart/form-data",
         },
     });
-    return response
+    return response;
 };
 
 export const MyGigs = async () => {
@@ -29,13 +29,8 @@ export const MyGigs = async () => {
 };
 
 export const oneGig = async (gig) => {
-    try {
-        const response = await instance.get(`/gigs/${gig}`);
-
-        return response;
-    } catch (error) {
-        console.log(error);
-    }
+    const response = await instance.get(`/gigs/${gig}`);
+    return response;
 };
 
 export const updateGig = async (payload, id) => {

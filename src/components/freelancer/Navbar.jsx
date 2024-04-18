@@ -56,7 +56,7 @@ export const Navbar = () => {
                     </div>
                     {/* ====== Profile ====== */}
                     <div className="flex-1   ">
-                        <div className="flex justify-end gap-3">
+                        <div className="flex justify-end items-center gap-3">
                             <Notification />
                             <Message />
                             <div
@@ -64,9 +64,9 @@ export const Navbar = () => {
                                 onClick={() => setIsActive(!isActive)}
                              >
                                 <img
-                                src={`http://localhost:8000/storage/uploads/${user.picture}`}
+                                src={`http://localhost:8000/storage/avatars/${user.picture}`}
                                 alt=""
-                                    className="h-8 w-8 rounded-full"
+                                    className="h-10 w-10 rounded-full"
                                 />
                                 <div
                                     ref={settingRef}

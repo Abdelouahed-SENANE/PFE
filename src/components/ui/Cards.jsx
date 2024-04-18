@@ -13,12 +13,11 @@ const Cards = ({ data }) => {
                             key={card.id}
                             className="border flex flex-col border-slate-200 overflow-hidden rounded-lg shadow-md shadow-slate-100 duration-500 transition-all hover:border-slate-300"
                         >
-                            <Link to="#">
+                                
                                 <Carousel id={card.id} images={card.images} />
-                            </Link>
                             <div className="p-3 bg-white flex-grow">
                                 <h6 className="text-gray-500">{card.title} <span className="text-sm ml-2 bg-primary/10 px-2 py-1 text-green-600 rounded-md">{card.subcategory.name}</span></h6>
-                                <Link to="/service">
+                                <Link to={'/service-details/' + card.id}>
                                     <p className="hover:underline pt-1 text-ellipsis overflow-hidden text-nowrap text-lg font-medium hover:text-primary cursor-pointer transition-colors duration-300">
                                         {card.excerpt}
                                     </p>
@@ -48,7 +47,7 @@ const Cards = ({ data }) => {
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-1">
                                             <img
-                                                src={`http://localhost:8000/storage/uploads/${card.freelancer.user.picture}`}
+                                                src={`http://localhost:8000/storage/avatars/${card.freelancer.user.picture}`}
                                                 alt="Profile"
                                                 className="h-7 w-7 rounded-full bg-slate-400"
                                             />

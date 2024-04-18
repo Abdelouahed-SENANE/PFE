@@ -170,9 +170,9 @@ export const Navbar = () => {
                             onClick={() => setIsActive(!isActive)}
                         >
                             <img
-                                src={`http://localhost:8000/storage/uploads/${user.picture}`}
+                                src={`http://localhost:8000/storage/avatars/${user.picture}`}
                                 alt=""
-                                className="h-8 w-8 rounded-full"
+                                className="h-12 w-12 rounded-full"
                             />
                             <div
                                 ref={settingRef}

@@ -71,7 +71,7 @@ const Sidebar = () => {
                     <div className="flex justify-center cursor-pointer">
                         <div className="w-fit image_wrapper relative">
                             <img
-                                src={`http://localhost:8000/storage/uploads/${user.picture}`}
+                                src={`http://localhost:8000/storage/avatars/${user.picture}`}
                                 alt=""
                                 className="rounded-full w-[160px] h-[160px]"
                             />

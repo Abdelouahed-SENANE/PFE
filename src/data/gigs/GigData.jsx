@@ -15,7 +15,7 @@ export const getGig = async (gig) => {
         const response = await oneGig(gig);
 
         return {
-            gig: response.data.gig.original
+            gig: response.data.gig
         };
     } catch (error) {
         return error;

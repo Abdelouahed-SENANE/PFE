@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import test from "../../../assets/images/test.jpg";
 import "./carousel.css"; // Import CSS file for carousel styles (e.g., transition effects)
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
-const Carousel = ({ images , id }) => {
+const Carousel = ({ images, id }) => {
     const [index, setIndex] = useState(0);
 
     const handlePrevious = () => {
@@ -22,7 +23,7 @@ const Carousel = ({ images , id }) => {
         setIndex(index);
     };
     return (
-        <div  className="carousel-container relative">
+        <div className="carousel-container relative">
             <div className="carousel">
                 {images.map((image, idx) => (
                     <>
@@ -31,11 +32,16 @@ const Carousel = ({ images , id }) => {
                             className={`image-wrapper relative`}
                             style={imageWrapperStyle}
                         >
-                            <img
-                                src={`http://localhost:8000/storage/uploads/${image}`}
-                                alt=""
-                                className="image"
-                            />
+                            <Link
+                                to={"/service-details/" + id}
+                                className="w-full bloc"
+                            >
+                                <img
+                                    src={`http://localhost:8000/storage/uploads/${image}`}
+                                    alt=""
+                                    className="image"
+                                />
+                            </Link>
                         </div>
                     </>
                 ))}
