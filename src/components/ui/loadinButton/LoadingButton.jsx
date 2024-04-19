@@ -3,7 +3,7 @@ import "./style.css";
 const LoadingButton = ({text}) => {
     return (
         <div className="flex gap-2 w-full items-center justify-center">
-            <span class="button_loader"></span>
+            <div class="button_loader"></div>
             <p>{text}</p>
         </div>
     );

@@ -4,10 +4,9 @@ import "./profile.css";
 import { IoCloudUpload } from "react-icons/io5";
 import { FaCameraRetro } from "react-icons/fa6";
 import { useAuth } from "../../hooks/AuthContext";
-import axios from "axios";
 import instance from "../../config/ConfigAxios";
 const Sidebar = () => {
-    const { user, token, setUser } = useAuth();
+    const { user, setUser } = useAuth();
     const [picture, setPicture] = useState("");
     const [picErr, setPicErr] = useState([]);
     const [picSuccess, setPicSuccess] = useState("");

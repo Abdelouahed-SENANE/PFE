@@ -28,6 +28,8 @@ import UpdateGig from "../views/freelancer/UpdateGig";
 import ProtectedRoutes from "../layouts/ProtectedRoutes";
 import { useAuth } from "../hooks/AuthContext";
 import ServiceDetails from "../views/pages/GigDetails";
+import Payment from "../views/pages/Payement";
+import PaymentSuccess from "../views/pages/PayementSuccess";
 
 // const Router = createBrowserRouter([
 //     {
@@ -92,11 +94,16 @@ const Routes = () => {
                     path: "/service-details/:id",
                     element: <ServiceDetails />,
                 },
+
             ],
         },
         {
             path: "/*",
             element: <Notfound />,
+        },
+        {
+            path: "/payment-success",
+            element: <PaymentSuccess />,
         },
         {
             path: "/",
@@ -139,6 +146,7 @@ const Routes = () => {
                             path: "/gigs/update/:id",
                             element: <UpdateGig />,
                         },
+
                     ],
                 },
                 {
