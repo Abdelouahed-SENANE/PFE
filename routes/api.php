@@ -4,6 +4,9 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GigController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -63,6 +66,16 @@ Route::patch('/update-info', [ProfileController::class, 'updateInfos']);
 Route::post('/update-picture', [ProfileController::class, 'updatePicture']);
 Route::patch('/update-password', [ProfileController::class, 'updatePassword']);
 
-    // Profle Categories Router 
-    Route::get('/categories', [CategoryController::class, 'index']);
+// Profle Categories Router 
+Route::get('/categories', [CategoryController::class, 'index']);
 
+// Route 
+
+Route::get('orders' , [OrderController::class , 'index']);
+Route::post('orders/create' , [OrderController::class , 'store']);
+
+
+// Stripe API 
+
+Route::post('/create-checkout-session' , [PaymentController::class , 'checkout']);
+Route::put('/payment-success' , [PaymentController::class , 'handlePaymentSuccess']);

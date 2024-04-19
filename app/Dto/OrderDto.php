@@ -7,7 +7,9 @@ use App\Http\Requests\OrderRequest;
 class OrderDto
 {
     public function __construct(
-        public readonly ?int $gigId,
+        public readonly ?int $gig_id,
+        public readonly ?string $received_at,
+
 
     ) {
     }
@@ -15,15 +17,16 @@ class OrderDto
     public static function fromRequest(OrderRequest $request): OrderDto
     {
         $validedData = $request->validated();
-
         return new self(
-            gigId : $validedData['gigId'],
+            gig_id: $validedData['gig_id'],
+            received_at:$validedData['received_at'],
         );
     }
-    public function toArray(): Array
+    public function toArray(): array
     {
         return [
-            'gigId' => $this->gigId,
+            'gig_id' => $this->gig_id,
+            'received_at' => $this->received_at,
         ];
     }
 }

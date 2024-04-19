@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('client_id')->constrained();
             $table->foreignId('gig_id')->constrained();
-            $table->timestamp('received_at')->nullable(); 
+            $table->timestamp('received_at'); 
+            $table->string('session_id'); 
             $table->enum('payment_status', ['PENDING' , 'PAID' , 'REFUNDED'])->default('PENDING');
             $table->enum('status', ['PENDING', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED'])->default('PENDING');
             $table->timestamps();
+
         });
     }
 

@@ -2,14 +2,12 @@
 namespace App\Repositories\Interfaces;
 
 use App\Dto\OrderDto;
-use App\Models\Freelancer;
+use App\Models\Client;
 use App\Models\Order;
-use Illuminate\Http\JsonResponse;
 
-interface OrderDtoRepositoryInterface {
-    public function all() : JsonResponse;
-    public function createOrderDto(OrderDto $orderDTO , Freelancer $freelancer);
-    public function updateOrderDto(OrderDto $orderDTO , Order $order) : OrderDto;
-    public function deleteOrderDto(OrderDto $gig);
-
+interface OrderRepositoryInterface {
+    public function all();
+    public function createOrder(OrderDto $orderDTO , Client $client , $session_id);
+    public function updateStatusPayment(Order $order);
+    public function showBysessionId($session_id);
 }
