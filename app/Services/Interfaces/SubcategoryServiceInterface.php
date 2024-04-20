@@ -10,6 +10,9 @@ interface SubcategoryServiceInterface
 {
 
     public function all() : JsonResponse;
-    public function create(Subcategory $subcategory , Category $category):JsonResponse;
-    public function destroy(Subcategory $subcategory):JsonResponse;
+    public function create(Subcategory $subcategory);
+    public function update($attributes , $subcategoryId);
+    public function destroy($id);
+    public function show($id);
+
 }

@@ -35,13 +35,22 @@ class SubcategoryService implements SubcategoryServiceInterface{
      }
 
 
-     public function create(Subcategory $subcategory, Category $category): JsonResponse
+     public function create($subcategory)
      {   
-         return $this->subcategoryRepository->create($subcategory , $category);
+
+         return $this->subcategoryRepository->create($subcategory);
 
      }
-     public function destroy(Subcategory $subcategory): JsonResponse
+     public function update($attributes, $subcategoryId)
      {
-         return $this->subcategoryRepository->destroy($subcategory);
+        return $this->subcategoryRepository->update($attributes , $subcategoryId);
+     }
+     public function destroy($id)
+     {
+         return $this->subcategoryRepository->destroy($id);
+     }
+     public function show($id)
+     {
+        return $this->subcategoryRepository->show($id);
      }
 }

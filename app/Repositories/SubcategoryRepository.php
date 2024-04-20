@@ -31,37 +31,29 @@ class SubcategoryRepository implements SubcategoryRepositoryInterface
             'subcategories' => $subcategories
         ], Response::HTTP_OK);
     }
-    public function create(Subcategory $subcategory, Category $category): JsonResponse
+    public function create($subcategory)
     {
-        try {
-            $newSubcategory = $category->subcategories()->create([
-                'name' => $subcategory->name
-            ]);
-            return response()->json([
-                'message' => 'Subcategory created succefully',
-                'subcategory' => $newSubcategory
-            ], Response::HTTP_CREATED);
-        } catch (Exception $e) {
-            return response()->json([
-                'message' => 'Failed to create subcategory',
-                'error' => $e->getMessage(),
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        $category = Category::findOrFail($subcategory['category_id']);
+        $newSubcategory = $category->subcategories()->create([
+            'name' => $subcategory['name']
+        ]);
+        return $newSubcategory;
     }
-
-    public function destroy(Subcategory $subcategory): JsonResponse
+    public function update($attributes, $subcategoryId)
     {
-        $deleted = $subcategory->delete();
-        if ($deleted) {
-            return response()->json([
-                'message' => 'Subcategory deleted succefully',
-                'subcategory' => $subcategory,
-            ]);
-        } else {
-            return response()->json([
-                'message' => 'Failed to delete subcategory',
-                'subcategory' => $subcategory,
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        $subcategory = $this->subcategory->findOrFail($subcategoryId);
+        $subcategory->name = $attributes['name'];
+        $subcategory->category_id = $attributes['category_id'];
+        $subcategory->save();
+        return $subcategory;
+    }
+    public function destroy($id)
+    {
+        $subcategory = $this->subcategory->find($id);
+        return $subcategory->delete();
+    }
+    public function show($id)
+    {
+        return $this->subcategory->findOrFail($id);
     }
 }

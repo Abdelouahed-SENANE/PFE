@@ -46,8 +46,10 @@ Route::controller(CategoryController::class)->group(function () {
 });
 Route::controller(SubcategoryController::class)->group(function () {
     Route::get('subcategories', 'index');
-    Route::post('categories/{category}/subcategory', 'store');
-    Route::delete('/subcategories/{subcategory}', 'destroy');
+    Route::post('subcategories', 'store');
+    Route::put('subcategory/{id}', 'update');
+    Route::delete('/subcategories/{id}', 'destroy');
+    Route::get('/subcategory/{id}', 'show');
 });
 
 //  Test Route Gig

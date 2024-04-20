@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('delivery');
             $table->enum('status' , ['pending' , 'approved' , 'declined'])->default('pending');
             $table->foreignId('freelancer_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('subcategory_id')->constrained();
+            $table->foreignId('subcategory_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

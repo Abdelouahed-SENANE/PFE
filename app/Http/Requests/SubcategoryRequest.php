@@ -23,7 +23,8 @@ class SubcategoryRequest extends FormRequest
     {
         return [
             //
-            'name' => 'required|string'
+            'name' => 'required|string',
+            'category_id' => 'required'
         ];
     }
 }
