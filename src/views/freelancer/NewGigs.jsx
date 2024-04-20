@@ -292,7 +292,7 @@ const NewGigs = () => {
                                                     e.target.value
                                                 )
                                             }
-                                            categories={categories.categories}
+                                            categories={categories}
                                             subcategories={subCaregories}
                                         />
                                     </div>

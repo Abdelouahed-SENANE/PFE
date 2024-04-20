@@ -66,7 +66,7 @@ export const Navbar = () => {
                                 <img
                                 src={`http://localhost:8000/storage/avatars/${user.picture}`}
                                 alt=""
-                                    className="h-10 w-10 rounded-full"
+                                    className="h-8 w-8 rounded-full"
                                 />
                                 <div
                                     ref={settingRef}

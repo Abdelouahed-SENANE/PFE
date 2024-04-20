@@ -172,7 +172,7 @@ export const Navbar = () => {
                             <img
                                 src={`http://localhost:8000/storage/avatars/${user.picture}`}
                                 alt=""
-                                className="h-12 w-12 rounded-full"
+                                className="h-8 w-8 rounded-full"
                             />
                             <div
                                 ref={settingRef}

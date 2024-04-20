@@ -5,6 +5,7 @@ import TableUsers from "../../components/admin/TableUsers";
 import Spinner from "../../components/ui/Spinner";
 import Paginate from "../../components/ui/Paginate";
 import axios from "axios";
+import { getAllUsers } from "../../data/user/UserData";
 
 const UserManagement = () => {
     const [users, setUsers] = useState([]);
@@ -15,23 +16,18 @@ const UserManagement = () => {
         setIsLoading(true);
 
         const getUsers = async () => {
-            const response = await axios.get(
-                "https://65f89a33df151452460fc708.mockapi.io/users"
-            );
-            setUsers(response.data);
-        };
+            const response = await getAllUsers()
+            setUsers(response);
+        }
         getUsers();
 
         setTimeout(() => {
             setIsLoading(false);
         }, 1500);
     }, []);
-    const indexOfLastItem= currentPage * itemPerPage;
-    const indexOfFirstItem= indexOfLastItem - itemPerPage;
-    const currentUsers = users.slice(
-        indexOfFirstItem,
-        indexOfLastItem
-    );
+    const indexOfLastItem = currentPage * itemPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemPerPage;
+    const currentUsers = users.slice(indexOfFirstItem, indexOfLastItem);
     const numberOfPages = Math.ceil(users.length / itemPerPage);
 
     const prevPage = (currentPage) => {
@@ -63,7 +59,7 @@ const UserManagement = () => {
             <div className="mx-10 ">
                 <UsersHeader />
                 <div className="bg-white border  border-gray-200 rounded-ss-lg rounded-se-lg overflow-hidden min-h-[671px]">
-                    <TableUsers users={currentUsers} />
+                    <TableUsers users={currentUsers} setUsers={setUsers} />
                 </div>
                 <Paginate
                     totalPage={numberOfPages}
