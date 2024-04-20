@@ -1,4 +1,4 @@
-import { MyGigs, fetchActiveGig, oneGig } from "./GigService";
+import { MyGigs, fetchActiveGig, fetchPendingGig, oneGig } from "./GigService";
 export const getMyGigs = async () => {
     try {
         const response = await MyGigs();
@@ -33,3 +33,9 @@ export const getActiveGigs = async (page , filters , search) => {
         return error;
     }
 };
+
+export const getPendingGigs = async () => {
+        const response = await fetchPendingGig();
+        return  response.data.data
+};
+

@@ -15,6 +15,7 @@ import AdminLayout from "../layouts/AdminLayout";
 import FreelancerLayout from "../layouts/FreelancerLayouut";
 import Dashboard from "../views/admin/Dashboard";
 import UserManagement from "../views/admin/UserManagement";
+import GigManagement from "../views/admin/GigManagement";
 import ProfileAdmin from "../views/admin/Profile";
 import CategoryManagement from "../views/admin/CategoryManagement";
 import Profile from "../views/profile/Profile";
@@ -178,6 +179,10 @@ const Routes = () => {
                         {
                             path: "/admin/profile",
                             element: <ProfileAdmin />,
+                        },
+                        {
+                            path: "/admin/authorization",
+                            element: <GigManagement/>,
                         },
                     ],
                 },

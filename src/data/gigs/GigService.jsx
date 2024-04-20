@@ -71,3 +71,18 @@ export const fetchActiveGig = async (page = 1, filters, search) => {
         throw error;
     }
 };
+
+export const fetchPendingGig = async () => {
+    try {
+        const response = await instance.get(`/pending-gigs`);
+        return response;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+
+export const updateStatusGig = async ($status , id) => {
+    const response = await instance.patch('/gigs/update-status/' + id , { status : $status})
+    return response;
+}

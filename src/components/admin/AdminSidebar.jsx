@@ -1,18 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import {
     FaBars,
-    FaFacebookF,
-    FaGoogle,
-    FaTwitter,
-    FaUserCog,
 } from "react-icons/fa";
-import { FaUserGear } from "react-icons/fa6";
+import { MdVerified } from "react-icons/md";
 
 import { MdCategory } from "react-icons/md";
 
 const AdminSidebar = () => {
+
     const [hideBar, setHideBar] = useState(false);
     return (
         <>
@@ -81,7 +78,7 @@ const AdminSidebar = () => {
                             Main
                         </h4>
                         <ul className="flex justify-center flex-col p-2">
-                            <li className="">
+                            <li className="my-1">
                                 <NavLink
                                     to={"admin/dashboard"}
                                     className="link_bar"
@@ -91,7 +88,7 @@ const AdminSidebar = () => {
                                 </NavLink>
                             </li>
 
-                            <li className="">
+                            <li className="my-1">
                                 <NavLink
                                     to={"admin/categories"}
                                     className="link_bar"
@@ -100,7 +97,7 @@ const AdminSidebar = () => {
                                     <span className="title">Categories</span>
                                 </NavLink>
                             </li>
-                            <li className="my-2">
+                            <li className="my-1">
                                 <NavLink
                                     to={"admin/users"}
                                     className="link_bar"
@@ -116,6 +113,18 @@ const AdminSidebar = () => {
 
                                     <span className="title">Users</span>
                                 </NavLink>
+                                
+                            </li>
+                            <li className="my-1">
+                                <NavLink
+                                    to={"/admin/authorization"}
+                                    className="link_bar"
+                                >
+                                    <MdVerified size={24} className="icon"/>
+
+                                    <span className="title">Gig Authorization</span>
+                                </NavLink>
+                                
                             </li>
                         </ul>
                     </div>
