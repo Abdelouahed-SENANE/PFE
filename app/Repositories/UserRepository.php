@@ -22,6 +22,16 @@ class UserRepository implements UserRepositoryInterface {
      }
 
      public function all() {
-      return $this->user->all();
+      $user = $this->user->with('client' , 'freelancer' , 'admin')->get();
+
+      return $user;
+     }
+
+     public function destroy(string $id)
+     {
+         $deleteUser = $this->user->findOrFail($id);
+         $deleteUser->deleted_at = now();
+         $deleteUser->save();
+         return $deleteUser;
      }
 }

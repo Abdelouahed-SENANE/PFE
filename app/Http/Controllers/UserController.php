@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Services\Interfaces\UserServiceInterface;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use App\Traits\ApiResponse;
+use Exception;
 
 class UserController extends Controller
 {
+    use ApiResponse;
     public function __construct(protected UserService $userService)
     {
     }
@@ -17,7 +20,12 @@ class UserController extends Controller
     public function index()
     {
         //
-        return  $this->userService->all();
+        try {
+            $users = $this->userService->all();
+            return $this->success($users, 'Request Succefull');
+        } catch (Exception $e) {
+            return $this->error($e->getMessage(), 400);
+        }
     }
 
     /**
@@ -49,6 +57,11 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $deleteUser = $this->userService->destroy($id);
+            return $this->success($deleteUser , 'User Deleted Succefully');
+        } catch (Exception $e) {
+            return $this->error($e->getMessage());
+        }
     }
 }

@@ -6,4 +6,5 @@ interface UserRepositoryInterface
 {
 
     public function all();
+    public function destroy(string $id);
 }

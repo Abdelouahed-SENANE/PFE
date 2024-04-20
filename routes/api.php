@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/users', [UserController::class, 'index']);
+Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
 // ***** Autentication Routes *****
 Route::controller(AuthController::class)->group(function () {

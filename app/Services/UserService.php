@@ -17,7 +17,10 @@ class UserService implements UserServiceInterface
 
    public function all()
    {
-      $users = $this->userRepository->all();
-      return response()->json(['users'=>$users] , Response::HTTP_OK);
+      return $this->userRepository->all();
+   }
+   public function destroy(string $id)
+   {
+      return $this->userRepository->destroy($id);
    }
 }

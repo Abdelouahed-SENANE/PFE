@@ -6,4 +6,5 @@ interface UserServiceInterface
 {
 
     public function all();
+    public function destroy(string $id);
 }
