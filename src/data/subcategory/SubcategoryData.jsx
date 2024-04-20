@@ -1,4 +1,4 @@
-import { fetchSubcategories } from "./SubcategoryService";
+import { fetchSubcategories, fetchSubcategory } from "./SubcategoryService";
 
 export const getAllSubCategories = async () => {
     try {
@@ -8,4 +8,12 @@ export const getAllSubCategories = async () => {
     } catch (error) {
         console.log(error);
     }
+}
+export const getSubcategory = async (id) => {
+    const response = await fetchSubcategory(id);
+    if (response.status !== 200) {
+        throw new Error('Failed network');
+    }
+    return response.data.subcategory
+
 }

@@ -7,23 +7,28 @@ const Input = ({
     value,
     onChange,
     icon: IconComponent,
+    label,
     onKeyUp,
     error,
+    name,
     success,
 }) => {
     return (
         <>
-            <div className="relative flex  items-center gap-2 w-full text-gray-500 mt-2 text-sm">
+            <label htmlFor="" className="mb-1 block text-gray-700 mt-3 text-sm">{label}</label>
+            <div className="relative flex  items-center gap-2 w-full text-gray-500 text-sm">
                 {IconComponent && (
                     <IconComponent className="absolute top-[50%] left-3 translate-y-[-50%]" />
                 )}
+
                 <input
                     type={type}
+                    name={name}
                     placeholder={placeholder}
                     value={value}
                     onKeyUp={onKeyUp}
                     onChange={onChange}
-                    className={`text-gray-800 py-2 outline-none border-2 w-full px-8  transition-all duration-500   rounded-md
+                    className={`text-gray-800 py-2 focus:ring-4 focus:ring-slate-300 outline-none border-2 w-full px-8  transition-all duration-500   rounded-md
                      ${
                          error
                              ? "border-rose-500 focus:border-rose-500"

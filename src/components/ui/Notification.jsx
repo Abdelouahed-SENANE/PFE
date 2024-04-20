@@ -9,7 +9,7 @@ const Notification = () => {
 
     const handleIconClick = (e) => {
         toggling();
-        e.stopPropagation(); // Stop event propagation to prevent closing immediately due to outsideClickAlert
+        e.stopPropagation(); 
     };
     outsideClickAlert(notificationRef, () => setIsActive(false));
     return (

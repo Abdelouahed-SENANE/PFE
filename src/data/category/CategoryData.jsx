@@ -7,11 +7,9 @@ export const getAllCategories = async () => {
         if (response.status !== 200) {
             throw new Error("Failed to fetch categories");
         }
-        return {
-            'categories' : response.data.categories
-        };
+        return response.data.categories;
     } catch (error) {
         console.error("Error fetching categories:", error);
-        throw error; 
+        throw error;
     }
 };

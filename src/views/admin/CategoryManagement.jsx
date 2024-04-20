@@ -3,36 +3,47 @@ import AdminNavbar from "../../components/admin/AdminNavbar";
 import CreateCategory from "../../components/admin/CreateCategory";
 import TableCategory from "../../components/admin/TableCategory";
 import Paginate from "../../components/ui/Paginate";
-import axios from "axios";
 import Spinner from "../../components/ui/Spinner";
+import { getAllSubCategories } from "../../data/subcategory/SubcategoryData";
+
 const CategoryManagement = () => {
-    const [categoriesData, setCategories] = useState([]);
+    const [subcategories, setSubcategories] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
+    const [formIsOpen, setFormIsOpen] = useState(false);
+    const [updateId, setUpdateId] = useState(null);
+
     const categoryPerPage = 10;
 
-    useEffect(() => {
+    const fetchData = () => {
         setIsLoading(true);
 
-        const getCategories = async () => {
-            const response = await axios.get(
-                "https://65f89a33df151452460fc708.mockapi.io/Categories"
-            );
-            setCategories(response.data);
+        const getData = async () => {
+            try {
+                const subcategories = await getAllSubCategories();
+                setSubcategories(subcategories);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 1500);
+            }
         };
-        getCategories();
+        getData();
+    };
 
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 1500);
+    useEffect(() => {
+        fetchData();
     }, []);
+
     const indexOfLastCategory = currentPage * categoryPerPage;
     const indexOfFirstCategory = indexOfLastCategory - categoryPerPage;
-    const currentCategories = categoriesData.slice(
+    const currentCategories = subcategories.slice(
         indexOfFirstCategory,
         indexOfLastCategory
     );
-    const numberOfPages = Math.ceil(categoriesData.length / categoryPerPage);
+    const numberOfPages = Math.ceil(subcategories.length / categoryPerPage);
 
     const prevPage = (currentPage) => {
         if (currentPage > 1) {
@@ -59,20 +70,31 @@ const CategoryManagement = () => {
     }
     return (
         <>
-            <AdminNavbar />
-            <div className="mx-10 ">
-                <CreateCategory />
-                <div className="bg-white border  border-gray-200 rounded-ss-lg rounded-se-lg overflow-hidden min-h-[671px]">
-                    <TableCategory categories={currentCategories} />
+                <AdminNavbar />
+                <div className="mx-10 ">
+                    <CreateCategory
+                        setSubcategories={setSubcategories}
+                        setUpdateId={setUpdateId}
+                        updateId={updateId}
+                        setIsOpen={setFormIsOpen}
+                        isOpen={formIsOpen}
+                    />
+                    <div className="bg-white border  border-gray-200 rounded-ss-lg rounded-se-lg overflow-hidden min-h-[671px]">
+                        <TableCategory
+                            setIsOpen={setFormIsOpen}
+                            setupdateId={setUpdateId}
+                            subcategories={currentCategories}
+                            setSubcategory={setSubcategories}
+                        />
+                    </div>
+                    <Paginate
+                        categoryPerPage={categoryPerPage}
+                        currentPage={currentPage}
+                        totalPage={numberOfPages}
+                        prevPage={() => prevPage(currentPage)}
+                        nextPage={() => nextPage(currentPage)}
+                    />
                 </div>
-                <Paginate
-                    categoryPerPage={categoryPerPage}
-                    currentPage={currentPage}
-                    totalPage={numberOfPages}
-                    prevPage={() => prevPage(currentPage)}
-                    nextPage={() => nextPage(currentPage)}
-                />
-            </div>
         </>
     );
 };

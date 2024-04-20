@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { FaXmark } from "react-icons/fa6";
 import "../../assets/theme-overrides.css";
+import FromCategory from "./FromCategory";
 
-const CreateCategory = () => {
-    const [isOpen, setIsOpen] = useState(false);
+const CreateCategory = ({setSubcategories , isOpen, setIsOpen, updateId, setUpdateId }) => {
     return (
         <>
             <div className="p-5">
@@ -16,7 +16,10 @@ const CreateCategory = () => {
                         </div>
                         <div>
                             <button
-                                onClick={() => setIsOpen(!isOpen)}
+                                onClick={() => {
+                                    setIsOpen(!isOpen);
+                                    setUpdateId('');
+                                }}
                                 className="bg-primary text-sm text-white border-2 rounded-md border-primary shadow-inner shadow-white/49 py-1.5 px-2"
                             >
                                 Create Category
@@ -34,7 +37,11 @@ const CreateCategory = () => {
                 ></div>
                 <div className="wrapper_form ">
                     <header className="py-5 px-3 border-b border-gray-200 flex justify-between items-center">
-                        <h4>Create new Category</h4>
+                        <h4>
+                            {updateId
+                                ? "Update Category"
+                                : "Create new Category"}
+                        </h4>
                         <button
                             onClick={() => {
                                 setIsOpen(!isOpen);
@@ -45,7 +52,7 @@ const CreateCategory = () => {
                         </button>
                     </header>
                     <div className="p-4 h-[calc(100vh-65px)] flex items-center justify-center">
-                        Form Category
+                        <FromCategory setSubcategories={setSubcategories} updateId={updateId} setIsOpen={setIsOpen}/>
                     </div>
                 </div>
             </div>
