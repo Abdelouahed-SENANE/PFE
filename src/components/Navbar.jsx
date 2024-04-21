@@ -7,6 +7,7 @@ import Button from "./ui/Button";
 import { useAuth } from "../hooks/AuthContext";
 import { outsideClickAlert } from "../helpers/HandleClickOutside";
 import { handleLogout } from "../utils/logout";
+import moment from "moment";
 
 const links = [
     {
@@ -64,7 +65,7 @@ export const Navbar = () => {
     outsideClickAlert(settingRef, () => setIsActive(false));
     const logout = async () => {
         await handleLogout();
-    }
+    };
     return (
         <>
             <nav className=" py-2 relative  bg-white lg:py-0 border border-slate-500/20">
@@ -165,15 +166,23 @@ export const Navbar = () => {
                             />
                         </div>
                     ) : (
-                        <div
-                            className="relative cursor-pointer"
-                            onClick={() => setIsActive(!isActive)}
-                        >
+                        <div className="relative cursor-pointe flex items-center bg-slate-100 px-1 py-1 rounded-full gap-1">
+                            <div className="rounded-full mx-1 text-sm bg-white px-2 py-1">
+                            <span>{moment(new Date()).format('D, MMMM')}</span>
+                        </div>
+                            <div className="text-sm text-primary mx-1">
+                                Hello,{" "}
+                                <span className="text-gray-600">
+                                    {user.name}
+                                </span>
+                            </div>
                             <img
+                                onClick={() => setIsActive(!isActive)}
                                 src={`http://localhost:8000/storage/avatars/${user.picture}`}
                                 alt=""
-                                className="h-8 w-8 rounded-full"
+                                className="h-8 w-8 rounded-full mx-1"
                             />
+
                             <div
                                 ref={settingRef}
                                 className={`setting_wrapper ${

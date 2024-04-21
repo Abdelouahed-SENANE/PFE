@@ -2,15 +2,19 @@ import React, { useRef, useState, useEffect } from "react";
 import "../../assets/theme-overrides.css";
 import { FaCheck } from "react-icons/fa6";
 import { FaXmark } from "react-icons/fa6";
-
 import { updateStatusGig } from "../../data/gigs/GigService";
 import { getPendingGigs } from "../../data/gigs/GigData";
-const Gig = ({ gigs = [], setGigs }) => {
+const Gig = ({ gigs = [], setGigs, setIsloading }) => {
     const handleApproved = async (id) => {
         try {
             const response = await updateStatusGig("approved", id);
             if (response.status === 200) {
                 const gigs = await getPendingGigs();
+                setIsloading(true);
+
+                setTimeout(() => {
+                    setIsloading(false);
+                }, 2000);
                 setGigs(gigs);
             }
         } catch (error) {
@@ -22,6 +26,11 @@ const Gig = ({ gigs = [], setGigs }) => {
             const response = await updateStatusGig("declined", id);
             if (response.status === 200) {
                 const gigs = await getPendingGigs();
+                setIsloading(true);
+
+                setTimeout(() => {
+                    setIsloading(false);
+                }, 2000);
                 setGigs(gigs);
             }
         } catch (error) {

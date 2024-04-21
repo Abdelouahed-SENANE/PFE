@@ -6,13 +6,13 @@ export const handleLogout = async () => {
         if (response.status === 200) {
             sessionStorage.removeItem("user");
             sessionStorage.removeItem("token");
-            return window.location.href = "/";
+            return window.location.href = "/login";
         }
     } catch (error) {
         if (error.response.status === 500) {
             sessionStorage.removeItem("user");
             sessionStorage.removeItem("token");
-            return window.location.href = "/";
+            return window.location.href = "/login";
         }
     }
 };

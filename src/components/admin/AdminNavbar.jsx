@@ -1,7 +1,6 @@
 import React from "react";
 import { IoSearchOutline, IoSettings } from "react-icons/io5";
 import Notification from "../ui/Notification";
-import vector from "../../assets/uploads/vector.png";
 import Setting from "../ui/Setting";
 import moment from "moment";
 import { useAuth } from "../../hooks/AuthContext";

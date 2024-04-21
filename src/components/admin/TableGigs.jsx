@@ -2,7 +2,7 @@ import React from "react";
 import User from "./User";
 import Gig from "./Gig";
 
-const TableGigs = ({gigs = [] , setGigs}) => {
+const TableGigs = ({gigs = [] , setGigs , setIsloading}) => {
     return (
         <>
             <table className="text-gray-700 w-full text-sm   border-gray-200">
@@ -15,7 +15,7 @@ const TableGigs = ({gigs = [] , setGigs}) => {
                     </tr>
                 </thead>
                 <tbody className="text-black  ">
-                    <Gig gigs={gigs} setGigs={setGigs}/>
+                    <Gig setIsloading={setIsloading} gigs={gigs} setGigs={setGigs}/>
                 </tbody>
             </table>
         </>
