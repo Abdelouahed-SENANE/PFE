@@ -6,6 +6,7 @@ use App\Http\Requests\SubcategoryRequest;
 use App\Models\Category;
 use App\Models\Subcategory;
 use App\Services\SubcategoryService;
+use App\Traits\ApiResponse;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 class SubcategoryController extends Controller
 {
     //
+    use ApiResponse;
     public function __construct(protected SubcategoryService $subcategoryService)
     {
     }
@@ -84,6 +86,14 @@ class SubcategoryController extends Controller
                 'message' => 'Failed to updated subcategory',
                 'error' => $e->getMessage(),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    public function getSubcategoryUsage(){
+        try {
+            $subcategoryMostUsed = $this->subcategoryService->getSubcategoryUsage();
+            return $this->success($subcategoryMostUsed, 'Request Succefully');
+        } catch (Exception $e) {
+            return $this->error($e->getMessage());
         }
     }
 }

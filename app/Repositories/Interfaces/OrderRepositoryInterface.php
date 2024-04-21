@@ -10,4 +10,6 @@ interface OrderRepositoryInterface {
     public function createOrder(OrderDto $orderDTO , Client $client , $session_id);
     public function updateStatusPayment(Order $order);
     public function showBysessionId($session_id);
+    public function countOrders();
+    public function recentTransactions();
 }

@@ -23,4 +23,7 @@ class UserService implements UserServiceInterface
    {
       return $this->userRepository->destroy($id);
    }
+   public function countUsers() {
+      return $this->userRepository->countUsers();
+   }
 }

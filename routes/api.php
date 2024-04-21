@@ -62,6 +62,17 @@ Route::get('/gigs', [GigController::class, 'index']);
 Route::get('/my-gigs', [GigController::class, 'myGigs']);
 Route::get('/gigs/{gig}', [GigController::class, 'show']);
 Route::get('/active-gigs', [GigController::class, 'activeGigs']);
+Route::get('/pending-gigs', [GigController::class, 'pendingGigs']);
+
+
+// Statistics Admin
+Route::get('/popular-gigs', [GigController::class, 'getPopularGigsOnWeek']);
+Route::get('/sales-gigs', [GigController::class, 'getSalesByDayOfWeek']);
+Route::get('/subcategories-usage', [SubcategoryController::class, 'getSubcategoryUsage']);
+Route::get('/count-users', [UserController::class, 'countUsers']);
+Route::get('/count-orders', [OrderController::class, 'countOrders']);
+Route::get('/count-gigs', [GigController::class, 'countGigs']);
+Route::get('/recent-transactions', [OrderController::class, 'recentTransactions']);
 
 
 // Profle Controller 

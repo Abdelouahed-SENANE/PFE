@@ -41,4 +41,13 @@ class OrderService implements OrderServiceInterface
             throw new \Exception('Failed to update payment status for order');
         }
     }
+    public function countOrders()
+    {
+        return $this->orderRepository->countOrders();
+    }
+
+    public function recentTransactions()
+    {
+    return $this->orderRepository->recentTransactions();
+    }
 }

@@ -17,4 +17,9 @@ interface GigRepositoryInterface {
     public function myGigs() : JsonResponse;
     public function show(Gig $gig);
     public function getActiveGigs($query);
+    public function getPendingGigs();
+    public function getPopularGigOnWeek();
+    public function getSalesBydDayOfWeek();
+    public function countGigs();
+
 }

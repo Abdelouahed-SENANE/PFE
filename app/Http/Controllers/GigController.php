@@ -6,15 +6,16 @@ use App\Dto\GigDto;
 use App\Http\Requests\GigRequest;
 use App\Models\Gig;
 use App\Services\Interfaces\GigServiceInterface;
+use App\Traits\ApiResponse;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
+
 
 class GigController extends Controller
 {
     //
-
+    use ApiResponse;
     public function __construct(protected GigServiceInterface $gigService)
     {
     }
@@ -99,6 +100,16 @@ class GigController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+    public function pendingGigs()
+    {
+
+        try {
+            $pendingGigs = $this->gigService->getPendingGigs();
+            return $this->success($pendingGigs, 'Request Succefully');
+        } catch (Exception $e) {
+            return $this->error($e->getMessage());
+        }
+    }
     public function updateStatus(Request $request, $gigId)
     {
         $validated = $request->validate([
@@ -106,15 +117,34 @@ class GigController extends Controller
         ]);
         try {
             $updateStatus = $this->gigService->updateStatus($gigId, $validated['status']);
-            return response()->json([
-                'message' => 'Status updated succefully',
-                'updatedStatus' => $updateStatus
-            ], Response::HTTP_CREATED);
+            return $this->success($updateStatus, 'Status updated succefully', 200);
         } catch (Exception $e) {
-            return response()->json([
-                'message' => 'Failed to status gig',
-                'error' => $e->getMessage(),
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->error($e->getMessage(), 'Failed to status gig', 500);
+        }
+    }
+
+    public function getPopularGigsOnWeek() {
+        try {
+            $popularService = $this->gigService->getPopularGig();
+            return $this->success($popularService, 'Request Succefully');
+        } catch (Exception $e) {
+            return $this->error($e->getMessage());
+        }
+    }
+    public function getSalesByDayOfWeek() {
+        try {
+            $salesByDayOfWeek = $this->gigService->getSalesBydDayOfWeek();
+            return $this->success($salesByDayOfWeek, 'Request Succefully');
+        } catch (Exception $e) {
+            return $this->error($e->getMessage());
+        }
+    }
+      public function countGigs() {
+        try {
+            $countGigs = $this->gigService->countGigs();
+            return $this->success($countGigs, 'Request Succefully');
+        } catch (Exception $e) {
+            return $this->error($e->getMessage());
         }
     }
 }

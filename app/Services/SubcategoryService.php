@@ -53,4 +53,7 @@ class SubcategoryService implements SubcategoryServiceInterface{
      {
         return $this->subcategoryRepository->show($id);
      }
+     public function getSubcategoryUsage(){
+        return $this->subcategoryRepository->getSubcategoryUsage();
+     }
 }

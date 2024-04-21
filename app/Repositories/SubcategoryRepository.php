@@ -3,10 +3,12 @@
 namespace App\Repositories;
 
 use App\Models\Category;
+use App\Models\Gig;
 use App\Models\Subcategory;
 use App\Repositories\Interfaces\SubcategoryRepositoryInterface;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class SubcategoryRepository implements SubcategoryRepositoryInterface
@@ -56,4 +58,29 @@ class SubcategoryRepository implements SubcategoryRepositoryInterface
     {
         return $this->subcategory->findOrFail($id);
     }
+
+    public function getSubcategoryUsage()
+{
+    // Fetch the total count of gigs created for each subcategory
+    $subcategoryUsage = Gig::select('subcategory_id', DB::raw('COUNT(*) AS gig_count'))
+        ->groupBy('subcategory_id')
+        ->orderByDesc('gig_count')
+        ->limit(3)
+        ->get();
+
+    // Retrieve the subcategory details for each usage count
+    $subcategoryUsageDetails = [];
+    foreach ($subcategoryUsage as $usage) {
+        $subcategory = Subcategory::find($usage->subcategory_id);
+        if ($subcategory) {
+            $subcategoryUsageDetails[] = [
+                'id' => $subcategory->name,
+                'label' => $subcategory->name,
+                'value' => $usage->gig_count,
+            ];
+        }
+    }
+
+    return $subcategoryUsageDetails;
+}
 }

@@ -64,4 +64,12 @@ class UserController extends Controller
             return $this->error($e->getMessage());
         }
     }
+
+    public function countUsers() {
+        try {
+            $countusers = $this->userService->countUsers();
+            return $this->success($countusers , 'User Deleted Succefully');
+        } catch (Exception $e) {
+            return $this->error($e->getMessage());
+        }    }
 }

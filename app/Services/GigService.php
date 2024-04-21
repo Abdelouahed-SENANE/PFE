@@ -80,4 +80,20 @@ class GigService implements GigServiceInterface
     {
         return $this->gigRepository->updateStatus($gigId, $status);
     }
+    public function getPendingGigs()
+    {
+        return $this->gigRepository->getPendingGigs();
+    }
+    public function getPopularGig() {
+        return $this->gigRepository->getPopularGigOnWeek();
+    }
+    public function getSalesBydDayOfWeek()
+    {
+        return $this->gigRepository->getSalesBydDayOfWeek();
+    }
+
+    public function countGigs()
+    {
+        return $this->gigRepository->countGigs();
+    }
 }

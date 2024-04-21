@@ -11,4 +11,7 @@ interface OrderServiceInterface
     public function all();
     public function createOrder(OrderDto $orderDTO , $session_id);
     public function updateStatusPayment($session_id);
+    public function countOrders();
+    public function recentTransactions();
+
 }

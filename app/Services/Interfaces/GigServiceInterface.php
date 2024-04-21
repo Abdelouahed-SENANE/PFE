@@ -18,4 +18,8 @@ interface GigServiceInterface
     public function myGigs(): JsonResponse;
     public function show(Gig $gig);
     public function getActiveGigs(Request $request);
+    public function getPendingGigs();
+    public function getPopularGig();
+    public function getSalesBydDayOfWeek();
+    public function countGigs();
 }

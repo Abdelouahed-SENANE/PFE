@@ -7,4 +7,5 @@ interface UserRepositoryInterface
 
     public function all();
     public function destroy(string $id);
+    public function countUsers();
 }
