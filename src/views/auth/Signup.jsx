@@ -140,7 +140,7 @@ const Signup = () => {
                     username: username,
                     address: address,
                     role: accountType,
-                    picture: "avatar.png",
+                    picture: "default.jpg",
                     skills: skills,
                     bio: bio,
                 };
@@ -164,7 +164,7 @@ const Signup = () => {
                 username: username,
                 address: address,
                 role: accountType,
-                picture: "avatar.png",
+                picture: "default.jpg",
             };
 
             try {

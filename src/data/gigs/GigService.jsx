@@ -28,7 +28,7 @@ export const MyGigs = async () => {
     }
 };
 
-export const oneGig = async (gig) => {
+export const oneGigOrderedByClient = async (gig) => {
     const response = await instance.get(`/gigs/${gig}`);
     return response;
 };
@@ -84,5 +84,10 @@ export const fetchPendingGig = async () => {
 
 export const updateStatusGig = async ($status , id) => {
     const response = await instance.patch('/gigs/update-status/' + id , { status : $status})
+    return response;
+}
+
+export const fetchRatingOfGig = async (id) => {
+    const response = await instance.get('/gigs/gig-reviews/' + id)
     return response;
 }

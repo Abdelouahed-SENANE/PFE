@@ -1,6 +1,6 @@
 import React from 'react'
 
-const DetailsGig = ({title , desc}) => {
+const HeaderContent = ({title , desc}) => {
   return (
     <div>
         <h1 className='text-2xl '>Details Service</h1>
@@ -10,4 +10,4 @@ const DetailsGig = ({title , desc}) => {
   )
 }
 
-export default DetailsGig
+export default HeaderContent

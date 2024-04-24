@@ -13,7 +13,7 @@ import Spinner from "@ui/Spinner";
 import { useNavigate, useParams } from "react-router-dom";
 import { createGig, updateGig } from "../../data/gigs/GigService";
 import { useMessage } from "../../hooks/MessageContext";
-import { getGig } from "../../data/gigs/GigData";
+import { getGigWithClientHasOrderOrNot } from "../../data/gigs/GigData";
 // Exemple ==============
 
 const UpdateGig = () => {
@@ -157,7 +157,7 @@ const UpdateGig = () => {
     const fetchGig = () => {
         const fetch = async () => {
             try {
-                const result = await getGig(id);
+                const result = await getGigWithClientHasOrderOrNot(id);
                 setTitle(result.gig.title)
                 setDescription(result.gig.description)
                 setExcerpt(result.gig.excerpt)

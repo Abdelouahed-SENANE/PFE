@@ -8,7 +8,7 @@ const Rate = ({rate,setRate}) => {
     return (
         <>
         <h2 className="text-xl font-medium">Rate</h2>
-        <div className="flex my-2">
+        <div className="flex gap-1 my-2  ">
             {[...Array(5)].map((_, index) => {
                 const givenRating = index + 1;
                 return (
@@ -22,11 +22,11 @@ const Rate = ({rate,setRate}) => {
                             }}
                         />
                         <div className="cursor-pointer">
-                            <FaStar
+                            <FaStar size={24}
                                 className={
                                     givenRating < rate || givenRating === rate
-                                        ? "text-yellow-400 text-xl"
-                                        : "text-gray-300 text-xl"
+                                        ? "text-yellow-400 text-lg"
+                                        : "text-gray-300 text-lg"
                                     }
                             />
                         </div>

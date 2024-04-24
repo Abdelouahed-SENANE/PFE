@@ -5,26 +5,27 @@ import formatDateTime from "../../helpers/DateFormatted";
 import LoadingButton from "../ui/loadinButton/LoadingButton";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthContext";
-import { useStripe } from '@stripe/react-stripe-js';
+import { useStripe } from "@stripe/react-stripe-js";
 
-const SidebarContent = ({ gig }) => {
-    const { user, token } = useAuth();
+const SidebarContent = ({ gig, isPurchase }) => {
+    const { user } = useAuth();
     const stripe = useStripe();
     const deliveryTime = Date.now() + gig.delivery * 24 * 60 * 60 * 1000;
     const [isLoading, setIsLoading] = useState(null);
     const order = {
         gig_id: gig.id,
         received_at: formatDateTime(new Date(deliveryTime)),
-        amount : gig.price,
-        currency : 'usd',
-        gig_name : gig.title
+        amount: gig.price,
+        currency: "usd",
+        gig_name: gig.title,
     };
 
     const handlePayment = async () => {
         try {
             setIsLoading(true);
 
-            const { data } = await instance.post('/create-checkout-session', 
+            const { data } = await instance.post(
+                "/create-checkout-session",
                 order
             );
 
@@ -33,8 +34,8 @@ const SidebarContent = ({ gig }) => {
                 redirectToStripeCheckout(sessionId);
             }, 1200);
         } catch (error) {
-            console.error('Error:', error);
-            setIsLoading(false); 
+            console.error("Error:", error);
+            setIsLoading(false);
         }
     };
     const redirectToStripeCheckout = async (sessionId) => {
@@ -44,11 +45,11 @@ const SidebarContent = ({ gig }) => {
             });
 
             if (error) {
-                console.error('Stripe Checkout Error:', error);
+                console.error("Stripe Checkout Error:", error);
                 setIsLoading(false);
             }
         } catch (error) {
-            console.error('Error redirecting to Stripe Checkout:', error);
+            console.error("Error redirecting to Stripe Checkout:", error);
             setIsLoading(false);
         }
     };
@@ -70,22 +71,25 @@ const SidebarContent = ({ gig }) => {
                         <div>
                             {gig.delivery > 1
                                 ? `${gig.delivery} days`
-                                : `${gig.delivery} days`}
+                                : `${gig.delivery} day`}
                         </div>
                     </div>
                 </div>
                 <div className="w-full px-6 pb-4 overflow-hidden">
                     {user?.role === "client" ? (
-                        <button
-                            onClick={handlePayment} disabled={isLoading}
-                            className="block my-1 rounded-md bg-primary w-full py-2 text-white"
-                        >
-                            {isLoading ? (
-                                <LoadingButton text={"Loading..."} />
-                            ) : (
-                                "Continue"
-                            )}
-                        </button>
+                        isPurchase && (
+                            <button
+                                onClick={handlePayment}
+                                disabled={isLoading}
+                                className="block my-1 rounded-md bg-primary w-full py-2 text-white"
+                            >
+                                {isLoading ? (
+                                    <LoadingButton text={"Loading..."} />
+                                ) : (
+                                    "Continue"
+                                )}
+                            </button>
+                        )
                     ) : (
                         <Link
                             to={"/login"}

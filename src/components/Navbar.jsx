@@ -180,7 +180,7 @@ export const Navbar = () => {
                                 onClick={() => setIsActive(!isActive)}
                                 src={`http://localhost:8000/storage/avatars/${user.picture}`}
                                 alt=""
-                                className="h-8 w-8 rounded-full mx-1"
+                                className="h-8 w-8 rounded-full mx-1 cursor-pointer"
                             />
 
                             <div
