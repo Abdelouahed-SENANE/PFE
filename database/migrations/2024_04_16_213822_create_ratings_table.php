@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('value');
             $table->text('comment');
             $table->foreignId('order_id')->constrained();
+            $table->foreignId('client_id')->constrained();
             $table->timestamps();
         });
     }

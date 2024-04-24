@@ -16,7 +16,7 @@ interface GigServiceInterface
     public function deleteGig($gigId);
     public function updateStatus($gigId , $status);
     public function myGigs(): JsonResponse;
-    public function show(Gig $gig);
+    public function getGigWithCheckOrderByClient(Gig $gig , $clientId);
     public function getActiveGigs(Request $request);
     public function getPendingGigs();
     public function getPopularGig();

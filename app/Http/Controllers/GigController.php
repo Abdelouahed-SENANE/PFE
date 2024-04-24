@@ -9,6 +9,7 @@ use App\Services\Interfaces\GigServiceInterface;
 use App\Traits\ApiResponse;
 use Exception;
 use Illuminate\Http\Request;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -25,17 +26,19 @@ class GigController extends Controller
     {
         return $this->gigService->all();
     }
-    public function show(Gig $gig)
+    public function getGigOrderedByClient(Gig $gig)
     {
+        // $clientId =  JWTAuth::user()->client()->first()->id;
+        $clientId = null;
+
         try {
-            $gig = $this->gigService->show($gig);
-            return response()->json([
-                'gig' => $gig
-            ], Response::HTTP_OK);
+            if (JWTAuth::user()) {
+                $clientId =  JWTAuth::user()->client()->first()->id;
+            }
+            $gig = $this->gigService->getGigWithCheckOrderByClient($gig, $clientId);
+            return $this->success($gig, 'Request Success', 200);
         } catch (Exception $e) {
-            return response()->json([
-                'message' => 'Something goes wrong while fetching a gig!'
-            ], 500);
+            return $this->error('Error to fetch Gig' . $e->getMessage(), 500);
         }
     }
     public function myGigs()
@@ -123,7 +126,8 @@ class GigController extends Controller
         }
     }
 
-    public function getPopularGigsOnWeek() {
+    public function getPopularGigsOnWeek()
+    {
         try {
             $popularService = $this->gigService->getPopularGig();
             return $this->success($popularService, 'Request Succefully');
@@ -131,7 +135,8 @@ class GigController extends Controller
             return $this->error($e->getMessage());
         }
     }
-    public function getSalesByDayOfWeek() {
+    public function getSalesByDayOfWeek()
+    {
         try {
             $salesByDayOfWeek = $this->gigService->getSalesBydDayOfWeek();
             return $this->success($salesByDayOfWeek, 'Request Succefully');
@@ -139,7 +144,8 @@ class GigController extends Controller
             return $this->error($e->getMessage());
         }
     }
-      public function countGigs() {
+    public function countGigs()
+    {
         try {
             $countGigs = $this->gigService->countGigs();
             return $this->success($countGigs, 'Request Succefully');

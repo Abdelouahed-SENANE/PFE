@@ -23,5 +23,7 @@ class Client extends Model
     public function orders() {
         return $this->hasMany(Order::class , 'client_id');
     }
-
+    public function ratings(){
+        return $this->hasMany(Rating::class , 'client_id');
+    }
 }

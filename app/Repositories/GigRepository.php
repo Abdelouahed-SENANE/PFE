@@ -118,9 +118,19 @@ class GigRepository implements GigRepositoryInterface
       $gig->save();
       return $gig;
    }
-   public function show(Gig $gig)
+   public function getGigWithCheckOrderByClient(Gig $gig, $clientId)
    {
-      $foundGig = $this->gig->with('freelancer.user:id,name,picture')->findOrFail($gig->id);
+      $query = $this->gig->with(['freelancer.user:id,name,picture'])
+         ->where('id', $gig->id);
+
+      // Check if the client is authenticated
+      if ($clientId !== null) {
+         $query->with(['orders' => function ($query) use ($clientId) {
+            $query->where('client_id', $clientId)
+               ->where('payment_status', 'PAID');
+         }]);
+      }
+      $foundGig = $query->first();
       return $foundGig;
    }
    public function getActiveGigs($request)
@@ -268,6 +278,9 @@ class GigRepository implements GigRepositoryInterface
    public function countGigs()
    {
       return $this->gig->all()->count();
-
+   }
+   public function getGigReviwes($gigId)
+   {
+      $reviwesOfGig = $this->gig->orders();
    }
 }

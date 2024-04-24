@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GigController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
@@ -60,9 +61,10 @@ Route::delete('/gigs/delete/{id}', [GigController::class, 'destroy']);
 Route::patch('/gigs/update-status/{id}', [GigController::class, 'updateStatus']);
 Route::get('/gigs', [GigController::class, 'index']);
 Route::get('/my-gigs', [GigController::class, 'myGigs']);
-Route::get('/gigs/{gig}', [GigController::class, 'show']);
+Route::get('/gigs/{gig}', [GigController::class, 'getGigOrderedByClient']);
 Route::get('/active-gigs', [GigController::class, 'activeGigs']);
 Route::get('/pending-gigs', [GigController::class, 'pendingGigs']);
+Route::get('/my-orders', [OrderController::class, 'myOrders']);
 
 
 // Statistics Admin
@@ -87,9 +89,17 @@ Route::get('/categories', [CategoryController::class, 'index']);
 
 Route::get('orders' , [OrderController::class , 'index']);
 Route::post('orders/create' , [OrderController::class , 'store']);
+Route::patch('orders/update-status/{id}' , [OrderController::class , 'updateStatusOrder']);
+Route::get('orders/can-purchase/{id}' , [OrderController::class , 'canPurchase']);
+Route::get('orders/can-rate/{id}' , [OrderController::class , 'canPurchase']);
+Route::get('orders/check-order-rating/{id}' , [OrderController::class , 'checkClientHasOrderAndRating']);
 
 
 // Stripe API 
 
 Route::post('/create-checkout-session' , [PaymentController::class , 'checkout']);
 Route::put('/payment-success' , [PaymentController::class , 'handlePaymentSuccess']);
+
+
+// Route Rating 
+Route::post('/ratings',[RatingController::class , 'store']);

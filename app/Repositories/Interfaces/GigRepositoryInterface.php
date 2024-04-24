@@ -15,11 +15,11 @@ interface GigRepositoryInterface {
     public function deleteGig(Gig $gig);
     public function updateStatus($gigId, $status);
     public function myGigs() : JsonResponse;
-    public function show(Gig $gig);
+    public function getGigWithCheckOrderByClient(Gig $gig , $clientId);
     public function getActiveGigs($query);
     public function getPendingGigs();
     public function getPopularGigOnWeek();
     public function getSalesBydDayOfWeek();
     public function countGigs();
-
+    public function getGigReviwes($gigId);
 }

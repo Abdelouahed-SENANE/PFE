@@ -3,8 +3,11 @@
 namespace App\Services;
 
 use App\Dto\OrderDto;
+use App\Models\Order;
 use App\Repositories\Interfaces\OrderRepositoryInterface;
 use App\Services\Interfaces\OrderServiceInterface;
+use Carbon\Carbon;
+use Error;
 use Exception;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
@@ -12,18 +15,19 @@ class OrderService implements OrderServiceInterface
 {
     public function __construct(protected OrderRepositoryInterface $orderRepository)
     {
-        
     }
-    public function all(){}
+    public function all()
+    {
+    }
 
-    public function createOrder(OrderDto $orderDTO , $session_id)
-    {    
-        $user = JWTAuth::user(); 
+    public function createOrder(OrderDto $orderDTO, $session_id)
+    {
+        $user = JWTAuth::user();
         if (!$user) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         $client = $user->client()->first();
-        return $this->orderRepository->createOrder($orderDTO, $client , $session_id);
+        return $this->orderRepository->createOrder($orderDTO, $client, $session_id);
     }
     public function updateStatusPayment($session_id)
     {
@@ -32,11 +36,11 @@ class OrderService implements OrderServiceInterface
         if (!$order) {
             throw new \Exception('Order not found for session ID: ' . $session_id);
         }
-    
+
         $updated = $this->orderRepository->updateStatusPayment($order);
-    
+
         if ($updated) {
-            return $order; 
+            return $order;
         } else {
             throw new \Exception('Failed to update payment status for order');
         }
@@ -48,6 +52,47 @@ class OrderService implements OrderServiceInterface
 
     public function recentTransactions()
     {
-    return $this->orderRepository->recentTransactions();
+        return $this->orderRepository->recentTransactions();
     }
+    public function myOrders()
+    {
+        $id = JWTAuth::user()->id;
+        return $this->orderRepository->myOrders($id);
+    }
+    public function updateStatusOrder($orderId, $request)
+    {
+        $status = $request->status;
+        return $this->orderRepository->updateStatusOrder($orderId, $status);
+    }
+
+    public function canPurchase($gigId)
+    {
+        $authUser = JWTAuth::user();
+        $clientId = $authUser->client()->first()->id;
+        $lastOrderCompleted = $this->orderRepository->canPurchase($gigId, $clientId);
+
+        if ($lastOrderCompleted) {
+            $lastReceivedAt = Carbon::parse($lastOrderCompleted->received_at);
+            if ($lastReceivedAt->isFuture()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function clientHasOrderedAndRated($orderId)
+    {
+
+        try {
+            $orderAlreadyRated =  $this->orderRepository->checkOrderIsRated($orderId);
+            if ($orderAlreadyRated) {
+                return true;
+            }else{
+                return false;
+            }
+        } catch (Exception $e) {
+            throw new Error('Failed to check rating' . $e->getMessage() , 400);
+        }
+    }
+
 }

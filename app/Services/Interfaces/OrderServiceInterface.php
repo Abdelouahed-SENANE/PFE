@@ -13,5 +13,9 @@ interface OrderServiceInterface
     public function updateStatusPayment($session_id);
     public function countOrders();
     public function recentTransactions();
-
+    public function myOrders();
+    public function updateStatusOrder($orderId , $status);
+    public function canPurchase($gigId);
+    public function clientHasOrderedAndRated($orderId);
+    
 }

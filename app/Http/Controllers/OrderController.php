@@ -40,23 +40,70 @@ class OrderController extends Controller
     //         ], 500);
     //     }
     // }
+    public function canPurchase($gigId)
+    {
+        try {
+            $canPlaceOrder = $this->orderService->canPurchase($gigId);
+
+            if ($canPlaceOrder) {
+                return $this->success(null, 'Customer can place order', 200);
+            } else {
+                return $this->error('Please wait until your current order is completed before placing a new order. Thank you!', 400);
+            }
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), 500);
+        }
+    }
     public function countOrders()
     {
         try {
             $ordersCount = $this->orderService->countOrders();
-            return $this->success($ordersCount , 'Succesfullt');
+            return $this->success($ordersCount, 'Succesfullt');
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());
         }
     }
 
 
-    public function recentTransactions() {
+    public function recentTransactions()
+    {
         try {
             $recentTransactions = $this->orderService->recentTransactions();
-            return $this->success($recentTransactions , 'Succesfull');
+            return $this->success($recentTransactions, 'Succesfull');
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());
+        }
+    }
+    public function myOrders()
+    {
+        try {
+            $myOrders = $this->orderService->myOrders();
+            return $this->success($myOrders, 'Succesfull');
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
+    }
+    public function updateStatusOrder(Request $request, $orderId)
+    {
+        try {
+            $updateStatusOrder = $this->orderService->updateStatusOrder($orderId, $request);
+            return $this->success($updateStatusOrder, 'Succesfull');
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
+    }
+
+    public function checkClientHasOrderAndRating($orderId)
+    {
+        try {
+            $checkClientIsRatedOrder = $this->orderService->clientHasOrderedAndRated($orderId);
+            if ($checkClientIsRatedOrder) {
+                return $this->success(['isRated' => true], null, 200);
+            } else {
+                return $this->success(['isRated' => false] , null, 200 );
+            }
+        } catch (Exception $e) {
+            return $this->error($e->getMessage(), 500);
         }
     }
 }

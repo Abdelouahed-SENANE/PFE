@@ -34,9 +34,10 @@ class GigService implements GigServiceInterface
     {
         return $this->gigRepository->myGigs();
     }
-    public function show(Gig $gig)
+    public function getGigWithCheckOrderByClient(Gig $gig, $clientId)
     {
-        return $this->gigRepository->show($gig);
+        return $this->gigRepository->getGigWithCheckOrderByClient($gig , $clientId);
+
     }
     public function createGig(GigDto $gigDto): Gig
     {
