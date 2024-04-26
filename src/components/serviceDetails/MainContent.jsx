@@ -1,19 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from './Header'
 import ImagesWrapper from './ImagesWrapper'
-import RatingGig from './RatingWrapper'
+import RatingWrapper from './RatingWrapper'
 import RatingComments from './RatingComments'
 import HeaderContent from './HeaderContent'
 
-const MainContent = ({gig , order}) => {
-
+const MainContent = ({gig }) => {
+  const [ratings , setRatings] = useState([]);
   return (
-    <div className='flex-1 px-8 mr-[110px]'>
+    <div className=' flex-1 max-w-[70%] px-8 mr-[110px] '>
         <Header data={gig} />
         <ImagesWrapper images={gig.images}/>
-        <HeaderContent title={gig.title} desc={gig.description}/>
-        <RatingComments/>
-        <RatingGig gigId={gig.id} order={order}/>
+        <HeaderContent gig={gig}/>
+        <RatingComments ratings={ratings} setRatings={setRatings} gigId={gig.id} />
+        <RatingWrapper setRatings={setRatings} freelancerId={gig.freelancer.id}/>
     </div>
   )
 }

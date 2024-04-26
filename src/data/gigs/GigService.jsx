@@ -91,3 +91,4 @@ export const fetchRatingOfGig = async (id) => {
     const response = await instance.get('/gigs/gig-reviews/' + id)
     return response;
 }
+

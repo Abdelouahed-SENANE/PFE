@@ -4,25 +4,7 @@ import moment from "moment";
 
 const Transactions = () => {
     const [lastTransactions, setRecentTransactions] = useState(null);
-    // const transactions = [
-    //     {
-    //         id: 1,
-    //         datetime: "2024-03-28 10:30 AM",
-    //         amount: 100.0,
-    //         currency: "USD",
-    //         type: "Deposit",
-    //         from: "John Doe",
-    //         to: "Jane Doe",
-    //     },
-    //     {
-    //         id: 2,
-    //         datetime: "2024-03-27 3:45 PM",
-    //         amount: 50.0,
-    //         currency: "USD",
-    //         from: "Jane Doe",
-    //         to: "John Doe",
-    //     },
-    // ];
+
     useEffect(() => {
         const getRecenetTrasactions = async () => {
             try {
@@ -35,7 +17,6 @@ const Transactions = () => {
 
         getRecenetTrasactions();
     }, []);
-    console.log(lastTransactions);
     return (
         <div>
             <h2 className="text-xl my-2 ">Recent Transactions</h2>

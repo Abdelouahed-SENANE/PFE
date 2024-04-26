@@ -17,16 +17,23 @@ export const updateStatusOrder = async (id, newStatus) => {
 };
 export const canPurchase = async (id) => {
     const response = await instance.get("orders/can-purchase/" + id);
-    return response;
-};
-export const checkOrderIsRated = async (id) => {
-    const response = await instance.get("orders/check-order-rating/" + id);
     return {
-        isRated: response.data.data.isRated,
+        canPurchase : response.data.data.canPurchase
     };
 };
+
 
 export const storeRating = async ( payload) => {
     const response = await instance.post('/ratings', payload)
     return response;
 }
+export const checkOrderIsRated = async (gigId) => {
+    const response = await instance.get("orders/check-order-rating/" + gigId);
+    return {
+        canRating : response.data.data.canRating,
+        order_id : response.data.data.order_id
+    };
+    // return {
+    //     isRated: response.data.data.isRated,
+    // };
+};

@@ -5,38 +5,35 @@ import { useParams } from "react-router-dom";
 import Spinner from "@components/ui/Spinner";
 import { canPurchase } from "../../data/order/OrderService";
 import { getGigWithClientHasOrderOrNot } from "../../data/gigs/GigData";
-const GigDetails = React.memo(() => {
+const GigDetails = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [errorFetch, setErrFetch] = useState(null);
     const [isPurchase, setIsPurchase] = useState(true);
     const [gig, setGig] = useState({});
-    const [order, setOrder] = useState({});
     const { id } = useParams();
 
     const fetchGig = async () => {
         try {
         const resultat = await getGigWithClientHasOrderOrNot(id);
             setGig(resultat.gig);
-            setOrder(resultat.order);
     } catch (error) {
         setErrFetch("An error occurred while fetching gig data");
         console.error(error);
     } finally {
         setTimeout(() => {
             setIsLoading(false);
-        }, 2000);    }
+        }, 4000);    }
     };
     const canPuchaseThisGig = async () => {
         try {
-            await canPurchase(id);
+           const response = await canPurchase(id);
+           setIsPurchase(response.canPurchase)
         } catch (error) {
-            if (error.response.status === 400) {
-                setIsPurchase(false)
-            }
+            console.log(error);
         } finally {
             setTimeout(() => {
                 setIsLoading(false);
-            }, 5000);
+            }, 4000);
         }
     };
     useEffect(() => {
@@ -65,13 +62,13 @@ const GigDetails = React.memo(() => {
     ) : gig ? (
         <div className="container w-[70%] mx-auto">
             <div className="flex items-start my-6 p-8">
-                <MainContent gig={gig} order={order} />
+                <MainContent gig={gig} />
                 <SidebarContent gig={gig} isPurchase={isPurchase}/>
             </div>
         </div>
     ) : (
         <div>Data does not exist</div>
     );
-});
+};
 
 export default GigDetails;

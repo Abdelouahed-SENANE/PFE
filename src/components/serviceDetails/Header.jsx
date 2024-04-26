@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
+import { getAverageRating } from "../../data/rating/RatingService";
 
 const Header = ({ data }) => {
+    const [average , setAverage] = useState(null);
+    const [totalRating , setTotalRating] = useState(null);
+    useEffect(() => {
+        const fetchAverageRating = async () => {
+            try {
+                const result = await getAverageRating(data.freelancer.id)
+                setAverage(result.average)
+                setTotalRating(result.totalRating);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fetchAverageRating()
+    },[])
+
     return (
         <div>
             <h1 className="text-[28px] font-medium"> {data.excerpt}</h1>
@@ -18,7 +34,7 @@ const Header = ({ data }) => {
                     <div className="my-1 flex items-center gap-1">
                         <FaStar className="text-yellow-400" />
                         <p>
-                            4.9 <span className="text-gray-400">(200)</span>
+                            {average} <span className="text-gray-400">({totalRating} reviews)</span>
                         </p>
                     </div>
                 </div>

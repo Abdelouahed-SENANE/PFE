@@ -19,18 +19,10 @@ export const getMyGigs = async () => {
 export const getGigWithClientHasOrderOrNot = async (gig) => {
     const response = await oneGigOrderedByClient(gig);
     let data = response.data.data;
-    let result = {
+    return {
         gig: data,
+
     };
-    if (data.orders && data.orders.length > 0) {
-        result.order = {
-            status: data.orders[0].status,
-            order_id: data.orders[0].id,
-            gig_id: data.orders[0].gig_id,
-            client_id: data.orders[0].client_id,
-        };
-    }
-    return result;
 };
 
 export const getActiveGigs = async (page, filters, search) => {
@@ -52,5 +44,7 @@ export const getPendingGigs = async () => {
 
 export const getReviewsOfGig = async (id) => {
     const response = await fetchRatingOfGig(id);
-    return response;
+    return {
+        ratings : response.data.data
+    };
 };

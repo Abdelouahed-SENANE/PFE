@@ -1,10 +1,10 @@
 import React from "react";
+import { useAuth } from "../../hooks/AuthContext";
 
 const FormRating = ({ setFeedback }) => {
-
     return (
         <div>
-            <h1 className="text-xl my-2 font-medium">Additional feedback</h1>
+            <h1 className="text-lg my-1">Additional feedback</h1>
             <textarea
             onChange={(e) => setFeedback(e.target.value)}
                 placeholder="If you have additional feedback"
