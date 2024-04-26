@@ -21,5 +21,5 @@ interface GigRepositoryInterface {
     public function getPopularGigOnWeek();
     public function getSalesBydDayOfWeek();
     public function countGigs();
-    public function getGigReviwes($gigId);
+    public function getAllReviewsByGigId($gigId);
 }

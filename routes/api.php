@@ -64,7 +64,7 @@ Route::get('/my-gigs', [GigController::class, 'myGigs']);
 Route::get('/gigs/{gig}', [GigController::class, 'getGigOrderedByClient']);
 Route::get('/active-gigs', [GigController::class, 'activeGigs']);
 Route::get('/pending-gigs', [GigController::class, 'pendingGigs']);
-Route::get('/my-orders', [OrderController::class, 'myOrders']);
+Route::get('gigs/gig-reviews/{id}', [GigController::class, 'getAllReviewsByGigId']);
 
 
 // Statistics Admin
@@ -85,7 +85,7 @@ Route::patch('/update-password', [ProfileController::class, 'updatePassword']);
 // Profle Categories Router 
 Route::get('/categories', [CategoryController::class, 'index']);
 
-// Route 
+// Route orders
 
 Route::get('orders' , [OrderController::class , 'index']);
 Route::post('orders/create' , [OrderController::class , 'store']);
@@ -93,6 +93,7 @@ Route::patch('orders/update-status/{id}' , [OrderController::class , 'updateStat
 Route::get('orders/can-purchase/{id}' , [OrderController::class , 'canPurchase']);
 Route::get('orders/can-rate/{id}' , [OrderController::class , 'canPurchase']);
 Route::get('orders/check-order-rating/{id}' , [OrderController::class , 'checkClientHasOrderAndRating']);
+Route::get('/my-orders', [OrderController::class, 'myOrders']);
 
 
 // Stripe API 
@@ -103,3 +104,4 @@ Route::put('/payment-success' , [PaymentController::class , 'handlePaymentSucces
 
 // Route Rating 
 Route::post('/ratings',[RatingController::class , 'store']);
+Route::get('/average-rating/{id}',[RatingController::class , 'getAverageRatingByFreelancerId']);

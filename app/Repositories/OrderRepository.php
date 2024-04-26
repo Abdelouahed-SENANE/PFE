@@ -172,19 +172,13 @@ class OrderRepository implements OrderRepositoryInterface
       ->where('client_id', $clientId)
       ->latest('received_at')
       ->first();
-
-  return $lastCompletedOrder;
+     return $lastCompletedOrder;
    }
 
-   public function checkOrderIsRated($orderId)
+   public function checkOrderIsRated($clientId , $gigId)
    {
-      $orderRated = $this->order->with('rating')
-            ->whereHas('rating' , function ($q) use ($orderId) {
-               $q->where('order_id' , $orderId);
-            })->first();
-
-       return $orderRated->rating;
-
+      $orders = $this->order->with('rating')->where('status' , 'COMPLETED')->where('client_id' , $clientId)->where('gig_id' , $gigId)->get();
+      return $orders;
    }
 
    public function getOrderReviewStatus($orderId)

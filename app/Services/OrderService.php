@@ -70,29 +70,38 @@ class OrderService implements OrderServiceInterface
         $authUser = JWTAuth::user();
         $clientId = $authUser->client()->first()->id;
         $lastOrderCompleted = $this->orderRepository->canPurchase($gigId, $clientId);
-
         if ($lastOrderCompleted) {
             $lastReceivedAt = Carbon::parse($lastOrderCompleted->received_at);
             if ($lastReceivedAt->isFuture()) {
+
                 return false;
+            }else{
+
+                return true;
             }
+        }else{
+            return true;
         }
-        return true;
     }
 
-    public function clientHasOrderedAndRated($orderId)
+    public function clientHasOrderedAndRated($clientId, $gigId)
     {
 
+
         try {
-            $orderAlreadyRated =  $this->orderRepository->checkOrderIsRated($orderId);
-            if ($orderAlreadyRated) {
-                return true;
-            }else{
-                return false;
+
+            $orders =  $this->orderRepository->checkOrderIsRated($clientId, $gigId);
+            $canRating = false;
+            $order_id = null;
+            foreach ($orders as $order) {
+                if (!$order->rating) {
+                    $canRating = true;
+                    $order_id = $order->id;
+                }
             }
+            return ['canRating' => $canRating, 'order_id' => $order_id];
         } catch (Exception $e) {
-            throw new Error('Failed to check rating' . $e->getMessage() , 400);
+            throw new Error('Failed to check rating' . $e->getMessage(), 400);
         }
     }
-
 }

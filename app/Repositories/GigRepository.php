@@ -6,6 +6,7 @@ use App\Dto\GigDto;
 use App\Models\Freelancer;
 use App\Models\Gig;
 use App\Models\Order;
+use App\Models\Rating;
 use App\Models\User;
 use App\Repositories\Interfaces\GigRepositoryInterface;
 use Carbon\Carbon;
@@ -279,8 +280,24 @@ class GigRepository implements GigRepositoryInterface
    {
       return $this->gig->all()->count();
    }
-   public function getGigReviwes($gigId)
+   public function getAllReviewsByGigId($gigId)
    {
-      $reviwesOfGig = $this->gig->orders();
+      $gig = $this->gig->find($gigId);
+      if (!$gig) {
+         return [];
+      }
+      $ordersIds = $gig->orders()->pluck('id')->toArray();
+      $allReviews = [];
+      foreach ($ordersIds as $orderId) {
+         $ratings = Rating::with('client.user:id,name,picture')
+         ->where('order_id', $orderId)
+         ->latest('created_at')      
+         ->get();
+         
+         $allReviews = array_merge($allReviews , $ratings->all());
+      }
+      return $allReviews;
    }
+
+
 }

@@ -22,4 +22,6 @@ interface GigServiceInterface
     public function getPopularGig();
     public function getSalesBydDayOfWeek();
     public function countGigs();
+    public function getAllReviewsByGigId($gigId);
+
 }

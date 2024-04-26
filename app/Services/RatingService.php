@@ -29,10 +29,10 @@ class RatingService implements RatingServiceInterface
 
    public function create(RatingDto $ratingDTO, $clientId)
    {
-      try {
-         return $this->repository->createRating($ratingDTO, $clientId);
-      } catch (Exception $e) {
-         throw new Exception('Faild to create Rating' . $e->getMessage());
-      }
+      return $this->repository->createRating($ratingDTO, $clientId);
+   }
+   public function getAverageRatingByFreelancerId($freelancerId)
+   {
+      return $this->repository->getAverageRatingByFreelancerId($freelancerId);
    }
 }

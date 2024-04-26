@@ -9,5 +9,6 @@ interface RatingServiceInterface
 {
 
     public function  create(RatingDto $ratingDTO , $clientId);
+    public function getAverageRatingByFreelancerId($freelancerId);
 
 }

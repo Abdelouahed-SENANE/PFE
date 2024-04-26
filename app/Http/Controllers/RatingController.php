@@ -44,4 +44,13 @@ class RatingController extends Controller
             return $this->error('Faild to create rating' . $e->getMessage(), 500);
         }
     }
+
+    public function getAverageRatingByFreelancerId($freelancerId){
+        try {
+            $averageRating = $this->service->getAverageRatingByFreelancerId($freelancerId);
+            return $this->success($averageRating , 'Success to get Average reviews of freelancer' ,200);
+        } catch (Exception $e) {
+            return $this->error('Faild to get Average reviews of freelancer' , 400);
+        }
+    }
 }

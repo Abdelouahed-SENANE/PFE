@@ -3,21 +3,18 @@
 namespace App\Services;
 
 use App\DTO\GigDto;
-use App\Models\Freelancer;
-use App\Models\Subcategory;
 use App\Models\Gig;
 use App\Repositories\Interfaces\GigRepositoryInterface;
 use App\Services\Interfaces\GigServiceInterface;
-use Illuminate\Database\Eloquent\Collection;
+use Error;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use Symfony\Component\HttpFoundation\Response;
 
 class GigService implements GigServiceInterface
 {
-
     public function __construct(protected GigRepositoryInterface $gigRepository)
     {
     }
@@ -97,4 +94,15 @@ class GigService implements GigServiceInterface
     {
         return $this->gigRepository->countGigs();
     }
+
+    public function getAllReviewsByGigId($gigId)
+    {
+        try {
+            return $this->gigRepository->getAllReviewsByGigId($gigId);
+        } catch (Exception $e) {
+           throw new Error('Failed to fetch All Reviews '. $e->getMessage() , 400);
+        }
+    }
+
+
 }

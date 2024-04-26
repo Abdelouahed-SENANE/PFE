@@ -8,6 +8,7 @@ use App\Models\Gig;
 use App\Services\Interfaces\GigServiceInterface;
 use App\Traits\ApiResponse;
 use Exception;
+use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +26,14 @@ class GigController extends Controller
     public function index()
     {
         return $this->gigService->all();
+    }
+    public function getAllReviewsByGigId($gigId) {
+        try {
+            $allReviews = $this->gigService->getAllReviewsByGigId($gigId);
+            return $this->success($allReviews , 'Sucess response' , 200);
+        } catch (Exception $e) {
+            return $this->error('Failed to get All reviews ' . $e->getMessage() , 400);
+        }
     }
     public function getGigOrderedByClient(Gig $gig)
     {
@@ -151,6 +160,21 @@ class GigController extends Controller
             return $this->success($countGigs, 'Request Succefully');
         } catch (Exception $e) {
             return $this->error($e->getMessage());
+        }
+    }
+
+
+    public function checkClientHasOrderAndRating($orderId)
+    {
+        try {
+            $checkClientIsRatedOrder = $this->gigService->clientHasOrderedAndRated($orderId);
+            if ($checkClientIsRatedOrder) {
+                return $this->success(['isRated' => true], null, 200);
+            } else {
+                return $this->success(['isRated' => false] , null, 200 );
+            }
+        } catch (Exception $e) {
+            return $this->error($e->getMessage(), 500);
         }
     }
 }

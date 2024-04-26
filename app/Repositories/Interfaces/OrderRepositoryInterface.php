@@ -17,6 +17,6 @@ interface OrderRepositoryInterface
     public function myOrders(string $id);
     public function updateStatusOrder(string $orderId, string $status);
     public function canPurchase(string $gigId, string $clientId);
-    public function checkOrderIsRated($orderId);
+    public function checkOrderIsRated($clientId , $gigId);
     public function getOrderReviewStatus($orderId);
 }

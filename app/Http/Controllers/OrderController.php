@@ -9,6 +9,7 @@ use App\Services\Interfaces\OrderServiceInterface;
 use App\Traits\ApiResponse;
 use Exception;
 use Illuminate\Http\Request;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class OrderController extends Controller
 {
@@ -44,11 +45,10 @@ class OrderController extends Controller
     {
         try {
             $canPlaceOrder = $this->orderService->canPurchase($gigId);
-
             if ($canPlaceOrder) {
-                return $this->success(null, 'Customer can place order', 200);
+                return $this->success(['canPurchase' => true] , 'can purchase this gig now', 200);
             } else {
-                return $this->error('Please wait until your current order is completed before placing a new order. Thank you!', 400);
+                return $this->success(['canPurchase' => false] , 'Cannot purchase this gig now', 200);
             }
         } catch (\Throwable $th) {
             return $this->error($th->getMessage(), 500);
@@ -93,14 +93,18 @@ class OrderController extends Controller
         }
     }
 
-    public function checkClientHasOrderAndRating($orderId)
+    public function checkClientHasOrderAndRating($gigId)
     {
         try {
-            $checkClientIsRatedOrder = $this->orderService->clientHasOrderedAndRated($orderId);
-            if ($checkClientIsRatedOrder) {
-                return $this->success(['isRated' => true], null, 200);
+            $clientId = JWTAuth::user()->client()->first()->id;
+            if (!$clientId) {
+                return $this->error('Unauthorized', 403);
+            }
+            $canRating = $this->orderService->clientHasOrderedAndRated($clientId, $gigId);
+            if ($canRating) {
+                return $this->success($canRating, 'Can rating this order', 200);
             } else {
-                return $this->success(['isRated' => false] , null, 200 );
+                return $this->success($canRating, 'Cannot rating this order', 200);
             }
         } catch (Exception $e) {
             return $this->error($e->getMessage(), 500);

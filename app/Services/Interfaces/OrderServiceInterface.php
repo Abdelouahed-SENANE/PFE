@@ -16,6 +16,6 @@ interface OrderServiceInterface
     public function myOrders();
     public function updateStatusOrder($orderId , $status);
     public function canPurchase($gigId);
-    public function clientHasOrderedAndRated($orderId);
+    public function clientHasOrderedAndRated($clientId , $gigId);
     
 }

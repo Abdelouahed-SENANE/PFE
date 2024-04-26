@@ -24,6 +24,7 @@ class RatingRequest extends FormRequest
     public function rules(): array
     {
         return [
+
             'order_id' => 'required',
             'value' => 'required|integer|max:5',
             'comment' => 'required|string|min:100',
