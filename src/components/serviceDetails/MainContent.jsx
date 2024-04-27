@@ -8,7 +8,7 @@ import HeaderContent from './HeaderContent'
 const MainContent = ({gig }) => {
   const [ratings , setRatings] = useState([]);
   return (
-    <div className=' flex-1 max-w-[70%] px-8 mr-[110px] '>
+    <div className='w-full'>
         <Header data={gig} />
         <ImagesWrapper images={gig.images}/>
         <HeaderContent gig={gig}/>

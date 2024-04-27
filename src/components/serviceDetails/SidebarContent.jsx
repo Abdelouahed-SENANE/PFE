@@ -52,16 +52,18 @@ const SidebarContent = ({ gig, isPurchase }) => {
             setIsLoading(false);
         }
     };
-
+    console.log(isPurchase);
     return (
-        <div className="min-w-[420px]  border overflow-hidden p-5 border-gray-200 rounded-md shadow shadow-slate-100">
-            <div >
+        <div className="lg:max-w-[400px] w-full border overflow-hidden p-5 border-gray-200 rounded-md shadow shadow-slate-100">
+            <div>
                 <div className="flex items-center justify-between">
                     <h2 className="text-2xl font-light mb-2 ">{gig.title}</h2>
                     <span className="text-3xl font-light">${gig.price}</span>
                 </div>
                 <div>
-                    <p className="text-gray-500  text-pretty font-light  my-2">{truncate(gig.excerpt , 97)}</p>
+                    <p className="text-gray-500  text-pretty font-light overflow-y-hidden break-words  break-all w-full  my-2">
+                        {truncate(gig.excerpt, 97)}
+                    </p>
                 </div>
                 <div className="flex items-center gap-2">
                     <GiRecycle size={20} />
@@ -72,7 +74,7 @@ const SidebarContent = ({ gig, isPurchase }) => {
                 </div>
                 <div className="w-full  overflow-hidden">
                     {user?.role === "client" ? (
-                        isPurchase && (
+                        isPurchase ? (
                             <button
                                 onClick={handlePayment}
                                 disabled={isLoading}
@@ -84,11 +86,21 @@ const SidebarContent = ({ gig, isPurchase }) => {
                                     "Continue"
                                 )}
                             </button>
+                        ) : (
+                            <button
+                                onClick={handlePayment}
+                                disabled={true}
+                                className="block mt-5 rounded-sm disabled:bg-slate-500 w-full py-2 text-white"
+                            >
+                                 
+                                    You already ordred this service
+                            
+                            </button>
                         )
                     ) : (
                         <Link
                             to={"/login"}
-                            className="block my-1 rounded-md bg-primary text-center w-full py-2 text-white"
+                            className="block my-3 rounded-md bg-primary text-center w-full py-2 text-white"
                         >
                             Continue
                         </Link>

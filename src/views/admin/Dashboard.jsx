@@ -25,7 +25,6 @@ const Dashboard = () => {
                 setNumUsers(usersCount.data)
                 setNumOrders(ordersCount.data)
                 setNumGigs(gigsCount.data);
-                console.log(gigsCount);
             } catch (error) {
                 console.log(error);
             }

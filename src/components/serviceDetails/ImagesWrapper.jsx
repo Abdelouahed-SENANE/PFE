@@ -4,7 +4,7 @@ import ImagesSlider from './ImageSlider'
 
 const ImagesWrapper = ({images}) => {
   return (
-    <div className='w-full h-[450px] my-5 max-w-[750px] rounded-md border  overflow-hidden bg-slate-200'>
+    <div className='w-full lg:h-[450px] my-5  rounded-md border  overflow-hidden bg-slate-200'>
       <ImagesSlider images={images}/>
     </div>
   )

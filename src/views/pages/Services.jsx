@@ -105,14 +105,14 @@ const Services = () => {
 
     return (
         <>
-            <div className=" mx-auto w-[78%] pt-[50px]">
+            <div className=" mx-auto lg:w-[78%]  pt-[30px] lg:pt-[50px]">
                 <div
-                    className="w-full relative   min-h-[250px] rounded-xl "
+                    className="w-[95%] relative   mx-auto min-h-[250px] rounded-xl "
                     style={{ backgroundImage: `url(${fiterImage})` }}
                 >
                     <div className="py-[70px] px-20">
-                        <h1 className="text-5xl">Subcategory</h1>
-                        <p className="my-1">
+                        <h1 className="lg:text-5xl text-3xl">Get your service</h1>
+                        <p className="my-1 text-sm lg:text-base">
                             Give your visitor a smooth online experience with a
                             solid SubCategory
                         </p>
@@ -120,7 +120,7 @@ const Services = () => {
                             <div className="relative">
                                 <input
                                     type="text"
-                                    className="py-2.5 pl-8 block w-[550px] outline-none rounded-md border-2 focus:ring-4 focus:border-primary focus:ring-primary/50 transition-all duration-300 bg-white"
+                                    className="py-2.5 pl-8 block min-w-[300px] max-w-[550px]  lg:w-[500px] outline-none rounded-md border-2 focus:ring-4 focus:border-primary focus:ring-primary/50 transition-all duration-300 bg-white"
                                     placeholder="Search..."
                                     onChange={(e) => setInputValue(e.target.value)}
                                     onKeyDown={handleKeyDown}
@@ -128,7 +128,7 @@ const Services = () => {
                                 <HiSearch className="absolute top-[50%] text-gray-400 left-2 text-xl translate-y-[-50%] " />
                             </div>
                             <div >
-                                <button className="bg-primary text-white text-sm py-3 px-6 rounded-md" onClick={handleSearch}>
+                                <button className="bg-primary hidden lg:block text-white text-sm py-3 px-6 rounded-md" onClick={handleSearch}>
                                     Search
                                 </button>
                             </div>
@@ -136,8 +136,8 @@ const Services = () => {
                     </div>
                 </div>
             </div>
-            <div className=" w-[78%]  mx-auto py-[50px]">
-                <div className="flex items-start flex-1">
+            <div className=" lg:w-[78%] w-[90%]  mx-auto py-[50px]">
+                <div className="flex flex-wrap gap-5 items-start flex-1">
                     <div className="border border-gray-200 rounded-lg p-5 min-w-[400px] max-w-[400px]">
                         <div className="filter">
                             <h4 className="font-medium  mb-2 text-lg">
@@ -245,9 +245,9 @@ const Services = () => {
                         </div>
 
                     </div>
-                    <div className="w-full">
+                    <div className="w-full flex-1">
                         <div className="w-full">
-                            <div className="border border-gray-200 rounded-lg ml-5 p-5  w-full flex-1">
+                            <div className="border border-gray-200 rounded-lg p-5  w-full flex-1">
                                 <div className="flex items-center justify-between">
                                     <span>Showing 1-8 of 10 Results</span>
                                 </div>

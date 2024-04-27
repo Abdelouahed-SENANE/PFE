@@ -25,12 +25,12 @@ const HeaderContent = ({ gig }) => {
                     We are deeply committed to crafting professional {gig.title}{" "}
                     that align with your specific requirements.
                 </p>
-                <p className="text-gray-600">{gig.description}</p>
+                <p className="text-gray-600 overflow-y-hidden break-words  break-all w-full">{gig.description}</p>
             </div>
             <div className="my-8">
                 <h1 className="text-2xl">About This freelancer</h1>
-                <div className="py-4 flex justify-between gap-2">
-                    <div className="flex gap-3">
+                <div className="py-4 flex items-center  justify-between gap-2">
+                    <div className="flex  items-center gap-3">
                         <div>
                             <img
                                 src={
@@ -38,7 +38,7 @@ const HeaderContent = ({ gig }) => {
                                     gig.freelancer.user.picture
                                 }
                                 alt="profile"
-                                className="w-10 h-10 rounded-full"
+                                className="w-24 h-24 rounded-full"
                             />
                         </div>
                         <div>

@@ -20,7 +20,6 @@ import { useAuth } from "../../hooks/AuthContext";
 
 const Signup = () => {
     const { setUser, setToken, user } = useAuth();
-    const navigate = useNavigate();
     const [accountType, setAccountType] = useState("");
     const [isLoading, setIsloading] = useState(false);
     const [renderRegister, setRenderRegister] = useState(false);
@@ -249,12 +248,12 @@ const Signup = () => {
         </div>
     ) : (
         <div className="min-h-[calc(100vh-128px)] flex items-center flex-col bg-slate-50">
-            <h1 className="text-4xl font-medium text-center my-6">
+            <h1 className="lg:text-4xl text-2xl font-medium text-center my-6">
                 {accountType === "client"
                     ? "Sign up to hire talent"
                     : "Sign up to find work you love"}
             </h1>
-            <div className="px-5  py-3 border bg-white border-slate-200 rounded-xl overflow-hidden min-w-[660px]">
+            <div className="px-5  py-3 border bg-white border-slate-200 rounded-xl overflow-hidden lg:min-w-[660px] max-w-[90%]">
                 <form
                     id="Register"
                     noValidate
@@ -268,33 +267,7 @@ const Signup = () => {
                         value={accountType}
                         name="role"
                     />
-                    {/* <div className="w-[80%] mx-auto flex items-center gap-4">
-                        <Link className="block w-full">
-                            <button className="w-full px-1 bg-blue-500 hover:bg-blue-600 border border-blue-500 transition-all duration-300 py-0.5 flex items-center text-white rounded-full">
-                                <div className="h-8 w-8 rounded-full bg-white flex items-center justify-center">
-                                    <FcGoogle className="text-xl" />
-                                </div>
-                                <span className="flex-1">
-                                    Continue With Google
-                                </span>
-                            </button>
-                        </Link>
-                        <Link className="block w-full my-2">
-                            <button className="w-full px-1 bg-white border border-gray-700 hover:bg-gray-100 transition-all duration-300 py-0.5 flex items-center text-black rounded-full">
-                                <div className="h-8 w-8 rounded-full bg-white flex items-center justify-center">
-                                    <FaGithub className=" text-xl" />
-                                </div>
-                                <span className="flex-1 ">
-                                    Continue With Github
-                                </span>
-                            </button>
-                        </Link>
-                    </div> */}
-                    {/* <p className="h-[1px] w-full bg-gray-300 my-6 relative">
-                        <span className="absolute bg-white left-[50%] top-[50%]  text-gray-400 translate-x-[-50%] translate-y-[-50%] h-8 w-8 text-xl  flex items-center justify-center">
-                            or
-                        </span>
-                    </p> */}
+                
                     <div className="text-center w-[fit-content] mb-7 mx-auto">
                         <Logo
                             width={40}

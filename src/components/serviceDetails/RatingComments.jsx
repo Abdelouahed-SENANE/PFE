@@ -15,13 +15,13 @@ const RatingComments = ({ gigId, ratings, setRatings }) => {
     useEffect(() => {
         fetchRatings();
     }, []);
-
+    
     return (
         <div>
             <div className="mt-5 mb-3">
                 <h2 className="text-2xl">Customer reviews</h2>
             </div>
-            {ratings && ratings.length > 1
+            {ratings && ratings.length > 0
                 ? ratings?.map((rating, index) => (
                       <RatingComment key={index} rating={rating} />
                   ))

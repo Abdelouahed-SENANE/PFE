@@ -19,8 +19,8 @@ const Header = ({ data }) => {
     },[])
 
     return (
-        <div>
-            <h1 className="text-[28px] font-medium"> {data.excerpt}</h1>
+        <div className="w-full">
+            <h1 className="text-[28px] font-medium overflow-y-hidden break-words  break-all w-full"> {data.excerpt}</h1>
             <div className="flex items-center gap-4">
                 <div className="w-[64px] h-[64px] my-3 ">
                     <img

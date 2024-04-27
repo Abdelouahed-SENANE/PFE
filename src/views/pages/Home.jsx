@@ -36,7 +36,7 @@ const Home = () => {
             <Done />
             <Categories />
             <LatestService />
-            <Reviews />
+            {/* <Reviews /> */}
         </>
     );
 };
@@ -46,7 +46,7 @@ export default Home;
 const Landing = () => {
     return (
         <div className="container w-[75%] mx-auto  py-[40px] px-4">
-            <div className="grid grid-cols-2 lg:grid-cols-2 row gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 row gap-6">
                 <div className="col_left w-full ">
                     <div className="text-center lg:text-left max-w-xl">
                         <h4 className="text-white text-3xlont-[Caveat]">
@@ -73,7 +73,7 @@ const Landing = () => {
                         />
                         <div className="my-6">
                             <h4 className="text-2xl font-medium">Tursted By</h4>
-                            <ul className="flex items-center gap-3">
+                            <ul className="flex items-center flex-wrap  gap-3">
                                 <li className="text-xl my-2 text-gray-600  flex items-center gap-2 hover:text-primary transiti-colors duration-500 flex-1 p-3 cursor-pointer">
                                     <FaMicrosoft className="text-2xl" />
                                     Microsoft
@@ -92,30 +92,40 @@ const Landing = () => {
                 </div>
                 <div className="col_left">
                     <div className="">
-                        <img src={illustartion} alt="landing image" />
+                        <img
+                            src={illustartion}
+                            alt="landing image"
+                            className="hidden lg:block"
+                        />
                     </div>
                 </div>
             </div>
             {/* Statistics */}
-            <div className="grid grid-cols-2 items-center gap-20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 lg:gap-20">
                 <div className="w-full">
-                    <div className="flex flex-wrap items-center gap-4">
-                        <div className="bg-orange-500 flex-1 p-3 w-full flex items-center justify-center flex-col text-white">
-                            <h2 className="text-6xl font-bold my-2">10M+</h2>
+                    <div className="flex flex-wrap items-center gap-2 lg:gap-4">
+                        <div className="bg-orange-500  min-w-[200px]  flex-1 p-3 w-full flex items-center justify-center flex-col text-white">
+                            <h2 className="text-2xl lg:text-6xl font-bold my-2">
+                                10M+
+                            </h2>
                             <p className="my-2">freelancer Designers</p>
                         </div>
-                        <div className="bg-slate-600 flex-1 p-3 w-full flex items-center justify-center flex-col text-white">
-                            <h2 className="text-6xl font-bold my-2">10M+</h2>
+                        <div className="bg-slate-600 min-w-[200px]  flex-1 p-3 w-full flex items-center justify-center flex-col text-white">
+                            <h2 className="text-2xl lg:text-6xl font-bold my-2">
+                                10M+
+                            </h2>
                             <p className="my-2">Projects</p>
                         </div>
-                        <div className="bg-primary flex-1 p-3 w-full flex items-center justify-center flex-col text-white">
-                            <h2 className="text-6xl font-bold my-2">10M+</h2>
+                        <div className="bg-primary  min-w-[200px] flex-1 p-3 w-full flex items-center justify-center flex-col text-white">
+                            <h2 className="text-2xl lg:text-6xl font-bold my-2">
+                                10M+
+                            </h2>
                             <p className="my-2">Completed Projects</p>
                         </div>
                     </div>
                 </div>
                 <div className="w-full">
-                    <p className="text-6xl  font-Caveat text-slate-900">
+                    <p className="text-6xl font-Caveat text-slate-900">
                         Hire The Best Freelancers <br /> For Any Jobs, Online
                     </p>
                 </div>
@@ -141,7 +151,7 @@ const Done = () => {
                         </p>
                     </div>
                     <div className="wrapper">
-                        <div className="grid grid-cols-4">
+                        <div className="grid grid-cols-1 lg:grid-cols-4">
                             <div className="group">
                                 <div className="flex items-center justify-center">
                                     <div className="bg-white shadow-md shadow-slate-300/40 mb-8 flex items-center justify-center rounded-full w-[120px] h-[120px] group-hover:bg-primary group-hover:text-white  duration-500">
@@ -303,6 +313,12 @@ const Reviews = () => {
             picture: "vector.png",
             desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur, id.",
         },
+        {
+            ratings: 6,
+            username: "Noure",
+            picture: "vector.png",
+            desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur, id.",
+        },
     ];
     return (
         <>
@@ -320,7 +336,7 @@ const Reviews = () => {
                             opponent Lucius Sergius Catilina.
                         </p>
                     </div>
-                    <div className="mt-10 mb-5 px-16 relative">
+                    <div className="mt-10  mb-5 px-16 relative">
                         {/* ==== Arroe Control Slider ==== */}
                         <span className="absolute top-[50%] cursor-pointer left-0 translate-y-[-50%] flex items-center justify-center w-12 h-12 rounded-full  hover:bg-primary hover:text-white  duration-500 bg-white text-gray-700 z-20 prevSlide">
                             <MdOutlineKeyboardArrowLeft className="text-3xl" />
@@ -334,7 +350,6 @@ const Reviews = () => {
                             <span className="bg-white h-2 w-4 block rounded-full active:bg-primary"></span> */}
                         </div>
                         <Swiper
-                            modules={[Navigation, Pagination]}
                             spaceBetween={10}
                             slidesPerView={4}
                             navigation={{
@@ -343,22 +358,41 @@ const Reviews = () => {
                             }}
                             pagination={{
                                 clickable: true,
-                                el: "pagination_container",
+                                el: ".pagination-container",
                                 renderBullet: function (index, className) {
-                                    return (
-                                        '<span class="' +
-                                        className +
-                                        '">' +
-                                        (index + 1) +
-                                        "</span>"
-                                    );
+                                    return `<span class="${className}">${
+                                        index + 1
+                                    }</span>`;
                                 },
                             }}
+                            breakpoints={{
+                                0: {
+                                  slidesPerView: 1,
+                                },
+                                400:{
+                                  slidesPerView:2,
+                                },
+                                639: {
+                                  slidesPerView: 3,
+                                },
+                                865:{
+                                  slidesPerView:4
+                                },
+                                1000:{
+                                  slidesPerView:5
+                                },
+                                1500:{
+                                  slidesPerView:6
+                                },
+                                1700:{
+                                  slidesPerView:7
+                                }
+                              }}
                         >
                             {reviews.map((review, index) => {
                                 return (
                                     <SwiperSlide key={index}>
-                                        <div className="py-6 px-3 bg-white shadow-md shadow-slate-100/20 rounded-md">
+                                        <div className="py-6 px-3 bg-white shadow-md w-full  shadow-slate-100/20 rounded-md">
                                             <div className="flex items-center text-yellow-400">
                                                 {Array.from(
                                                     {
@@ -420,7 +454,7 @@ const LatestService = () => {
                     </p>
                 </div>
                 <div className="w-[70%] mx-auto">
-                <Cards />
+                    <Cards />
                 </div>
             </section>
         </>

@@ -1,15 +1,27 @@
 import React, { useEffect, useRef, useState } from "react";
 import { IoNotifications } from "react-icons/io5";
 import { outsideClickAlert } from "../../helpers/HandleClickOutside";
+import { useAuth } from "../../hooks/AuthContext";
+import echo from "../../utils/echo";
 
 const Notification = () => {
+    const { token } = useAuth();
     const notificationRef = useRef(null);
     const [isActive, setIsActive] = useState(false);
     const toggling = () => setIsActive(!isActive);
 
+    useEffect(() => {
+        try {
+            const instance = echo();
+            instance.channel('notification').listen( '.new-notification',(e) => alert('Reatime Freelancer create new gig ' +  e.name))            
+        } catch (error) {
+            console.log(error);
+        }
+    }, []);
+
     const handleIconClick = (e) => {
         toggling();
-        e.stopPropagation(); 
+        e.stopPropagation();
     };
     outsideClickAlert(notificationRef, () => setIsActive(false));
     return (
@@ -29,7 +41,6 @@ const Notification = () => {
 
                 <div ref={notificationRef}>
                     <div
-                        
                         className={`notification_container ${
                             isActive ? "active" : "inactive"
                         }`}

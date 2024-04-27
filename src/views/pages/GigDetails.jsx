@@ -14,20 +14,21 @@ const GigDetails = () => {
 
     const fetchGig = async () => {
         try {
-        const resultat = await getGigWithClientHasOrderOrNot(id);
+            const resultat = await getGigWithClientHasOrderOrNot(id);
             setGig(resultat.gig);
-    } catch (error) {
-        setErrFetch("An error occurred while fetching gig data");
-        console.error(error);
-    } finally {
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 4000);    }
+        } catch (error) {
+            setErrFetch("An error occurred while fetching gig data");
+            console.error(error);
+        } finally {
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 4000);
+        }
     };
     const canPuchaseThisGig = async () => {
         try {
-           const response = await canPurchase(id);
-           setIsPurchase(response.canPurchase)
+            const response = await canPurchase(id);
+            setIsPurchase(response.canPurchase);
         } catch (error) {
             console.log(error);
         } finally {
@@ -47,11 +48,8 @@ const GigDetails = () => {
             }
         };
 
-        fetchData(); 
-
+        fetchData();
     }, []);
-
-
 
     return isLoading ? (
         <div className="min-h-[90vh] w-full flex items-center justify-center">
@@ -60,10 +58,14 @@ const GigDetails = () => {
     ) : errorFetch ? (
         <div className="text-xl">{errorFetch}</div>
     ) : gig ? (
-        <div className="container w-[70%] mx-auto">
-            <div className="flex items-start my-6 p-8">
-                <MainContent gig={gig} />
-                <SidebarContent gig={gig} isPurchase={isPurchase}/>
+        <div className=" lg:w-[70%] w-full mx-auto">
+            <div className=" flex flex-col-reverse lg:flex-row flex-wrap gap-6 items-start w-full justify-between my-6 p-8">
+                <div className="w-full max-w-[750px]">
+                    <MainContent gig={gig} />
+                </div>
+                <div>
+                    <SidebarContent gig={gig} isPurchase={isPurchase} />
+                </div>
             </div>
         </div>
     ) : (

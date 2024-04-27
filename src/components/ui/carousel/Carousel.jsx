@@ -23,8 +23,8 @@ const Carousel = ({ images, id }) => {
         setIndex(index);
     };
     return (
-        <div className="carousel-container relative">
-            <div className="carousel">
+        <div className="carousel-container relative w-full">
+            <div className="carousel w-full">
                 {images.map((image, idx) => (
                     <>
                         <div
@@ -39,7 +39,7 @@ const Carousel = ({ images, id }) => {
                                 <img
                                     src={`http://localhost:8000/storage/uploads/${image}`}
                                     alt=""
-                                    className="image"
+                                    className="image object-cover"
                                 />
                             </Link>
                         </div>

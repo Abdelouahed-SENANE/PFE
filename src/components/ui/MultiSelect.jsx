@@ -26,12 +26,12 @@ function MultiSelect({ tags = [], setTags }) {
     };
 
     return (
-        <div className="flex flex-wrap w-[566px]">
+        <div className="flex flex-wrap w-full ">
             <span className="text-gray-400 text-xs">
                 5 tags maximum. Use letters and numbers only.
             </span>
             <div
-                className={`border-2 rounded-lg flex items-center flex-wrap transition-all duration-300  w-full  ${
+                className={`border-2 rounded-lg flex items-center flex-wrap transition-all duration-300  w-[100%] lg:w-full  ${
                     isFocus ? "border-slate-500" : ""
                 }  `}
             >

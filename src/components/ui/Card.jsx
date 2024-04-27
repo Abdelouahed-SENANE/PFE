@@ -35,8 +35,8 @@ const Card = ({ card }) => {
                     </span>
                 </h6>
                 <Link to={"/service-details/" + card.id}>
-                    <p className="hover:underline pt-1 text-pretty  hover:text-primary cursor-pointer transition-colors duration-300">
-                        {truncate(card.excerpt , 75)}
+                    <p className="hover:underline pt-1 text-pretty overflow-y-hidden break-words  break-all w-full hover:text-primary cursor-pointer transition-colors duration-300">
+                        {truncate(card.excerpt , 70)}
                     </p>
                 </Link>
                 <div className="pt-3">
