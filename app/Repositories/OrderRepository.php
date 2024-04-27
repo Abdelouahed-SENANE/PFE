@@ -170,6 +170,7 @@ class OrderRepository implements OrderRepositoryInterface
       $lastCompletedOrder = $this->order
       ->where('gig_id', $gigId)
       ->where('client_id', $clientId)
+      ->where('payment_status' , 'PAID')
       ->latest('received_at')
       ->first();
      return $lastCompletedOrder;

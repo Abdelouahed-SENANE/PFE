@@ -27,7 +27,7 @@ class RatingRequest extends FormRequest
 
             'order_id' => 'required',
             'value' => 'required|integer|max:5',
-            'comment' => 'required|string|min:100',
+            'comment' => 'required|string|min:20',
             
 
         ];

@@ -73,7 +73,6 @@ class OrderService implements OrderServiceInterface
         if ($lastOrderCompleted) {
             $lastReceivedAt = Carbon::parse($lastOrderCompleted->received_at);
             if ($lastReceivedAt->isFuture()) {
-
                 return false;
             }else{
 

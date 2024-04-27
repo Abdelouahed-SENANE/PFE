@@ -12,7 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use Symfony\Component\HttpFoundation\Response;
-
+use App\Notifications\GigNotification;
+use App\Events\NewGig;
 class AuthController extends Controller
 {
     public function __construct()
@@ -47,6 +48,7 @@ class AuthController extends Controller
             $userDetails['role'] = 'admin';
             unset($userDetails->freelancer, $userDetails->client);
         }
+
         return response()->json([
             'status' => true,
             'user' => $userDetails,

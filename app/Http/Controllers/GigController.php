@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dto\GigDto;
+use App\Events\NewGig;
 use App\Http\Requests\GigRequest;
 use App\Models\Gig;
 use App\Services\Interfaces\GigServiceInterface;
@@ -57,10 +58,13 @@ class GigController extends Controller
     public function store(GigRequest $request)
     {
 
-
         $gigDto = GigDto::fromRequest($request);
         try {
             $newGig = $this->gigService->createGig($gigDto);
+            $user = JWTAuth::user();
+            if ($newGig) {
+                event(new NewGig($user));
+            }
             return response()->json([
                 'message' => 'Gig Created succefully',
                 'newGig' => $newGig
