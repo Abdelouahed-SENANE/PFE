@@ -2,25 +2,23 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NewGig implements ShouldBroadcastNow
+class NewOrderEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $name;
-    
+    public $user;
     /**
      * Create a new event instance.
      */
     public function __construct($user)
     {
-        $this->name = $user->name;
+        //
+        $this->user = $user;
     }
 
     /**
@@ -28,16 +26,13 @@ class NewGig implements ShouldBroadcastNow
      *
      * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-    public function broadcastOn()
+    public function broadcastOn(): array
     {
-           return [
-            new Channel('notification')
-           ];
-    
+        return [
+            new PrivateChannel('order.channel.'.$this->user->id),
+        ];
     }
-
-    public function broadcastAs()
-    {
-        return 'new-notification';
+    public function broadcastAs(){
+        return 'new-order';
     }
 }

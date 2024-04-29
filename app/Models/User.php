@@ -12,7 +12,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable , SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -49,16 +49,31 @@ class User extends Authenticatable implements JWTSubject
     ];
 
 
-    public function freelancer() {
-    return $this->hasOne(Freelancer::class , 'user_id');
+    public function freelancer()
+    {
+        return $this->hasOne(Freelancer::class, 'user_id');
     }
-    public function client() {
-        return $this->hasOne(Client::class , 'user_id');
+    public function client()
+    {
+        return $this->hasOne(Client::class, 'user_id');
     }
-    public function admin() {
-        return $this->hasOne(Admin::class , 'user_id');
+    public function admin()
+    {
+        return $this->hasOne(Admin::class, 'user_id');
     }
-        /**
+    public function isAdmin()
+    {
+        return $this->admin()->exists();
+    }
+    public function isClient()
+    {
+        return $this->client()->exists();
+    }
+    public function isFreelancer()
+    {
+        return $this->freelancer()->exists();
+    }
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed

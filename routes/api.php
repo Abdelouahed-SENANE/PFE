@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GigController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RatingController;
@@ -105,3 +106,8 @@ Route::put('/payment-success' , [PaymentController::class , 'handlePaymentSucces
 // Route Rating 
 Route::post('/ratings',[RatingController::class , 'store']);
 Route::get('/average-rating/{id}',[RatingController::class , 'getAverageRatingByFreelancerId']);
+
+
+// Route notification 
+Route::get('/notifications',[NotificationController::class , 'show']);
+Route::patch('/read-notification/{id}',[NotificationController::class , 'markAsRead']);

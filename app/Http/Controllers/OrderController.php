@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Dto\OrderDto;
+use App\Events\OrderCompletedEvent;
 use App\Http\Requests\GigRequest;
 use App\Http\Requests\OrderRequest;
+use App\Notifications\OrderCompletedNotification;
 use App\Services\Interfaces\OrderServiceInterface;
 use App\Traits\ApiResponse;
 use Exception;
@@ -18,10 +20,10 @@ class OrderController extends Controller
     public function __construct(protected OrderServiceInterface $orderService)
     {
     }
-    public function index()
-    {
-        dd('Hello');
-    }
+    // public function index()
+    // {
+    //     dd('Hello');
+    // }
     // public function store(OrderRequest $request)
     // {
 
@@ -85,8 +87,15 @@ class OrderController extends Controller
     }
     public function updateStatusOrder(Request $request, $orderId)
     {
+        $authUser = auth()->user();
         try {
             $updateStatusOrder = $this->orderService->updateStatusOrder($orderId, $request);
+            $updateStatusOrder->load('client.user');
+            $user = $updateStatusOrder->client->user;
+            if ($updateStatusOrder->status == 'COMPLETED') {
+               broadcast(new OrderCompletedEvent($user));
+               $user->notify(new OrderCompletedNotification($authUser));
+            }
             return $this->success($updateStatusOrder, 'Succesfull');
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());

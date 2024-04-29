@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Admin;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -13,11 +14,20 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-// Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-//     // return true;
-//     return (int) $user->id === (int) $id;
-// });
-
-Broadcast::channel('notification', function () {
+Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return true;
+});
+
+// Broadcast::channel('notification', function () {
+//     return true;
+// });
+Broadcast::channel('gig-channel', function ($user) {
+    return $user->isAdmin();
+});
+
+Broadcast::channel('order.channel.{id}', function ($user , $userId) {
+    return (int) $user->id === (int) $userId && $user->isFreelancer();
+});
+Broadcast::channel('completed.channel.{id}', function ($user , $userId) {
+    return (int) $user->id === (int) $userId && $user->isClient();
 });

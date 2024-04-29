@@ -3,20 +3,21 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class GigNotification extends Notification
+class OrderCompletedNotification extends Notification
 {
     use Queueable;
-    public $gig;
     public $user;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct($gig , $user)
+    public function __construct($user)
     {
         //
-        $this->gig = $gig;
         $this->user = $user;
     }
 
@@ -30,9 +31,8 @@ class GigNotification extends Notification
         return ['database'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     */
+
+
 
     /**
      * Get the array representation of the notification.
@@ -44,7 +44,7 @@ class GigNotification extends Notification
         return [
             //
             'name' => $this->user->name,
-            'message' => 'creating a new gig',
+            'message' => 'Order is completed by',
             'picture' => $this->user->picture,
         ];
     }

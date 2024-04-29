@@ -61,6 +61,7 @@ class SubcategoryController extends Controller
 
     public function show($id)
     {
+
         try {
             $subcategory = $this->subcategoryService->show($id);
             return response()->json([

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Dto\OrderDto;
+use App\Events\NewOrderEvent;
 use App\Http\Requests\OrderRequest;
+use App\Notifications\OrderNotification;
 use App\Services\Interfaces\OrderServiceInterface;
 use Exception;
 use Illuminate\Http\Request;
@@ -54,18 +56,20 @@ class PaymentController extends Controller
     public function handlePaymentSuccess(Request $request)
     {
         $sessionId = $request->get('session_id');
-
+        $authUser = auth()->user();
         try {
-            // Update the payment status of the order using the OrderService
             $order = $this->orderService->updateStatusPayment($sessionId);
-
-            // Return a JSON response with the updated order and success message
+            $order->load('gig.freelancer.user');
+            $user = $order->gig->freelancer->user;
+            if ($order) {
+                broadcast(new NewOrderEvent($user));
+                $user->notify(new OrderNotification($authUser));
+            }
             return response()->json([
                 'order' => $order,
                 'message' => 'Payment status updated successfully'
             ], 200);
         } catch (Exception $e) {
-            // Handle any exceptions and return an error response
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }

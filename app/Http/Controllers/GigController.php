@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Dto\GigDto;
-use App\Events\NewGig;
+use App\Events\NewGigCreated;
 use App\Http\Requests\GigRequest;
 use App\Models\Gig;
+use App\Models\User;
 use App\Services\Interfaces\GigServiceInterface;
 use App\Traits\ApiResponse;
 use Exception;
-use GrahamCampbell\ResultType\Success;
+use App\Notifications\GigNotification;
 use Illuminate\Http\Request;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,12 +29,13 @@ class GigController extends Controller
     {
         return $this->gigService->all();
     }
-    public function getAllReviewsByGigId($gigId) {
+    public function getAllReviewsByGigId($gigId)
+    {
         try {
             $allReviews = $this->gigService->getAllReviewsByGigId($gigId);
-            return $this->success($allReviews , 'Sucess response' , 200);
+            return $this->success($allReviews, 'Sucess response', 200);
         } catch (Exception $e) {
-            return $this->error('Failed to get All reviews ' . $e->getMessage() , 400);
+            return $this->error('Failed to get All reviews ' . $e->getMessage(), 400);
         }
     }
     public function getGigOrderedByClient(Gig $gig)
@@ -57,13 +59,19 @@ class GigController extends Controller
     }
     public function store(GigRequest $request)
     {
-
+        $freelancer = auth()->user();
         $gigDto = GigDto::fromRequest($request);
         try {
             $newGig = $this->gigService->createGig($gigDto);
-            $user = JWTAuth::user();
+
+            $users = User::with('admin')->get();
             if ($newGig) {
-                event(new NewGig($user));
+                broadcast(new NewGigCreated($newGig , $freelancer));
+                foreach($users as $user){
+                    if ($user->admin) {
+                        $user->notify(new GigNotification($newGig , $freelancer));
+                    }
+                }
             }
             return response()->json([
                 'message' => 'Gig Created succefully',
@@ -76,7 +84,6 @@ class GigController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-
     public function update(GigRequest $request, $gigId)
     {
 
@@ -168,17 +175,17 @@ class GigController extends Controller
     }
 
 
-    public function checkClientHasOrderAndRating($orderId)
-    {
-        try {
-            $checkClientIsRatedOrder = $this->gigService->clientHasOrderedAndRated($orderId);
-            if ($checkClientIsRatedOrder) {
-                return $this->success(['isRated' => true], null, 200);
-            } else {
-                return $this->success(['isRated' => false] , null, 200 );
-            }
-        } catch (Exception $e) {
-            return $this->error($e->getMessage(), 500);
-        }
-    }
+    // public function checkClientHasOrderAndRating($orderId)
+    // {
+    //     try {
+    //         $checkClientIsRatedOrder = $this->gigService->clientHasOrderedAndRated($orderId);
+    //         if ($checkClientIsRatedOrder) {
+    //             return $this->success(['isRated' => true], null, 200);
+    //         } else {
+    //             return $this->success(['isRated' => false] , null, 200 );
+    //         }
+    //     } catch (Exception $e) {
+    //         return $this->error($e->getMessage(), 500);
+    //     }
+    // }
 }
