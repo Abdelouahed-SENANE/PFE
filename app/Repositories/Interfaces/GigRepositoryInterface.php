@@ -22,4 +22,5 @@ interface GigRepositoryInterface {
     public function getSalesBydDayOfWeek();
     public function countGigs();
     public function getAllReviewsByGigId($gigId);
+    public function getLastGigs();
 }

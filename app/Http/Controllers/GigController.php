@@ -188,4 +188,12 @@ class GigController extends Controller
     //         return $this->error($e->getMessage(), 500);
     //     }
     // }
+    public function recentGigs() {
+        try {
+            $lastGigs = $this->gigService->getLastGigs();
+            return $this->success($lastGigs , 'get last gigs succefully ' ,200);
+        } catch (Exception $e) {
+            return $this->error($e->getMessage());
+        }
+    }
 }

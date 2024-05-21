@@ -165,7 +165,7 @@ class GigRepository implements GigRepositoryInterface
             $query->where('name', $subcategory);
          });
       }
-      $result = $query->paginate(3);
+      $result = $query->paginate(9);
       return $result;
    }
 
@@ -216,62 +216,26 @@ class GigRepository implements GigRepositoryInterface
    }
    public function getSalesBydDayOfWeek()
    {
-      // Calculate start date (one week ago from current date)
-      $startDate = Carbon::now()->subWeek();
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
 
-      // Fetch sales data for each day of the week within the past week
-      $salesData = Order::join('gigs', 'orders.gig_id', '=', 'gigs.id')
-         ->select(
-            DB::raw('EXTRACT(DOW FROM orders.created_at) AS day_of_week'), // Use EXTRACT to get day of the week
-            DB::raw('SUM(gigs.price) AS total_sales')
-         )
-         ->where('orders.created_at', '>=', $startDate)
-         ->where('orders.payment_status', 'PAID')
-         ->groupBy(DB::raw('EXTRACT(DOW FROM orders.created_at)')) // Group by day of the week
-         ->orderBy(DB::raw('EXTRACT(DOW FROM orders.created_at)')) // Order by day of the week
-         ->get();
+        $salesData = DB::table('orders')
+            ->join('gigs', 'orders.gig_id', '=', 'gigs.id')
+            ->select(
+                DB::raw('DATE(orders.created_at) AS date'),
+                DB::raw('SUM(gigs.price) AS total_sales')
+            )
+            ->whereBetween('orders.created_at', [$startOfWeek, $endOfWeek])
+            ->where('orders.payment_status', 'PAID')
+            ->groupBy(DB::raw('DATE(orders.created_at)'))
+            ->orderBy(DB::raw('DATE(orders.created_at)'))
+            ->get();
+        $formattedSalesData = [];
+        foreach ($salesData as $sale) {
+            $formattedSalesData[$sale->date] = $sale->total_sales;
+        }
 
-      // Initialize an array to store formatted sales data by day of the week
-      $formattedSalesData = [
-         'Mon' => 0,
-         'Tue' => 0,
-         'Wed' => 0,
-         'Thu' => 0,
-         'Fri' => 0,
-         'Sat' => 0,
-         'Sun' => 0,
-      ];
-
-      // Populate formatted sales data based on fetched results
-      foreach ($salesData as $sale) {
-         // Map the day_of_week (0-6) returned by EXTRACT to the corresponding abbreviated day name
-         $dayOfWeek = intval($sale->day_of_week); // Convert day_of_week to integer
-         switch ($dayOfWeek) {
-            case 0:
-               $formattedSalesData['Sun'] = $sale->total_sales;
-               break;
-            case 1:
-               $formattedSalesData['Mon'] = $sale->total_sales;
-               break;
-            case 2:
-               $formattedSalesData['Tue'] = $sale->total_sales;
-               break;
-            case 3:
-               $formattedSalesData['Wed'] = $sale->total_sales;
-               break;
-            case 4:
-               $formattedSalesData['Thu'] = $sale->total_sales;
-               break;
-            case 5:
-               $formattedSalesData['Fri'] = $sale->total_sales;
-               break;
-            case 6:
-               $formattedSalesData['Sat'] = $sale->total_sales;
-               break;
-         }
-      }
-
-      return $formattedSalesData;
+        return $formattedSalesData;
    }
 
 
@@ -299,5 +263,9 @@ class GigRepository implements GigRepositoryInterface
       return $allReviews;
    }
 
-
+   public function getLastGigs()
+   {
+      $recentGigs = $this->gig->with('subcategory' , 'freelancer.user')->orderBy('created_at' , 'desc')->limit(3)->get();
+      return $recentGigs;
+   }
 }

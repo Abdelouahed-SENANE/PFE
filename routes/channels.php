@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Broadcast;
 */
 
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return true;
+    return (int) $user->id === (int) $id;
 });
 
 // Broadcast::channel('notification', function () {
@@ -30,4 +30,13 @@ Broadcast::channel('order.channel.{id}', function ($user , $userId) {
 });
 Broadcast::channel('completed.channel.{id}', function ($user , $userId) {
     return (int) $user->id === (int) $userId && $user->isClient();
+});
+Broadcast::channel('chat.dm.{conversation}', function ($user, $conversation) {
+    if ($user->conversations()->find($conversation))
+    {
+        return [
+            'id' => $user->id,
+            'name' => $user->name
+        ];
+    }
 });

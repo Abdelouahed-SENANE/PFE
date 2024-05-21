@@ -3,7 +3,9 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\GigController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
@@ -66,6 +68,7 @@ Route::get('/gigs/{gig}', [GigController::class, 'getGigOrderedByClient']);
 Route::get('/active-gigs', [GigController::class, 'activeGigs']);
 Route::get('/pending-gigs', [GigController::class, 'pendingGigs']);
 Route::get('gigs/gig-reviews/{id}', [GigController::class, 'getAllReviewsByGigId']);
+Route::get('/last-gigs', [GigController::class, 'recentGigs']);
 
 
 // Statistics Admin
@@ -110,4 +113,21 @@ Route::get('/average-rating/{id}',[RatingController::class , 'getAverageRatingBy
 
 // Route notification 
 Route::get('/notifications',[NotificationController::class , 'show']);
+Route::get('/notifications/new-message',[NotificationController::class , 'showNewMessageNotification']);
 Route::patch('/read-notification/{id}',[NotificationController::class , 'markAsRead']);
+
+
+// Route Messages
+
+// ======== Routes Conversations =====
+
+Route::get('/conversations' , [ConversationController::class , 'index']);
+Route::post('/conversations' , [ConversationController::class , 'store']);
+Route::get('/conversations/{id}' , [ConversationController::class , 'show']);
+Route::get('/conversations/{id}/messages' , [ConversationController::class , 'getMessages']);
+Route::get('conversations/{id}/reciever' , [ConversationController::class , 'getReciever']);
+Route::get('conversations/{id}/last-message' , [ConversationController::class , 'getLastMessageOfConversation']);
+Route::post('conversations/{id}/read' , [ConversationController::class , 'readMessages']);
+
+// ======== Routes Messages =====
+Route::post('message/create' , [MessageController::class , 'store']);

@@ -56,7 +56,7 @@ class OrderService implements OrderServiceInterface
     }
     public function myOrders()
     {
-        $id = JWTAuth::user()->id;
+        $id = auth()->user()->freelancer()->first()->id;
         return $this->orderRepository->myOrders($id);
     }
     public function updateStatusOrder($orderId, $request)

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained();
-            $table->foreignId('gig_id')->constrained();
+            $table->foreignId('client_id')->constrained()->onDelete();
+            $table->foreignId('gig_id')->constrained()->onDelete();
             $table->timestamp('received_at'); 
             $table->string('session_id'); 
             $table->enum('payment_status', ['PENDING' , 'PAID' , 'REFUNDED'])->default('PENDING');

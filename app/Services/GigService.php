@@ -104,5 +104,8 @@ class GigService implements GigServiceInterface
         }
     }
 
-
+     public function getLastGigs()
+     {
+        return $this->gigRepository->getLastGigs();
+     }
 }

@@ -7,7 +7,7 @@ use App\Models\Freelancer;
 use App\Models\Order;
 use App\Models\Rating;
 use App\Repositories\Interfaces\RatingRepositoryInterface;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class RatingRepository implements RatingRepositoryInterface
@@ -49,28 +49,30 @@ class RatingRepository implements RatingRepositoryInterface
     public function getAverageRatingByFreelancerId($freelancerId)
     {
         // Retrieve the freelancer by ID with their gigs, orders, and associated ratings
-        $freelancer = Freelancer::with('gigs.orders.rating')->find($freelancerId);
+        // $freelancer = Freelancer::with('gigs.orders.rating')->find($freelancerId);
 
-        if (!$freelancer) {
+        if (!$freelancerId) {
             return null; // Handle case where freelancer is not found
         }
+        $overallRatingOfFreelancer = DB::table('freelancers')
+                ->select('freelancers.id AS freelancerID' , DB::raw('AVG(ratings.value) AS OverallRatings'))
+                ->join('gigs' , 'gigs.freelancer_id' , '=' ,'freelancers.id')
+                ->join('orders' , 'orders.gig_id' , '=' ,'gigs.id')
+                ->join('ratings' , 'ratings.order_id' , '=' ,'orders.id')
+                ->where('freelancers.id' , $freelancerId)
+                ->groupBy('freelancers.id')
+                ->first();
 
 
-        $totalRating = [];
-        // Iterate through each gig of the freelancer
-        foreach ($freelancer->gigs as $gig) {
-            foreach ($gig->orders as $order) {
-                if ($order->rating) {
-                    $totalRating[] = $order->rating->value;
-                }
-            }
-        }
-        $sumRatings = 0;
-        for ($i = 0; $i < count($totalRating); $i++) {
-            $sumRatings += $totalRating[$i];
-        }
+        $countReviewsByFreelancer = DB::table('freelancers')
+                ->select('freelancers.id' , DB::raw('COUNT(ratings.id) AS total_reviews'))
+                ->join('gigs' , 'gigs.freelancer_id' , '=' ,'freelancers.id')
+                ->join('orders' , 'orders.gig_id' , '=' ,'gigs.id')
+                ->join('ratings' , 'ratings.order_id' , '=' ,'orders.id')
+                ->where('freelancers.id' , $freelancerId)
+                ->groupBy('freelancers.id')
+                ->first();
 
-        $averageRating = (count($totalRating) > 0) ? ($sumRatings / count($totalRating)) : 0;
-        return ['averageRating' => $averageRating , 'totalRating' => count($totalRating)];
+        return ['averageRating' => $overallRatingOfFreelancer , 'totalRating' => $countReviewsByFreelancer];
     }
 }

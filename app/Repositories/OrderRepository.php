@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Dto\OrderDto;
 use App\Models\Client;
+use App\Models\Freelancer;
 use App\Models\Order;
 use App\Repositories\Interfaces\OrderRepositoryInterface;
 
@@ -71,8 +72,9 @@ class OrderRepository implements OrderRepositoryInterface
       return $recentTransactions;
    }
 
-   public function myOrders(string $id)
+   public function myOrders($id)
    {
+      
       $freelancerOrders = $this->order->select('id', 'gig_id', 'client_id', 'received_at', 'status')
          ->with(['client.user:id,name', 'gig:id,freelancer_id,title'])
          ->whereHas('gig', function ($query) use ($id) {

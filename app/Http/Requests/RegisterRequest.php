@@ -34,7 +34,7 @@ class RegisterRequest extends FormRequest
         ];
         if ($this->input('role') === 'freelancer') {
             $rules['skills'] = 'required|array';
-            $rules['bio'] = 'required|regex:/^[A-Za-z0-9\s\-_\.,\'"!@#$%^&*()]*$/|max:500';
+            $rules['bio'] = 'required|max:500';
         }
         return $rules;
     }

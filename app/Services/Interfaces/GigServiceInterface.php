@@ -23,5 +23,6 @@ interface GigServiceInterface
     public function getSalesBydDayOfWeek();
     public function countGigs();
     public function getAllReviewsByGigId($gigId);
+    public function getLastGigs();
 
 }
